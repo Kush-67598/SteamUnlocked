@@ -9,15 +9,18 @@ const Login = () => {
     const [user,setUser]=useState(false)
 
 
-    useEffect(()=>{
-        if(localStorage.getItem('TOKEN')){
-            router.push('/')
-            setUser(true)
+    useEffect(() => {
+        const token = localStorage.getItem('TOKEN');
+        if (token && router.pathname !== '/') {
+            router.push('/'); // Redirect to the home page
+            setUser(true);
         }
-        if(!user){
-            router.push(`${process.env.NEXT_PUBLIC_API_URL}/login`)
+
+        // Redirect to login page if not logged in and not already on login page
+        if (!token && router.pathname !== '/login') {
+            router.push('/login'); 
         }
-    },[router])
+    }, [router]);
 
     
     const [email, setEmail] = useState('')
