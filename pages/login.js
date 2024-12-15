@@ -57,7 +57,7 @@ const Login = () => {
          localStorage.setItem("TOKEN",response.token)
          setUser(true)
             setTimeout(() => {
-                router.push('http://localhost:3000')
+                router.push(`${process.env.NEXT_PUBLIC_API_URL}`)
             }, 1000);
         }     
         if(!response.success){
