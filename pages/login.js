@@ -20,7 +20,7 @@ const Login = () => {
         if (!token && router.pathname !== '/login') {
             router.push('/login'); 
         }
-    }, [router]);
+    }, [router.pathname]);
 
     
     const [email, setEmail] = useState('')
@@ -37,7 +37,7 @@ const Login = () => {
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={email,password}
-            let res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`,{
+            let res=await fetch(`${process.env.NEXT_PUBLIC_API}/api/login`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,6 +46,7 @@ const Login = () => {
             });
 
             let response = await res.json();
+            
             if (response.success) {
                 toast.success('Successfully Logged In', {
                     position: "top-right",
@@ -96,7 +97,7 @@ const Login = () => {
       />
         
         <div className='font-custom h-[83.3svh] py-24 bg-gray-400 lg:h-[63vh] lg:py-16'>
-            <form action="POST" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <div className='flex flex-col mx-12 item lg:px-96'>
                 <h1 className='font-bold text-3xl py-4 text-center'>Login</h1>
                 <input onChange={handleChange} name='email' type="email" value={email} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Email' />

@@ -63,7 +63,7 @@ const Navbar = () => {
           <Link href={'/'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">Home</li></Link>
           <Link href={'/AllGames'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">All Games(A-Z)</li></Link>
           <li onMouseEnter={() => setDropdown(!dropdown)} className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Categories</li>
-          <Link href={'/contact'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
+          <Link href={'/Contact'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
           <Link href={'/'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>FAQ</li></Link>
           <Link href={'/'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Help</li></Link>
           <Link href={'/'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Invalid Games List</li></Link>
@@ -102,7 +102,7 @@ const Navbar = () => {
           
             <Link href={'/'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">Home</li></Link>
             <Link href={'/AllGames'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">All Games(A-Z)</li></Link>
-            <Link href={'/contact'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
+            <Link href={'/Contact'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
             <Link href={'/help'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Help</li></Link>
             <Link href={'/invaidgames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Invalid Games List</li></Link>
             <Link href={'/latestnews'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Latest News</li></Link>

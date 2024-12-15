@@ -18,7 +18,7 @@ const RequestGames = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = [{ text, email }]
-    const RequestedGamesdata = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reqgames`, {
+    const RequestedGamesdata = await fetch(` https://dd14-2409-40d0-1023-2c6c-215b-a798-d1a1-dc83.ngrok-free.app/api/reqgames`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

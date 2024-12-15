@@ -8,7 +8,7 @@ const handler=async(req,res)=>{
     
             let u=new user({name,email,password:CryptoJS.AES.encrypt(req.body.password,'secretkey').toString()})
             await u.save()
-            res.status(200).json({u})
+            res.status(200).json({u,success:true})
     }
     else{
         res.status(400).json({Error:'Wrong method used'})
