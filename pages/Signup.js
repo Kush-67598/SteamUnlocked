@@ -24,7 +24,7 @@ const Signup = () => {
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={name,email,password}
-        let res=await fetch('http://localhost:3000/api/signup',{
+        let res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
