@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     const router=useRouter()
     const [user,setUser]=useState(false)
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    console.log('API URL:', apiUrl);
 
     useEffect(()=>{
         if(localStorage.getItem('TOKEN')){
@@ -14,7 +16,7 @@ const Login = () => {
             setUser(true)
         }
         if(!user){
-            router.push(`/login`)
+            router.push(`${process.env.NEXT_PUBLIC_API_URL}/login`)
         }
     },[router])
 
@@ -34,8 +36,9 @@ const Login = () => {
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={email,password}
+        console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
         try {
-            let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+            let res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,8 +47,6 @@ const Login = () => {
             });
 
             let response = await res.json();
-
-            // If login is successful
             if (response.success) {
                 toast.success('Successfully Logged In', {
                     position: "top-right",
@@ -58,14 +59,11 @@ const Login = () => {
                 });
 
                 localStorage.setItem("TOKEN", response.token);
-                
-                // Redirect after successful login
                 setTimeout(() => {
                     router.push('/');
                 }, 1000);
             }
 
-            // If login fails
             if (!response.success) {
                 toast.error('Wrong Credentials', {
                     position: "top-right",
