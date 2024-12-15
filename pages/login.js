@@ -14,9 +14,9 @@ const Login = () => {
             setUser(true)
         }
         if(!user){
-            router.push('/login')
+            router.push(`/login`)
         }
-    },[])
+    },[router])
 
     
     const [email, setEmail] = useState('')
@@ -30,49 +30,64 @@ const Login = () => {
             setPassword(e.target.value)
         }
     }
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/login`);
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={email,password}
-        let res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(data)
+        try {
+            let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
 
-        })
-        let response=await res.json()
-        if(response.success){
-            toast.success('Successfully Logged In', {
-                  position: "top-right",
-                  autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "dark",
-                  });
-        
-         localStorage.setItem("TOKEN",response.token)
-         setUser(true)
-            setTimeout(() => {
-                router.push(`${process.env.NEXT_PUBLIC_API_URL}`)
-            }, 1000);
-        }     
-        if(!response.success){
-            toast.error('Wrong Credentials', {
+            let response = await res.json();
+
+            // If login is successful
+            if (response.success) {
+                toast.success('Successfully Logged In', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
+
+                localStorage.setItem("TOKEN", response.token);
+                
+                // Redirect after successful login
+                setTimeout(() => {
+                    router.push('/');
+                }, 1000);
+            }
+
+            // If login fails
+            if (!response.success) {
+                toast.error('Wrong Credentials', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again later.', {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
                 theme: "dark",
-                });        
-            
-            }   
+            });
+        }
         setEmail('')
         setPassword('')
 
