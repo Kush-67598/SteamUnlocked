@@ -34,11 +34,9 @@ const Login = () => {
             setPassword(e.target.value)
         }
     }
-    console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/login`);
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={email,password}
-        try {
             let res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`,{
                 method: "POST",
                 headers: {
@@ -76,17 +74,7 @@ const Login = () => {
                     theme: "dark",
                 });
             }
-        } catch (error) {
-            toast.error('An error occurred. Please try again later.', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
-            });
-        }
+        
         setEmail('')
         setPassword('')
 
