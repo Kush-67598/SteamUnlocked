@@ -28,7 +28,7 @@ const [text,setText]=useState('')
         <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">Browse</button>
       </div>
       <div className="bg-[#222] px-4 lg:py-[20vh] lg:px-20">
-        <input type="search" onChange={handleChange} value={text} placeholder="Search a title" className=" focus:outline-none mt-12 mx-8 w-72 lg:w-[68vw] lg:mx-2 h-12 px-10 lg:-mt-1" />
+        <input type="search" onChange={handleChange} value={text} placeholder="Search a title" className=" focus:outline-none rounded-lg mt-12 mx-8 w-72 lg:w-[68vw] lg:mx-2 h-12 px-10 lg:-mt-1" />
         <h1 className=" text-white text-3xl py-8 px-1">Recently Added</h1>
       
 
@@ -132,7 +132,7 @@ const [text,setText]=useState('')
 
 export async function getServerSideProps(context) {
   if (!mongoose.connections[0].readyState) {
-    await mongoose.connect("mongodb+srv://kushsingh2666:74U4JlWzeQnlBjTm@cluster0.ovfam.mongodb.net/");
+    await mongoose.connect("mongodb+srv://Steam:s_unlocked1234@cluster0.ovfam.mongodb.net/");
   }
   const Action = await game.find({category:"Action"});
   const FPS = await game.find({category:"FPS"});

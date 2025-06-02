@@ -47,8 +47,12 @@ const Slug = ({ games, wishlistonclick }) => {
                 <p className='text-sm text-[#333] py-8 px-4'>{games.desc}
 
                 </p>
-                <Image width={100} height={100}  className=' px-2 max-w-96 min-w-[302px] ' src={`/images/${games.img}.jpg`} alt="" />
-                <button className='flex items-center justify-center ml-2 w-[87.5vw] bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0' onClick={() => { wishlistonclick(games.slug, games.title, games.img, games.size) }}>Add to Wishlist<FaHeart className='ml-2 text-lg' /> </button>
+                <div className='flex flex-col justify-center items-center'>
+
+
+                <Image width={100} height={100}  className='px-2 max-w-96 min-w-[302px]  ' src={`/images/${games.img}.jpg`} alt="" />
+                <button className='flex items-center justify-center rounded-lg min-w-72 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0' onClick={() => { wishlistonclick(games.slug, games.title, games.img, games.size) }}>Add to Wishlist<FaHeart className='ml-2 text-lg' /> </button>
+                </div>
                 <h1 className='font-bold text-2xl text-center py-6 '>Installation Instructions</h1>
 
                 <ol className='list-decimal text-sm px-11 text-[#333] '>
@@ -138,12 +142,14 @@ const Slug = ({ games, wishlistonclick }) => {
 
 
     </>
+
+    
   )
 
 }
 export async function getServerSideProps({ params }) {
   if (!mongoose.connections[0].readyState) {
-    await mongoose.connect("mongodb://localhost:27017");
+    await mongoose.connect("mongodb+srv://Steam:s_unlocked1234@cluster0.ovfam.mongodb.net/");
   }
   const { slug } = params;
   const games = await game.findOne({ slug });

@@ -82,7 +82,38 @@ const Signup = () => {
                 theme="light"
             />
 
-            <div className='font-custom bg-gray-400 py-12 h-[50svh] lg:h-[68vh] lg:py-16'>
+          <div className=' h-[55.3svh] font-mono lg:h-[80vh] '>
+            <div>
+
+            </div>
+<picture className=" z-10">
+        <source media="(min-width: 1024px)" srcSet="/images/re_door.jpg" />
+        <img
+          src="/images/qwer.jpg"
+          alt="Signup Background"
+          className="w-full h-full object-fit"
+        />
+      </picture>            
+      
+      <form onSubmit={handleSubmit}>
+            <div className='flex flex-col absolute top-[15vh] left-[4vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
+                <h1 className='font-bold text-3xl text-white py-4 text-center font-mono'>Signup</h1>
+                <input onChange={handleChange} name='name' type="text" value={name} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Name' />
+                <input onChange={handleChange} name='email' type="email" value={email} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Email' />
+                <input onChange={handleChange} name='password' type="password" value={password} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Password' />
+                <button className="bg-fuchsia-500 rounded mx-20 px-8 py-2 my-3 lg:mx-40" type='submit'>Signup</button>
+                <p className='text-center py-2 text-white'>Already a member? <span className=' text-red-500 font-bold'><Link href={'/login'}>Login</Link></span></p>
+            </div>
+            </form>
+        </div>
+ 
+
+
+
+
+
+
+            {/* <div className='font-mono  py-12 h-[50svh] lg:h-[68vh] lg:py-16'>
                 <form action="submit" onSubmit={handleSubmit}>
                     <h1 className='font-bold text-3xl pt-2 mb-5 text-center text-black drop-shadow-xl'>SignUp</h1>
 
@@ -95,7 +126,7 @@ const Signup = () => {
                         <p className='text-center py-2'>Already a member? <span className='font-bold underline text-black'><Link href={'/login'}>Login</Link></span></p>
                     </div>
                 </form>
-            </div>
+            </div> */}
         </>
     )
 }

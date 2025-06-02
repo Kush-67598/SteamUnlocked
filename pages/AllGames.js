@@ -15,7 +15,7 @@ const AllGames = ({AllGames}) => {
   ))
   return (
     <>
-      <div className='bg-slate-300 h-full py-2 font-custom'>
+      <div className='bg-slate-300 h-full py-6 font-custom'>
       <h1 className='text-center py-2 text-xl font-bold'>All Games</h1>
 
       <section className='flex flex-col '>

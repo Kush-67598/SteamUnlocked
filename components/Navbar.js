@@ -13,18 +13,28 @@ const Navbar = () => {
   const loginPage = router.pathname == '/login'
   const signupPage = router.pathname == '/Signup'
   const reqgamesPage = router.pathname == '/RequestGames'
+  if (loginPage || signupPage) return(
+              <Image width={250} height={100}  className='absolute left-2 top-6 lg:left-20 cursor-pointer' src="/images/steam-unlocked-logo.webp" onClick={() => { router.push('/') }} alt="" />
+
+  );
 
   return (
 
     <div className="relative font-custom">
+      
       {HomePage &&
         <div>
+          
           <Image width={250} height={100}  className='absolute left-2 top-6 lg:left-20 cursor-pointer' src="/images/steam-unlocked-logo.webp" onClick={() => { router.push('/') }} alt="" />
-          <div>
 
-          <span className='absolute text-red-500 text-xl left-[68vw] top-[55px] cursor-pointer lg:left-[92vw]' onClick={() => { router.push('/Wishlist') }}><FaHeart /></span>
-          <span className='absolute lg:left-[85vw]  text-white top-[51px] font-bold px-2 left-72 text-xl cursor-pointer 'onClick={() => { router.push('/Wishlist') }}>Wishlist</span>
-          </div>
+         <div
+  className="absolute flex items-center gap-1 top-[51px] left-[65vw] lg:left-[85vw] cursor-pointer"
+  onClick={() => { router.push('/Wishlist') }}
+>
+  <span className="text-white font-bold text-lg mx-2">Wishlist</span>
+  <FaHeart className="text-red-500 text-xl" />
+</div>
+
           {/* <span className='absolute text-white text-2xl left-[90vw] top-[53px]' onClick={() => { router.push('/Account') }}><MdAccountCircle /></span> */}
           <Image width={1000} height={1}  src="/images/steamunlocked-bg.jpg" alt="" className="h-[65svh] w-full lg:h-[85vh] " />
         </div>
@@ -39,6 +49,8 @@ const Navbar = () => {
 
       </div>}
       
+
+
 
 
       {signupPage && loginPage && <div className='font-custom'>
@@ -78,7 +90,7 @@ const Navbar = () => {
 
 
         {/* DROPDOWN MENU FOR CATEGORIES */}
-        {dropdown && <div onMouseLeave={() => { setDropdown(false) }} onClick={() => { setDropdown(false) }} className='absolute rounded-md bg-slate-700 top-16 right-[63vw] w-32 list-none'>
+        {dropdown && <div onMouseLeave={() => { setDropdown(false) }} onClick={() => { setDropdown(false) }} className='absolute rounded-md bg-slate-700 top-16 right-[59.5vw] w-32 list-none'>
           <Link href={'/Action'} ><li className="  px-6 py-3 hover:text-red-500 rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">Action</li></Link>
           <hr />
           <Link href={'/Adventure'} ><li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">Adventure</li></Link>
@@ -106,7 +118,7 @@ const Navbar = () => {
             <Link href={'/help'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Help</li></Link>
             <Link href={'/invaidgames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Invalid Games List</li></Link>
             <Link href={'/latestnews'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Latest News</li></Link>
-            <Link href={'/reqgames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Games</li></Link>
+            <Link href={'/RequestGames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Games</li></Link>
             <li onMouseEnter={() => setDropdown(!dropdown)} className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Categories</li>
             <Link href={'/requpdates'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Updates</li></Link>
 

@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
      
-<Navbar/>
+<Navbar />
 <Component {...pageProps} wishlistonclick={wishlistonclick} wishlist={wishlist} deletewishlistitem={deletewishlistitem} />
 <Footer/>
     </>

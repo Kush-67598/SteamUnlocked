@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import {useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -7,20 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     const router=useRouter()
     const [user,setUser]=useState(false)
+    const name=router.pathname=="/ReqGames" || router.pathname=="/[slug]" || router.pathname=="/" || router.pathname=="/Action" || router.pathname=="/Racing"|| router.pathname=="/AllGames"|| router.pathname=="/Story"|| router.pathname=="/Horror"|| router.pathname=="/FPS" || router.pathname=="/RPG" || router.pathname=="/Adventure" || router.pathname=="/Contact" || router.pathname=="/Wishlist"
 
 
     useEffect(() => {
         const token = localStorage.getItem('TOKEN');
-        if (token && router.pathname !== '/') {
-            router.push('/'); // Redirect to the home page
-            setUser(true);
-        }
+        if (token && (router.pathname === "/login" || router.pathname === "/signup")) {
+            router.push('/');
+          }
 
-        // Redirect to login page if not logged in and not already on login page
-        if (!token && router.pathname !== '/login') {
-            router.push('/login'); 
-        }
-    }, [router.pathname]);
+        // Redirect to login page if not logged imongomn and not already on login page
+        if (!token && name && router.pathname !== '/login' && router.pathname !== '/signup') {
+            router.push('/login');
+          }
+          if (token) {
+            setUser(true);
+          }
+    }, []);
 
     
     const [email, setEmail] = useState('')
@@ -96,14 +100,26 @@ const Login = () => {
         theme="light"
       />
         
-        <div className='font-custom h-[83.3svh] py-24 bg-gray-400 lg:h-[63vh] lg:py-16'>
-            <form onSubmit={handleSubmit}>
-            <div className='flex flex-col mx-12 item lg:px-96'>
-                <h1 className='font-bold text-3xl py-4 text-center'>Login</h1>
+        <div className=' h-[55.3svh] font-mono lg:h-[80vh] '>
+            <div>
+
+            </div>
+<picture className=" z-10">
+        <source media="(min-width: 1024px)" srcSet="/images/re_door.jpg" />
+        <img
+          src="/images/qwer.jpg"
+          alt="Signup Background"
+          className="w-full h-full object-fit"
+        />
+      </picture>            
+      
+      <form onSubmit={handleSubmit}>
+            <div className='flex flex-col absolute top-[15vh] left-[4vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
+                <h1 className='font-bold text-3xl text-white py-4 text-center font-mono'>Login</h1>
                 <input onChange={handleChange} name='email' type="email" value={email} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Email' />
                 <input onChange={handleChange} name='password' type="password" value={password} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Password' />
-                <button className="bg-fuchsia-500 rounded mx-20 py-2 my-3 lg:mx-40" type='submit'>Login</button>
-                <p className='text-center py-2'>Not a member? <span className='font-bold text-black'><Link href={'/Signup'}>Signup</Link></span></p>
+                <button className="bg-fuchsia-500 rounded mx-20 px-8 py-2 my-3 lg:mx-40" type='submit'>Login</button>
+                <p className='text-center py-2 text-white'>Not a member? <span className=' text-red-500 font-bold'><Link href={'/Signup'}>Signup</Link></span></p>
             </div>
             </form>
         </div>
