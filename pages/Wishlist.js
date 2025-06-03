@@ -30,13 +30,13 @@ const Wishlist = ({ wishlist,deletewishlistitem }) => {
         pauseOnHover
         theme="light"
       />
-       <div className='bg-slate-300 h-full py-2 font-custom'>
+       <div className='bg-slate-300 min-h-[43.3vh] py-2 font-custom'>
       <h1 className='text-center py-2 text-2xl font-bold'>Wishlist</h1>
 
       <section className='flex flex-col '>
 
         <input type="search" value={text} onChange={HandleChange} placeholder='Search For Games' className=' bg-gray-500 mx-[10vw] rounded-md py-2 my-4 placeholder:text-white text-center ' />
-           {filteredWishlist.length==0 && <div className=" px-2 py-4 font-bold text-center lg:text-left lg:mx-32"> Game Not found!!</div>}   
+           {filteredWishlist.length==0 && <div className=" text-xl px-2 py-4 font-bold text-center lg:text-center lg:mx-32"><strong>Add Games To Your Wishlist To See Them Here!!</strong></div>}   
 {filteredWishlist.map((item,index)=>(
 
             <div key={index} className='flex items-center pt-4 px-1 lg:mx-36'>
@@ -47,8 +47,6 @@ const Wishlist = ({ wishlist,deletewishlistitem }) => {
 
                       <MdDelete   />
                       </span>
-                    
-
             </div>
             ))}
       </section>

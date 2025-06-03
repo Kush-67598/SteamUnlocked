@@ -7,7 +7,7 @@ const Contact = () => {
   const onSubmit = async(e) => {
 
     const data={text}
-    const contactData=await fetch(`${process.env.NEXT_PUBLIC_API}./api/contact`, {
+    const contactData=await fetch(`${process.env.NEXT_PUBLIC_API}/api/contact`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

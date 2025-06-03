@@ -34,7 +34,7 @@ const PopularGames = () => {
     </div></Link>
     
     <Link href={`/games/Forza Horizon 5 Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
-      <Image src={`/images/forza-horizon-5`} alt="" width={100} height={100} />
+      <Image src={`/images/forza-horizon-5.jpg`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 text-gray-800'>Forza Horizon 5</h3>
     </div></Link>
   
@@ -80,12 +80,7 @@ const PopularGames = () => {
       <h3 className='py-6 font-bold px-5 text-gray-800'>Forza Horizon 5</h3>
     </div></Link>
         <div className='bg-black h-1'></div>
-
-
-    
-  
   </div>
-
 </div>
 </div>
     </div>}

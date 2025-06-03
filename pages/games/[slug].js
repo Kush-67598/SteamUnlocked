@@ -65,9 +65,12 @@ const Slug = ({ games, wishlistonclick }) => {
                 <h2 className='font-bold text-2xl text-center py-4'>Download Links</h2>
                 <p className='px-4 text-sm text-[#333]'>You can get the full version of this game from the links provided below. Running the game as an administrator is recommended for optimal performance and to avoid save issues.</p>
                 <a href={`/api/Downloads/${games.slug}`} download>
-
+                <div className='flex items-center justify-center'>
 
                 <button className='hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-72 lg:my-7'>{games.title}<div className='text-gray-600 '>Size:{games.size}</div></button>
+                </div>
+
+
                 </a>
 
                 <div className='px-4 text-sm text-[#333] '>
@@ -123,28 +126,6 @@ const Slug = ({ games, wishlistonclick }) => {
         <PopularGames />
         
       </div>
-
-
-{/* <div className='bg-red-500 lg:ml-24 lg:mr-[30vw]'>
-      <div className='my- m-4'>
-        <div className='flex flex-col px-6 -mt-3 -mb-4 py-3  '>
-        <h1 className=' font-bold text-black text-xl py-4'>{comments.length} Comments</h1>
-        <hr />
-        <textarea rows={4} draggable type="text" placeholder='Join the Discussion' className='rounded-lg my-2 min-h-10' value={text} onChange={(e)=>{setText(e.target.value)}}/>
-        <button onClick={submitcomment} className='bg-green-600  py-2 rounded-md my-6'>Comment</button>
-       {comments.map((item,index)=>(
-        <div>
-            <li key={index} className='list-none text-gray-900' >{index+1}.{item}</li>
-        </div>
-       ))}
-       </div>
-
-      </div>
-      </div> */}
-
-
-
-
     </>
 
     
