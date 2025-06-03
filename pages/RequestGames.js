@@ -60,7 +60,7 @@ const RequestGames = () => {
         <img
           src="/images/qwer.jpg"
           alt="Signup Background"
-          className="w-full h-[50vh] lg:h-[70vh] object-fit"
+          className="w-full h-[42.4vh] lg:h-[70vh] object-fit"
         />
       </picture> 
 

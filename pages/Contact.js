@@ -6,13 +6,28 @@ const Contact = () => {
   const [text, setText] = useState('')
   const onSubmit = async(e) => {
 
+
     const data={text}
+    if (text.trim() === "") {
+    toast.error('Please fill in the required field.', {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    return;
+  }
     const contactData=await fetch(`${process.env.NEXT_PUBLIC_API}/api/contact`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
+      
     })
     toast.success('Your Response has been Submitted.', {
       position: "top-right",

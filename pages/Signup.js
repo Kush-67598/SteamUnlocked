@@ -27,7 +27,7 @@ const Signup = () => {
 
 
         if (!name || !email || !password) {
-            toast.info('Plz fill the reuired fields', {
+            toast.error('Plz fill in the required fields', {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -82,7 +82,7 @@ const Signup = () => {
                 theme="light"
             />
 
-          <div className=' h-[55.3svh] font-mono lg:h-[80vh] '>
+          <div className=' h-[61.4svh] font-mono lg:h-[80vh] '>
             <div>
 
             </div>
@@ -96,7 +96,7 @@ const Signup = () => {
       </picture>            
       
       <form onSubmit={handleSubmit}>
-            <div className='flex flex-col absolute top-[15vh] left-[4vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
+            <div className='flex flex-col absolute top-[20vh] left-[7vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
                 <h1 className='font-bold text-3xl text-white py-4 text-center font-mono'>Signup</h1>
                 <input onChange={handleChange} name='name' type="text" value={name} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Name' />
                 <input onChange={handleChange} name='email' type="email" value={email} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Email' />

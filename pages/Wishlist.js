@@ -30,7 +30,7 @@ const Wishlist = ({ wishlist,deletewishlistitem }) => {
         pauseOnHover
         theme="light"
       />
-       <div className='bg-slate-300 min-h-[43.3vh] py-2 font-custom'>
+       <div className='bg-slate-300 min-h-[42.3vh] py-2 font-custom'>
       <h1 className='text-center py-2 text-2xl font-bold'>Wishlist</h1>
 
       <section className='flex flex-col '>
