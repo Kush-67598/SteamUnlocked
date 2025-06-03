@@ -18,7 +18,7 @@ const RequestGames = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = [{ text, email }]
-    const RequestedGamesdata = await fetch(` http://localhost:3000/api/reqgames`, {
+    const RequestedGamesdata = await fetch(`${process.env.NEXT_PUBLIC_API}/api/reqgames`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
