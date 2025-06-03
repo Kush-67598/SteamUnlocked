@@ -64,7 +64,11 @@ const Slug = ({ games, wishlistonclick }) => {
                 </ol>
                 <h2 className='font-bold text-2xl text-center py-4'>Download Links</h2>
                 <p className='px-4 text-sm text-[#333]'>You can get the full version of this game from the links provided below. Running the game as an administrator is recommended for optimal performance and to avoid save issues.</p>
-                <button className='border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-72 lg:my-7'>{games.title}<div className='text-gray-600'>Size:{games.size}</div></button>
+                <a href={`/api/Downloads/${games.slug}`} download>
+
+
+                <button className='hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-72 lg:my-7'>{games.title}<div className='text-gray-600 '>Size:{games.size}</div></button>
+                </a>
 
                 <div className='px-4 text-sm text-[#333] '>
                   <p><strong>Easy Setup:</strong> Unless GOG specified, no installation is needed. If you encounter missing DLL errors, check for a _Redist or _CommonRedist folder. Install DirectX, Vcredist, and all other necessary programs from that folder to ensure the game runs smoothly.</p>

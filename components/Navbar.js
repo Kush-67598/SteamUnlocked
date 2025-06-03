@@ -42,9 +42,13 @@ const Navbar = () => {
       {!HomePage && <div className='font-custom'>
         <Image width={250} height={1}  className='absolute lg:left-20 top-6 cursor-pointer' src="/images/steam-unlocked-logo.webp" alt="" onClick={() => { router.push('/') }} />
         <Image width={1000} height={1}  src="/images/steamunlocked-bg.jpg" alt="" className="h-[19svh] w-full lg:h-[37vh] object-cover object-top " />
-        <span className='absolute text-red-500 text-xl left-[68vw] top-[55px] cursor-pointer lg:left-[90vw]' onClick={() => { router.push('/Wishlist') }}><FaHeart /></span>
-        <span className='absolute lg:left-[83vw] text-white top-[51px] font-bold px-2 left-72 text-xl cursor-pointer 'onClick={() => { router.push('/Wishlist') }}>Wishlist</span>
-        {/* <span className='absolute text-white text-3xl left-[90vw] top-[49px] lg:left-[92vw] lg:top-[52px] lg:text-3xl cursor-pointer' onClick={() => { router.push('/Account') }}><MdAccountCircle /></span> */}
+       <div
+  className="absolute flex items-center gap-1 top-[51px] left-[65vw] lg:left-[85vw] cursor-pointer"
+  onClick={() => { router.push('/Wishlist') }}
+>
+  <span className="text-white font-bold text-lg mx-2">Wishlist</span>
+  <FaHeart className="text-red-500 text-xl" />
+</div>
 
 
       </div>}
@@ -112,15 +116,15 @@ const Navbar = () => {
 
         {dropdownmobile && <div className='absolute bg-slate-700 top-16 w-[100vw] list-none'>
           
-            <Link href={'/'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">Home</li></Link>
-            <Link href={'/AllGames'} ><li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">All Games(A-Z)</li></Link>
-            <Link href={'/Contact'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
-            <Link href={'/help'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Help</li></Link>
-            <Link href={'/invaidgames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Invalid Games List</li></Link>
-            <Link href={'/latestnews'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Latest News</li></Link>
-            <Link href={'/RequestGames'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Games</li></Link>
-            <li onMouseEnter={() => setDropdown(!dropdown)} className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Categories</li>
-            <Link href={'/requpdates'}><li className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Updates</li></Link>
+            <Link href={'/'} ><li  onClick={() => setDropdownmobile(false)}className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer" >Home</li></Link>
+            <Link href={'/AllGames'} ><li  onClick={() => setDropdownmobile(false)}className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">All Games(A-Z)</li></Link>
+            <Link href={'/Contact'}><li  onClick={() => setDropdownmobile(false)}className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Contact Us</li></Link>
+            <Link href={'/help'}><li  onClick={() => setDropdownmobile(false)}className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Help</li></Link>
+            <Link href={'/invaidgames'}><li onClick={() => setDropdownmobile(false)} className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Invalid Games List</li></Link>
+            <Link href={'/latestnews'}><li  onClick={() => setDropdownmobile(false)}className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Latest News</li></Link>
+            <Link href={'/RequestGames'}><li  onClick={() => setDropdownmobile(false)}className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Games</li></Link>
+            
+            <Link href={'/requpdates'}><li onClick={() => setDropdownmobile(false)} className='text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer'>Request Updates</li></Link>
 
 
 

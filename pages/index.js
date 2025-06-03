@@ -25,7 +25,7 @@ const [text,setText]=useState('')
         <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">GET FREE STEAM GAMES</h1>
         <h2 className=" text-[#ccc] text-xl lg:text-[52px] py-2">PRE-INSTALLED FOR PC</h2>
         <p className="text-sm leading-5 text-white lg: font-semibold lg:text-[16px] py-3">Steam Unlocked allows you to download your favorite games pre-installed on steam without the cost.</p>
-        <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">Browse</button>
+        <Link href={'/AllGames'}><button  className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">Browse</button></Link>
       </div>
       <div className="bg-[#222] px-4 lg:py-[20vh] lg:px-20">
         <input type="search" onChange={handleChange} value={text} placeholder="Search a title" className=" focus:outline-none rounded-lg mt-12 mx-8 w-72 lg:w-[68vw] lg:mx-2 h-12 px-10 lg:-mt-1" />
