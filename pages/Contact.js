@@ -68,10 +68,10 @@ const Contact = () => {
         <img
           src="/images/qwer.jpg"
           alt="Signup Background"
-          className="w-full h-[50vh] lg:h-full object-fit"
+          className="w-full h-[65.999vh] lg:h-full object-fit"
         />
       </picture>  
-        <div className='absolute font-mono top-[20svh] lg:top-[46vh]  w-full h-full'>
+        <div className='absolute font-mono top-[28svh] lg:top-[46vh]  w-full h-full'>
           <h1 className='py-6 text-center text-white text-xl font-bold font-custom lg:text-4xl'>Contact Us</h1>
           <div className=' h-[35vh] lg:h-[42vh] lg:pt-8  flex flex-col'>
             <textarea rows={20} type="text" className='min-h-20 my-4 mx-4 rounded-md text-white font-mono lg:mx-40 lg:min-h-96 bg-transparent border border-red-500 focus:outline-red-500' onChange={(e) => { setText(e.target.value) }} value={text} placeholder='Explain Your Concern' />

@@ -113,7 +113,7 @@ const Login = () => {
         theme="light"
       />
         
-        <div className=' h-[61.4svh] font-mono lg:h-[80vh] '>
+        <div className='h-[61.4svh] font-mono lg:h-[80vh] '>
             <div>
 
             </div>
@@ -127,7 +127,7 @@ const Login = () => {
       </picture>            
       
       <form onSubmit={handleSubmit}>
-            <div className='flex flex-col absolute top-[22vh] left-[7vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
+            <div className='flex flex-col  absolute top-[22vh] left-[7vw] mx-12 lg:left-[35vw] lg:top-[25vh] '>
                 <h1 className='font-bold text-3xl text-white py-4 text-center font-mono'>Login</h1>
                 <input onChange={handleChange} name='email' type="email" value={email} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Email' />
                 <input onChange={handleChange} name='password' type="password" value={password} className='bg-fuchsia-200 py-2 my-2 rounded-md placeholder:text-gray-600 px-3 ' placeholder='Enter Password' />
