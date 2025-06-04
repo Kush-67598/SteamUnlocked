@@ -110,8 +110,8 @@ const Slug = ({ games, wishlistonclick }) => {
 
                   <h1 className='font-bold text-2xl text-center pb-6 '>Screenshots</h1>
 
-                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss1}.jpg`} width={650} height={0} alt="" />
-                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss2}.jpg`} width={650} height={0} alt="" />
+                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss1}.webp`} width={650} height={0} alt="" />
+                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss2}.webp`} width={650} height={0} alt="" />
                 </div>
 
 
