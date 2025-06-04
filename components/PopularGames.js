@@ -16,7 +16,7 @@ const PopularGames = () => {
   <h1 className='bg-[#eb2d1c] h-16 px-2 py-5 text-white font-bold lg:text-xl '>Popular Games </h1>
   <div className='bg-white'>
     <Link href={`/games/Resident Evil 8 Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
-      <Image src={`/images/resident-evil-8.webp`} alt="" width={100} height={100} />
+      <Image src={`/images/red-dead-redemption.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5  text-gray-800'>Red Dead Redemption</h3>
     </div></Link>
     <Link href={`/games/Horizon Forbidden West Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
