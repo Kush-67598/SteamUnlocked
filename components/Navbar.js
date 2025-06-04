@@ -77,7 +77,7 @@ const Navbar = () => {
           <Image
             width={1000}
             height={1}
-            src="/images/steamunlocked-bg.jpg"
+            src="/images/steamunlocked-bg.webp"
             alt=""
             className="h-[19svh] w-full lg:h-[37vh] object-cover object-top "
           />
@@ -108,7 +108,7 @@ const Navbar = () => {
           <Image
             width={100}
             height={100}
-            src="/images/steamunlocked-bg.jpg"
+            src="/images/steamunlocked-bg.webp"
             alt=""
             className=" w-full lg:h-[37vh] "
           />
@@ -130,7 +130,7 @@ const Navbar = () => {
           <Image
             width={100}
             height={100}
-            src="/images/steamunlocked-bg.jpg"
+            src="/images/steamunlocked-bg.webp"
             alt=""
             className=" w-full lg:h-[37vh] "
           />
