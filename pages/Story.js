@@ -26,7 +26,7 @@ const Story = ({Story}) => {
 
           <div className="cards bg-white flex flex-col items-center justify-center mx-4 pb-12  my-3 ">
             <h1 className='text-black font-bold text-2xl text-center px-1 py-6 '>{game.title}</h1>
-            <Image width={100} height={100} src={`/images/${game.img}.jpg`} alt={game.img} className="w-60 h-80 lg:h-80 lg:w-60 text-white"/>
+            <Image loading="lazy"  width={100} height={100} src={`/images/${game.img}.jpg`} alt={game.img} className="w-60 h-80 lg:h-80 lg:w-60 text-white"/>
           </div>
               </div>
               </div></Link>

@@ -57,8 +57,8 @@ export default function Home({
           {Filtered_array(Story).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`games/${item.slug}`}>
-                <Image
-                  src={`/images/${item.img}.jpg`}
+                <Image loading="lazy"
+                  src={`/images/${item.img}.webp`}
                   height={100}
                   width={100}
                   alt=""
@@ -70,8 +70,8 @@ export default function Home({
           {Filtered_array(OpenWorld).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`games/${item.slug}`}>
-                <Image
-                  src={`/images/${item.img}.jpg`}
+                <Image loading="lazy"
+                  src={`/images/${item.img}.webp`}
                   height={100}
                   width={100}
                   alt=""
@@ -88,8 +88,8 @@ export default function Home({
           {Filtered_array(Action).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`/games/${item.slug}`}>
-                <Image
-                  src={`/images/${item.img}.jpg`}
+                <Image loading="lazy"
+                  src={`/images/${item.img}.webp`}
                   height={100}
                   width={100}
                   alt=""
@@ -101,8 +101,8 @@ export default function Home({
           {Filtered_array(Adventure).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`/games/${item.slug}`}>
-                <Image
-                  src={`/images/${item.img}.jpg`}
+                <Image loading="lazy"
+                  src={`/images/${item.img}.webp`}
                   height={100}
                   width={100}
                   alt=""
@@ -123,8 +123,8 @@ export default function Home({
             FPS.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image
-                    src={`/images/${item.img}.jpg`}
+                  <Image loading="lazy"
+                    src={`/images/${item.img}.webp`}
                     height={100}
                     width={100}
                     alt=""
@@ -137,8 +137,8 @@ export default function Home({
             Horror.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image
-                    src={`/images/${item.img}.jpg`}
+                  <Image loading="lazy"
+                    src={`/images/${item.img}.webp`}
                     height={100}
                     width={100}
                     alt=""
@@ -155,8 +155,8 @@ export default function Home({
             RPG.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image
-                    src={`/images/${item.img}.jpg`}
+                  <Image loading="lazy"
+                    src={`/images/${item.img}.webp`}
                     height={100}
                     width={100}
                     alt=""
@@ -169,8 +169,8 @@ export default function Home({
             Racing.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image
-                    src={`/images/${item.img}.jpg`}
+                  <Image loading="lazy"
+                    src={`/images/${item.img}.webp`}
                     height={100}
                     width={100}
                     alt=""

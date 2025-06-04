@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
             if (req.body.email === u.email && req.body.password === decryptedPass) {
                 // Generate the JWT token
-                var token = jwt.sign({ email: u.email, name: u.name }, 'jwtsecret', { expiresIn: "2d" });
+                var token = jwt.sign({ email: u.email, name: u.name }, 'jwtsecret', { expiresIn: "1h" });
                 return res.status(200).json({ success: true, token, email: u.email, name: u.name });
             } else {
                 return res.status(400).json({ error: "Invalid Credentials" });

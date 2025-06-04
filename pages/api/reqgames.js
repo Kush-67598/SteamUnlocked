@@ -6,11 +6,12 @@ const handler = async (req, res) => {
         for (let i = 0; i < req.body.length; i++) {
             let data=new reqgames({
                 text:req.body[i].text,
-                email:req.body[i].email
+                email:req.body[i].email,
+                success:true
             })
 
             await data.save()
-            res.status(200).json({data})
+            res.status(200).json({data,success:true})
         }
     }
     else{

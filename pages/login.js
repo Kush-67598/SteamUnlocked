@@ -4,6 +4,7 @@ import {useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Loader from '../components/Loader';
 
 const Login = () => {
     const router=useRouter()
@@ -17,7 +18,7 @@ const Login = () => {
             router.push('/');
           }
 
-        // Redirect to login page if not logged imongomn and not already on login page
+        // Redirect to login page if not logged in ongomn and not already on login page
         if (!token && name && router.pathname !== '/login' && router.pathname !== '/signup') {
             router.push('/login');
           }
@@ -29,6 +30,8 @@ const Login = () => {
     
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false);
+    
 
     const handleChange = (e) => {
         if (e.target.name == "email") {
@@ -41,6 +44,9 @@ const Login = () => {
     const handleSubmit=async(e)=>{
         e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
         const data={email,password}
+
+        try{
+            setLoading(true)
             let res=await fetch(`${process.env.NEXT_PUBLIC_API}/api/login`,{
                 method: "POST",
                 headers: {
@@ -48,21 +54,21 @@ const Login = () => {
                 },
                 body: JSON.stringify(data),
             });
-
+            
             let response = await res.json();
             if (email.trim()=="" || password.trim() == "") {
-    toast.error('Please fill in the required field.', {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-    return;
-  }
+                toast.error('Please fill in the required field.', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                return;
+            }
             
             if (response.success) {
                 toast.success('Successfully Logged In', {
@@ -74,13 +80,16 @@ const Login = () => {
                     draggable: true,
                     theme: "dark",
                 });
-
+                
+                
                 localStorage.setItem("TOKEN", response.token);
                 setTimeout(() => {
                     router.push('/');
                 }, 1000);
-            }
 
+                return;
+            }
+            
             if (!response.success) {
                 toast.error('Wrong Credentials', {
                     position: "top-right",
@@ -91,14 +100,27 @@ const Login = () => {
                     draggable: true,
                     theme: "dark",
                 });
+                return;
             }
-        
-        setEmail('')
-        setPassword('')
-
+            
+            setEmail('')
+            setPassword('')
+            
+            
+        }catch(err){
+            toast.error("Network error. Please try again.", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  theme: "dark",
+                }
+        );
+    }finally{
+        setLoading(false)
     }
 
-    return (
+
+    }
+        return (
         <>
             <ToastContainer
         position="top-right"
@@ -112,15 +134,18 @@ const Login = () => {
         pauseOnHover
         theme="light"
       />
+      {loading && (name !== "" || password !== "" || email !== "") && (
+        <Loader/>
+            )}
         
         <div className='h-[61.4svh] font-mono lg:h-[80vh] '>
             <div>
 
             </div>
 <picture className=" z-10">
-        <source media="(min-width: 1024px)" srcSet="/images/re_door.jpg" />
+        <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
         <img
-          src="/images/qwer.jpg"
+          src="/images/qwer.webp"
           alt="Signup Background"
           className="w-full h-full object-fit"
         />

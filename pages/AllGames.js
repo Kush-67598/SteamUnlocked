@@ -26,7 +26,7 @@ const AllGames = ({AllGames}) => {
           {filteredGames.map((item,index)=>(
             <div key={index} className='flex items-center lg:mx-36'>
 
-            <Image src={`/images/${item.img}.jpg`} alt="img" width={100} height={100}   className='py-2 max-w-[85px]  min-h-32 max-h-10 lg:min-w-40 lg:min-h-52 '/>
+            <Image loading="lazy" src={`/images/${item.img}.webp`} alt="img" width={100} height={100}   className='py-2 max-w-[85px]  min-h-32 max-h-10 lg:min-w-40 lg:min-h-52 '/>
                       <Link href={`/games/${item.slug}`}><div className='px-2'>{item.title}</div><div className='px-2 py-2'>Size:{item.size}</div></Link>
             </div>
 

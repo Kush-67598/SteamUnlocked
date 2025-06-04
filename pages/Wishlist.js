@@ -41,7 +41,7 @@ const Wishlist = ({ wishlist,deletewishlistitem }) => {
 
             <div key={index} className='flex items-center pt-4 px-1 lg:mx-36'>
 
-            <Image width={100} height={100} src={`/images/${item.img}.jpg`} alt="img" className='py-2 max-w-[85px]  min-h-32 max-h-10 lg:min-w-40 lg:min-h-52 '/>
+            <Image loading="lazy" width={100} height={100} src={`/images/${item.img}.webp`} alt="img" className='py-2 max-w-[85px]  min-h-32 max-h-10 lg:min-w-40 lg:min-h-52 '/>
                       <Link href={`/games/${item.slug}`}><div className='px-2'>{item.title}</div><div className='px-2 py-2'>Size:{item.size}</div></Link>
                       <span className="cursor-pointer px-2 text-xl -mt-[60px] lg:-mt-9 "onClick={()=>{deletewishlistitem(item.slug)}}>
 

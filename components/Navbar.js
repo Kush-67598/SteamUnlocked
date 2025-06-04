@@ -55,14 +55,15 @@ const Navbar = () => {
           <Image
             width={1000}
             height={1}
-            src="/images/steamunlocked-bg.jpg"
+            src="/images/steamunlocked-bg.webp"
             alt=""
             className="h-[65svh] w-full lg:h-[85vh] "
+            priority={true}
           />
         </div>
       )}
       {!HomePage && (
-        <div className="font-custom">
+        <div className="">
           <Image
             width={250}
             height={1}
@@ -154,9 +155,9 @@ const Navbar = () => {
           >
             Categories
           </li>
-          <Link href={"/Contact"}>
+          <Link href={"/Help"}>
             <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-              Contact Us
+              Help
             </li>
           </Link>
           <Link href={"/"}>
@@ -164,11 +165,7 @@ const Navbar = () => {
               FAQ
             </li>
           </Link>
-          <Link href={"/"}>
-            <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-              Help
-            </li>
-          </Link>
+          
           <Link href={"/"}>
             <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
               Invalid Games List
@@ -200,7 +197,7 @@ const Navbar = () => {
             onClick={() => {
               setDropdown(false);
             }}
-            className="absolute rounded-md bg-slate-700 top-16 right-[59.5vw] w-32 list-none"
+            className="absolute rounded-md bg-slate-700 top-16 right-[56.5vw] w-32 list-none"
           >
             <Link href={"/Action"}>
               <li className="  px-6 py-3 hover:text-red-500 rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">
@@ -271,12 +268,12 @@ const Navbar = () => {
                 All Games(A-Z)
               </li>
             </Link>
-            <Link href={"/Contact"}>
+            <Link href={"/Help"}>
               <li
                 onClick={() => setDropdownmobile(false)}
                 className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
               >
-                Contact Us
+                Help
               </li>
             </Link>
             <Link href={"/Story"}>
