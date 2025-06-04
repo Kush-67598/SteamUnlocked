@@ -97,7 +97,7 @@ const Signup = () => {
       <div className=" h-[61.4svh] font-mono lg:h-[80vh] ">
         <picture className=" z-10">
           <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
-          <img
+          <img 
             src="/images/qwer.webp"
             alt="Signup Background"
             className="w-full h-full object-fit"
