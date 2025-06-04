@@ -50,7 +50,7 @@ const Slug = ({ games, wishlistonclick }) => {
                 <div className='flex flex-col justify-center items-center'>
 
 
-                <Image loading="lazy" width={100} height={100}  className='px-2 max-w-96 min-w-[302px]  ' src={`/images/${games.img}.jpg`} alt="" />
+                <Image width={100} height={100}  className='px-2 max-w-96 min-w-[302px]  ' src={`/images/${games.img}.jpg`} alt="" />
                 <button className='flex items-center justify-center rounded-lg min-w-72 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0' onClick={() => { wishlistonclick(games.slug, games.title, games.img, games.size) }}>Add to Wishlist<FaHeart className='ml-2 text-lg' /> </button>
                 </div>
                 <h1 className='font-bold text-2xl text-center py-6 '>Installation Instructions</h1>
@@ -110,8 +110,8 @@ const Slug = ({ games, wishlistonclick }) => {
 
                   <h1 className='font-bold text-2xl text-center pb-6 '>Screenshots</h1>
 
-                  <Image loading="lazy" className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss1}.jpg`} width={650} height={0} alt="" />
-                  <Image loading="lazy" className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss2}.jpg`} width={650} height={0} alt="" />
+                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss1}.jpg`} width={650} height={0} alt="" />
+                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss2}.jpg`} width={650} height={0} alt="" />
                 </div>
 
 
