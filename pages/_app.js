@@ -3,24 +3,12 @@ import Navbar from '../components/Navbar'
 import { toast } from 'react-toastify';
 import '../styles/globals.css'
 import Footer from '../components/Footer';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-      const [user,setUser]=useState(false)
-  
-  const router=useRouter()
-      useEffect(()=>{
-          if(localStorage.getItem('TOKEN')){
-              router.push('/')
-              setUser(true)
-              
-            }
-            else{
-              router.push('/login')
-              setUser(!user)
-          }
-      },[])
-
+const router=useRouter()
+const isadmin=router.pathname.startsWith('/admin')
+      
   const[wishlist,setWishlist]=useState([])
 
 
@@ -78,13 +66,16 @@ function MyApp({ Component, pageProps }) {
 
   }
 
+  
+
 
   return (
     <>
      
-<Navbar />
+{ !isadmin &&  <Navbar />}
 <Component {...pageProps} wishlistonclick={wishlistonclick} wishlist={wishlist} deletewishlistitem={deletewishlistitem} />
-<Footer/>
+{ !isadmin &&  <Footer />}
+
     </>
   )
 }

@@ -1,0 +1,11 @@
+
+Title: lkn
+Category: nl
+Size: nlk
+OS: lkn
+Processor: lkn
+Memory: lk
+Graphics: nkl
+Storage: kl
+Description: kn
+      

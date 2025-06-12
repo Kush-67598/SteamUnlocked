@@ -1,19 +1,22 @@
 import mongoose from "mongoose";
 import game from "../models/game";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Router, useRouter } from "next/router";
 
-export default function Home({
-  Action,
-  FPS,
-  Adventure,
-  Horror,
-  Story,
-  Racing,
-  RPG,
-  OpenWorld,
-}) {
+
+export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,OpenWorld}){
+
+  const router=useRouter()
+  useEffect(()=>{
+
+    const token=localStorage.getItem('TOKEN')
+    if(!token){
+      router.push('/login')
+    }
+  })
+     
   const [text, setText] = useState("");
   const handleChange = (e) => {
     setText(e.target.value);
@@ -43,6 +46,8 @@ export default function Home({
           </button>
         </Link>
       </div>
+    
+
       <div className="bg-[#222] px-4 lg:py-[20vh] lg:px-20">
         <input
           type="search"
@@ -57,8 +62,10 @@ export default function Home({
           {Filtered_array(Story).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`games/${item.slug}`}>
-                <Image loading="lazy"
+                <img
+                  loading="lazy"
                   src={`/images/${item.img}.webp`}
+                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                   height={100}
                   width={100}
                   alt=""
@@ -70,8 +77,10 @@ export default function Home({
           {Filtered_array(OpenWorld).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`games/${item.slug}`}>
-                <Image loading="lazy"
+                <img
+                  loading="lazy"
                   src={`/images/${item.img}.webp`}
+                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                   height={100}
                   width={100}
                   alt=""
@@ -82,14 +91,16 @@ export default function Home({
           ))}
         </div>
 
-        <h1 className=" text-white text-3xl py-8 px-1">Action & Adventure</h1>
+        <h1 className=" text-white text-3xl py-8 px-1">Action </h1>
 
         <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {Filtered_array(Action).map((item, index) => (
+          {Filtered_array(Action).slice(0,7).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`/games/${item.slug}`}>
-                <Image loading="lazy"
+                <img
+                  loading="lazy"
                   src={`/images/${item.img}.webp`}
+                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                   height={100}
                   width={100}
                   alt=""
@@ -98,11 +109,13 @@ export default function Home({
               </Link>
             </div>
           ))}
-          {Filtered_array(Adventure).map((item, index) => (
+          {/* {Filtered_array(Adventure).slice(0,2).map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`/games/${item.slug}`}>
-                <Image loading="lazy"
+                <img
+                  loading="lazy"
                   src={`/images/${item.img}.webp`}
+                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                   height={100}
                   width={100}
                   alt=""
@@ -110,7 +123,7 @@ export default function Home({
                 />
               </Link>
             </div>
-          ))}
+          ))} */}
 
           <div></div>
         </div>
@@ -120,11 +133,13 @@ export default function Home({
 
         <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
           {FPS &&
-            FPS.map((item, index) => (
+            FPS.slice(0,4).map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image loading="lazy"
+                  <img
+                    loading="lazy"
                     src={`/images/${item.img}.webp`}
+                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                     height={100}
                     width={100}
                     alt=""
@@ -134,11 +149,13 @@ export default function Home({
               </div>
             ))}
           {Horror &&
-            Horror.map((item, index) => (
+            Horror.slice(0,3).map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image loading="lazy"
+                  <img
+                    loading="lazy"
                     src={`/images/${item.img}.webp`}
+                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                     height={100}
                     width={100}
                     alt=""
@@ -149,14 +166,16 @@ export default function Home({
             ))}
           <div></div>
         </div>
-        <h1 className=" text-white text-3xl py-8 px-1">RPG & Racing</h1>
+        <h1 className=" text-white text-3xl py-8 px-1">Racing</h1>
         <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {RPG &&
-            RPG.map((item, index) => (
+          {/* {RPG &&
+            RPG.slice(0,4).map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image loading="lazy"
+                  <img
+                    loading="lazy"
                     src={`/images/${item.img}.webp`}
+                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                     height={100}
                     width={100}
                     alt=""
@@ -164,13 +183,15 @@ export default function Home({
                   />
                 </Link>
               </div>
-            ))}
+            ))} */}
           {Racing &&
-            Racing.map((item, index) => (
+            Racing.slice(0,7).map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
-                  <Image loading="lazy"
+                  <img
+                    loading="lazy"
                     src={`/images/${item.img}.webp`}
+                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                     height={100}
                     width={100}
                     alt=""

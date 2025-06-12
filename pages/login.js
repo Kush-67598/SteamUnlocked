@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {useRouter } from 'next/router'
+import Router, {useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -8,26 +8,7 @@ import Loader from '../components/Loader';
 
 const Login = () => {
     const router=useRouter()
-    const [user,setUser]=useState(false)
     const name=router.pathname=="/ReqGames" || router.pathname=="/[slug]" || router.pathname=="/" || router.pathname=="/Action" || router.pathname=="/Racing"|| router.pathname=="/AllGames"|| router.pathname=="/Story"|| router.pathname=="/Horror"|| router.pathname=="/FPS" || router.pathname=="/RPG" || router.pathname=="/Adventure" || router.pathname=="/Contact" || router.pathname=="/Wishlist"
-
-
-    useEffect(() => {
-        const token = localStorage.getItem('TOKEN');
-        if (token && (router.pathname === "/login" || router.pathname === "/signup")) {
-            router.push('/');
-          }
-
-        // Redirect to login page if not logged in ongomn and not already on login page
-        if (!token && name && router.pathname !== '/login' && router.pathname !== '/signup') {
-            router.push('/login');
-          }
-          if (token) {
-            setUser(true);
-          }
-    }, []);
-
-    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false);
@@ -41,85 +22,95 @@ const Login = () => {
             setPassword(e.target.value)
         }
     }
-    const handleSubmit=async(e)=>{
-        e.preventDefault()  //Prevents the form from submitting and reloading the page as for eg it redierects to name=?kush?password=?kush1234   we dont want this to happen so we use this...
-        const data={email,password}
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = { email, password };
 
-        try{
-            setLoading(true)
-            let res=await fetch(`${process.env.NEXT_PUBLIC_API}/api/login`,{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            
-            let response = await res.json();
-            if (email.trim()=="" || password.trim() == "") {
-                toast.error('Please fill in the required field.', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                return;
-            }
-            
-            if (response.success) {
-                toast.success('Successfully Logged In', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                });
-                
-                
-                localStorage.setItem("TOKEN", response.token);
-                setTimeout(() => {
-                    router.push('/');
-                }, 1000);
+  try {
+    setLoading(true);
+    let res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-                return;
-            }
+    let response = await res.json();
+
+    if (response.success) {
+      toast.success("Successfully Logged In", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+
+    localStorage.setItem("TOKEN", response.token);
+
+    const token=localStorage.getItem("TOKEN")
+    
+
+      // Perform role check
+      const userRes = await fetch("/api/getusers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({token:token}),
+      });
+
+      const userData = await userRes.json();
+      console.log(userData)
+
+      if (userData.success) {
+        if (userData.admin) {
+          router.push("/admin");
+        } 
+          else if(userData.admin==false){
+            router.push("/");
+        }
             
-            if (!response.success) {
-                toast.error('Wrong Credentials', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                });
-                return;
-            }
-            
-            setEmail('')
-            setPassword('')
-            
-            
-        }catch(err){
-            toast.error("Network error. Please try again.", {
-                  position: "top-right",
-                  autoClose: 2000,
-                  theme: "dark",
-                }
-        );
-    }finally{
-        setLoading(false)
+
+          }
+        
+       else {
+        toast.error("Failed to fetch user data", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+      }
+    } else {
+      toast.error("Wrong Credentials", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     }
+  } catch (err) {
+    console.log(err)
+    toast.error("Network error. Please try again.", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "dark",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
-
-    }
         return (
         <>
             <ToastContainer

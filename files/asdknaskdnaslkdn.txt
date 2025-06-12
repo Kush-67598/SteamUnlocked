@@ -1,0 +1,11 @@
+
+Title: kjlbasdk
+Category: nlk
+Size: nlk
+OS: n
+Processor: lk
+Memory: lkn
+Graphics: lnkkl
+Storage: nkl
+Description: nlk
+      

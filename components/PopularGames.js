@@ -44,7 +44,7 @@ const PopularGames = () => {
 </div>
     </div> }
 
-    {SlugPage && <div className=' pt-10 lg:absolute top-[50.7vh] left-[70vw] lg:pt-0'>
+    {SlugPage && <div className=' pt-10 lg:absolute top-[47.9vh] left-[70vw] lg:pt-0'>
       <div className='bg-[#222] px-2 py-10 lg:pt-0 '>
 <div className=' m-2 -mt-12 lg:w-96 lg:m-0'>
   <h1 className='bg-[#eb2d1c] h-16 px-2 py-5 text-white font-bold lg:text-xl '>Popular Games </h1>
@@ -73,6 +73,25 @@ const PopularGames = () => {
       <Image src={`/images/alien-shooter.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 text-gray-800'>Alien Shooter</h3>
     </div></Link>
+    
+        <div className='bg-black h-1'></div>
+    <Link href={`/games/Alien Shooter Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
+      <Image src={`/images/alien-shooter.webp`} alt="" width={100} height={100} />
+      <h3 className='py-6 font-bold px-5 text-gray-800'>Alien Shooter</h3>
+    </div></Link>
+    
+        <div className='bg-black h-1'></div>
+    <Link href={`/games/Alien Shooter Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
+      <Image src={`/images/alien-shooter.webp`} alt="" width={100} height={100} />
+      <h3 className='py-6 font-bold px-5 text-gray-800'>Alien Shooter</h3>
+    </div></Link>
+    
+        <div className='bg-black h-1'></div>
+    <Link href={`/games/Alien Shooter Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>
+      <Image src={`/images/alien-shooter.webp`} alt="" width={100} height={100} />
+      <h3 className='py-6 font-bold px-5 text-gray-800'>Alien Shooter</h3>
+    </div></Link>
+    
         <div className='bg-black h-1'></div>
 
     <Link href={`/games/Forza Horizon 5 Free Download`}><div className='flex items-center cursor-pointer hover:bg-black text-white'>

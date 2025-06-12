@@ -10,7 +10,7 @@ export default function handler(req,res){
         res.writeHead(200,{
             'Content-Type':'text/plain',
             'Content-Length':stats.size,
-            'Content-Disposition': `attachment; filename=${slug}.txt`,
+            'Content-Disposition': `attachment; filename=${slug}.txt`,  //This is responsible for downloading the data.
 
         })
 
