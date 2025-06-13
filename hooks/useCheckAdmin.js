@@ -23,7 +23,7 @@ const useCheckAdmin = () => {
         });
         const data = await res.json();
   
-        if (!data.success || !data.admin) {
+        if ( !data.admin) {
           toast.error("UNAUTHORIZED ACCESS", {
                     position: "top-right",
                     autoClose: 2000,
@@ -33,7 +33,7 @@ const useCheckAdmin = () => {
                     draggable: true,
                     theme: "dark",
                   });
-          router.push('/login'); // or some "not authorized" page
+          router.push('/'); // or some "not authorized" page
         }else{
             setLoading(false)
         }

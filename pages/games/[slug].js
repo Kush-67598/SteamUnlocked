@@ -7,30 +7,9 @@ import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
 
-
-
-
-
 const Slug = ({ games, wishlistonclick }) => {
-
-  const gametitle=games.title
-  const arr=[]
-
-  for(let i=0;i<gametitle.length;i++){
-    if(gametitle[i]=='-'){
-      arr.push(' ')
-    }else{
-      arr.push(gametitle[i].toUpperCase())
-    }
-  }
-
-  let new_title=arr.join("")
-
-
- 
-
-
-
+  
+  const new_title=games.title.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ")    
   const chartRef = useRef(null); // canvas element
   const chartInstanceRef = useRef(null); // Chart instance
 
@@ -154,7 +133,7 @@ const Slug = ({ games, wishlistonclick }) => {
             {games && (
               <>
                 <h1 className="font-bold text-2xl text-center py-4 px-4">
-                  {arr}
+                  {new_title}
                 </h1>
                 <h2 className="font-bold text-2xl pt-3 text-center font-sans">
                   Game Overview
@@ -166,7 +145,9 @@ const Slug = ({ games, wishlistonclick }) => {
                     height={100}
                     className="px-2 max-w-96 min-w-[302px]  "
                     src={`/images/${games.img}.webp`}
-                    onError={(e)=>{e.target.src=`/images/${games.img}.jpg`}}
+                    onError={(e) => {
+                      e.target.src = `/images/${games.img}.jpg`;
+                    }}
                     alt=""
                   />
                   <button
@@ -174,7 +155,7 @@ const Slug = ({ games, wishlistonclick }) => {
                     onClick={() => {
                       wishlistonclick(
                         games.slug,
-                        games.title,
+                        new_title,
                         games.img,
                         games.size
                       );

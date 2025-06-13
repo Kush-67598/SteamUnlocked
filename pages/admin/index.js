@@ -5,7 +5,10 @@ import Loader from "../../components/Loader";
 import useCheckAdmin from "../../hooks/useCheckAdmin";
 import 'react-toastify/dist/ReactToastify.css';
 
-const index = () => {
+const Index = () => {
+  const [price, setPrice] = useState("");
+  const [id, setId] = useState("");
+  const loading = useCheckAdmin();
   const [games, setGames] = useState([]);
   const [search,setSearch]=useState('')
   const [formdata, setformData] = useState({
@@ -25,10 +28,10 @@ const index = () => {
     ss3: "",
     price: "",
   });
-  const [price, setPrice] = useState("");
-  const [id, setId] = useState("");
-  const loading = useCheckAdmin();
   
+  useEffect(() => {
+  fetchGames();
+}, []);
     const fetchGames = async () => {
       const getgames = await fetch("http://localhost:3000/api/getgames", {
         method: "GET",
@@ -39,10 +42,7 @@ const index = () => {
       const res_get = await getgames.json();
       setGames(res_get)  
     };
-  useEffect(() => {
-  fetchGames();
-}, []);
-
+    
   if (loading) return null;
 
   const handleChange = (e) => {
@@ -442,4 +442,4 @@ await fetchGames()
   );
 };
 
-export default index;
+export default Index;
