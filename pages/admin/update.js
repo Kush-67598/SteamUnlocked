@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import checkadmin from "../../hooks/useCheckAdmin";
-
-
 const update = () => {
-    
-
- 
-
 
   return (
     <>

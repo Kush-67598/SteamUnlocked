@@ -17,7 +17,7 @@ const handler = async (req, res) => {
 
             if (req.body.email === u.email && req.body.password === decryptedPass) {
                 
-                var token = jwt.sign({ email: u.email, name: u.name,admin:u.admin}, 'jwtsecret', { expiresIn: "1h" });
+                var token = jwt.sign({ email: u.email, name: u.name,admin:u.admin}, 'jwtsecret');
                 
                 
                 return res.status(200).json({ success: true, token, email: u.email, name: u.name,admin:u.admin});

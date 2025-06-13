@@ -1,19 +1,53 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import Chart from "chart.js/auto";
-import { ToastContainer } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import mongoose from "mongoose";
 import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
 
-const Slug = ({ games, wishlistonclick }) => {
-  
+const Slug = ({ games }) => {
+  const [token, setToken] = useState(null);
+  console.log(token)
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    const savedToken = localStorage.getItem("TOKEN");
+    setToken(savedToken);
+  }
+}, []);
+
+  const addtowishlist=async(slug,title,img,size)=>{
+    const data={token,slug,title,img,size}
+    const wishlist=await fetch('/api/addwishlist',{
+      method:"POST",
+      headers:{
+        "Content-Type":"Application/json",
+
+      },
+      body:JSON.stringify(data)
+    })
+    let wishlistRes=await wishlist.json()
+    if(wishlistRes){
+
+      toast.success('Successfully Added To Wishlist', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress:undefined,
+        theme: "dark",
+      });
+    }
+  }
   const new_title=games.title.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ")    
   const chartRef = useRef(null); // canvas element
   const chartInstanceRef = useRef(null); // Chart instance
 
   useEffect(() => {
+
     const canvas = chartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
 
@@ -25,8 +59,8 @@ const Slug = ({ games, wishlistonclick }) => {
       monthlyData[monthKey] = item; // overwrites with the last entry of that month
     });
 
-    const chart = Object.values(monthlyData).map((item) => item.value);
 
+    const chart = Object.values(monthlyData).map((item) => item.value);
     const labels = Object.values(monthlyData).map((item) => {
       const date = new Date(item.date);
       return date.toLocaleString("default", {
@@ -41,7 +75,6 @@ const Slug = ({ games, wishlistonclick }) => {
       const b = Math.floor(Math.random() * 155 + 100);
       return `rgba(${r},${g},${b},0.8)`;
     });
-    console.log(games.priceHistory);
 
     // Destroy old chart instance if it exists
     if (chartInstanceRef.current) {
@@ -150,18 +183,12 @@ const Slug = ({ games, wishlistonclick }) => {
                     }}
                     alt=""
                   />
-                  <button
+                  <button onClick={()=>{addtowishlist(games.slug,new_title,games.img,games.size)}}
                     className="flex items-center justify-center rounded-lg min-w-72 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0"
-                    onClick={() => {
-                      wishlistonclick(
-                        games.slug,
-                        new_title,
-                        games.img,
-                        games.size
-                      );
-                    }}
+                    
                   >
                     Add to Wishlist
+
                     <FaHeart className="ml-2 text-lg" />{" "}
                   </button>
                 </div>

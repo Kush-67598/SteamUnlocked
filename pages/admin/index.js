@@ -109,10 +109,10 @@ const filtered_arr=games.filter((item)=>(
       // setGames(games.filter((game) => game._id !== gameId)); //Deletes the game which you dont want to delete.
     toast.warning('Item Successfuy Deleted', {
           position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
+          autoClose: 1000,
+          hideProgressBar: true,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "dark",
