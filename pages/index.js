@@ -9,6 +9,13 @@ import { Router, useRouter } from "next/router";
 export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,OpenWorld}){
 
   const router=useRouter()
+  const [text, setText] = useState("");
+  const [games,setGames]=useState({
+    Action:[...Action],Racing:[...Racing],Horror:[...Horror],Story:[...Story]
+  })
+
+
+  
   useEffect(()=>{
 
     const token=localStorage.getItem('TOKEN')
@@ -16,15 +23,45 @@ export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,Open
       router.push('/login')
     }
   })
-     
-  const [text, setText] = useState("");
+  
+
+
+  
+  // const loadMore=async(category)=>{
+  //   const fetchAction_games=await fetch(`/api/mainfetchgames?page=${page}&category=${category}`,{
+  //     headers:{
+  //       "Content-Type":"Application/json"
+  //     }
+  //   })
+  //   const response=await fetchAction_games.json()
+  //   setGamesArray(item=>[...item,...response])    
+  // }
+  const [pages, setPages] = useState({
+  Action: 2,
+  Horror: 2,
+  Racing: 2,
+  Story:2,
+});
+
+
+
+  const loadMore = async (category) => {
+  const currentPage = pages[category];
+
+  const res = await fetch(`/api/mainfetchgames?page=${currentPage}&category=${category}`);
+  const data = await res.json();
+
+  setGames(prev => ({
+    ...prev,[category]: [...(prev[category] || []), ...data],
+  }));
+
+  setPages(prev => ({
+    ...prev,[category]: prev[category] + 1,
+  }));
+};
+
   const handleChange = (e) => {
     setText(e.target.value);
-  };
-  const Filtered_array = (games) => {
-    return games.filter((game) => {
-      return game.title.toLowerCase().includes(text.toLowerCase());
-    });
   };
 
   return (
@@ -56,100 +93,41 @@ export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,Open
           placeholder="Search a title"
           className=" focus:outline-none rounded-lg mt-12 mx-8 w-72 lg:w-[68vw] lg:mx-2 h-12 px-10 lg:-mt-1"
         />
-        <h1 className=" text-white text-3xl py-8 px-1">Recently Added</h1>
-
-        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {Filtered_array(Story).map((item, index) => (
-            <div key={index} className="cards px-2 py-2">
-              <Link href={`games/${item.slug}`}>
-                <img
-                  loading="lazy"
-                  src={`/images/${item.img}.webp`}
-                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
-                  height={100}
-                  width={100}
-                  alt=""
-                  className="w-64 h-64"
-                />
-              </Link>
-            </div>
-          ))}
-          {Filtered_array(OpenWorld).map((item, index) => (
-            <div key={index} className="cards px-2 py-2">
-              <Link href={`games/${item.slug}`}>
-                <img
-                  loading="lazy"
-                  src={`/images/${item.img}.webp`}
-                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
-                  height={100}
-                  width={100}
-                  alt=""
-                  className="w-64 h-64"
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
+        
 
         <h1 className=" text-white text-3xl py-8 px-1">Action </h1>
 
-        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {Filtered_array(Action).slice(0,7).map((item, index) => (
+        <div className="card grid grid-cols-2 lg:flex lg:flex-wrap">
+          {games.Action.map((item, index) => (
             <div key={index} className="cards px-2 py-2">
               <Link href={`/games/${item.slug}`}>
                 <img
-                  loading="lazy"
+                  loading=""
                   src={`/images/${item.img}.webp`}
                   onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
                   height={100}
                   width={100}
                   alt=""
-                  className="w-64 h-64 cursor-pointer"
+                  className="w-44 h-60 cursor-pointer"
                 />
               </Link>
             </div>
           ))}
-          {/* {Filtered_array(Adventure).slice(0,2).map((item, index) => (
-            <div key={index} className="cards px-2 py-2">
-              <Link href={`/games/${item.slug}`}>
-                <img
-                  loading="lazy"
-                  src={`/images/${item.img}.webp`}
-                  onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
-                  height={100}
-                  width={100}
-                  alt=""
-                  className="w-64 h-64 cursor-pointer"
-                />
-              </Link>
-            </div>
-          ))} */}
+          
 
-          <div></div>
+        </div>
+        <div className="flex justify-center items-center">
+
+          <button onClick={()=>{loadMore('Action')}} className="bg-red-600 px-14 py-4 text-white font-custom font-bold text-sm hover:text-gray-400 shadow-lg  border-b-4 border-red-900  rounded-md my-4 ">Load More</button>
         </div>
 
-        {/* <button className=" ml-[30vw] bg-[#eb2d1c] rounded text-sm text-white lg:ml-[40vw] my-7 py-3 px-8" >Load More</button> */}
-        <h1 className=" text-white text-3xl py-8 px-1">FPS & Horror</h1>
+        <h1 className=" text-white text-3xl py-8 px-1"> Horror</h1>
 
-        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {FPS &&
-            FPS.slice(0,4).map((item, index) => (
-              <div key={index} className="cards px-2 py-2">
-                <Link href={`/games/${item.slug}`}>
-                  <img
-                    loading="lazy"
-                    src={`/images/${item.img}.webp`}
-                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
-                    height={100}
-                    width={100}
-                    alt=""
-                    className="w-64 h-64 cursor-pointer"
-                  />
-                </Link>
-              </div>
-            ))}
+        <div className="cardcontainer grid grid-cols-2 lg:flex  lg:flex-wrap">
+          
+           
           {Horror &&
-            Horror.slice(0,3).map((item, index) => (
+            games.Horror.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
                   <img
@@ -159,33 +137,21 @@ export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,Open
                     height={100}
                     width={100}
                     alt=""
-                    className="w-64 h-64 cursor-pointer"
+                    className="w-44 h-60 cursor-pointer"
                   />
                 </Link>
               </div>
             ))}
-          <div></div>
+        </div>
+            <div className="flex justify-center items-center">
+
+          <button onClick={()=>loadMore('Horror')} className="bg-red-600 px-14 py-4 text-white font-custom font-bold text-sm hover:text-gray-400 shadow-lg  border-b-4 border-red-900  rounded-md my-4 ">Load More</button>
         </div>
         <h1 className=" text-white text-3xl py-8 px-1">Racing</h1>
-        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-nowrap">
-          {/* {RPG &&
-            RPG.slice(0,4).map((item, index) => (
-              <div key={index} className="cards px-2 py-2">
-                <Link href={`/games/${item.slug}`}>
-                  <img
-                    loading="lazy"
-                    src={`/images/${item.img}.webp`}
-                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
-                    height={100}
-                    width={100}
-                    alt=""
-                    className="w-64 h-64 cursor-pointer"
-                  />
-                </Link>
-              </div>
-            ))} */}
+        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-wrap">
+          
           {Racing &&
-            Racing.slice(0,7).map((item, index) => (
+            games.Racing.map((item, index) => (
               <div key={index} className="cards px-2 py-2">
                 <Link href={`/games/${item.slug}`}>
                   <img
@@ -195,15 +161,45 @@ export default function Home({ Action,FPS,Adventure,Horror,Story,Racing,RPG,Open
                     height={100}
                     width={100}
                     alt=""
-                    className="w-64 h-64 cursor-pointer"
+                    className="w-44 h-60 cursor-pointer"
                   />
                 </Link>
               </div>
             ))}
         </div>
+            <div className="flex justify-center items-center">
 
-        {/* <button className=" ml-[30vw] bg-[#eb2d1c] rounded text-sm text-white lg:ml-[40vw] my-7 py-3 px-8" >Load More</button> */}
-      </div>
+          <button onClick={()=>loadMore('Racing')} className="bg-red-600 px-14 py-4 text-white font-custom font-bold text-sm hover:text-gray-400 shadow-lg  border-b-4 border-red-900  rounded-md my-4  ">Load More</button>
+        </div>
+
+
+
+      <h1 className=" text-white text-3xl py-8 px-1">Story</h1>
+        <div className="cardcontainer grid grid-cols-2 lg:flex lg:flex-wrap">
+          
+          {Story &&
+            games.Story.map((item, index) => (
+              <div key={index} className="cards px-2 py-2">
+                <Link href={`/games/${item.slug}`}>
+                  <img
+                    loading="lazy"
+                    src={`/images/${item.img}.webp`}
+                    onError={(e)=>e.target.src=`/images/${item.img}.jpg`}
+                    height={100}
+                    width={100}
+                    alt=""
+                    className="w-44 h-60 cursor-pointer"
+                  />
+                </Link>
+              </div>
+            ))}
+        </div>
+         <div className="flex justify-center items-center">
+
+          <button onClick={()=>loadMore('Story')} className="bg-red-600 px-14 py-4 text-white font-custom font-bold text-sm hover:text-gray-400 shadow-lg  border-b-4 border-red-900  rounded-md my-4 ">Load More</button>
+        </div>
+              </div>
+
     </>
   );
 }
@@ -214,19 +210,17 @@ export async function getServerSideProps(context) {
       "mongodb+srv://Steam:s_unlocked1234@cluster0.ovfam.mongodb.net/"
     );
   }
-  const Action = await game.find({ category: "Action" });
-  const FPS = await game.find({ category: "FPS" });
-  const Story = await game.find({ category: "Story" });
-  const Adventure = await game.find({ category: "Adventure" });
-  const Horror = await game.find({ category: "Horror" });
-  const Racing = await game.find({ category: "Racing" });
-  const RPG = await game.find({ category: "RPG" });
-  const OpenWorld = await game.find({ category: "OpenWorld" });
-  const games = await game.find();
+  const Action = await game.find({ category: "Action" }).limit(6);
+  const FPS = await game.find({ category: "FPS" }).limit(6);
+  const Story = await game.find({ category: "Story" }).limit(6);
+  const Adventure = await game.find({ category: "Adventure" }).limit(6);
+  const Horror = await game.find({ category: "Horror" }).limit(6);
+  const Racing = await game.find({ category: "Racing" }).limit(6);
+  const RPG = await game.find({ category: "RPG" }).limit(6);
+  const OpenWorld = await game.find({ category: "OpenWorld" }).limit(6);
 
   return {
     props: {
-      games: JSON.parse(JSON.stringify(games)),
       Action: JSON.parse(JSON.stringify(Action)),
       FPS: JSON.parse(JSON.stringify(FPS)),
       Story: JSON.parse(JSON.stringify(Story)),

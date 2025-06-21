@@ -2,7 +2,6 @@ import React from 'react'
 import game from '../models/game'
 import Link from 'next/link'
 import PopularGames from '../components/PopularGames'
-import Image from 'next/image'
 
 
 const Horror = ({Horror}) => {
@@ -25,8 +24,8 @@ const Horror = ({Horror}) => {
               <div className={`${index===0 ? 'lg:pt-10':'-mt-20 lg:-mt-4'} `}>
 
           <div className="cards bg-white flex flex-col items-center justify-center mx-4 pb-12  my-3 ">
-            <h1 className='text-black font-bold text-2xl text-center py-6 '>{game.title}</h1>
-            <Image loading="lazy" height={100} width={100} src={`/images/${game.img}.jpg`} alt={game.img} className="w-60 h-80 lg:h-80 lg:w-60 text-white"/>
+            <h1 className='text-black font-bold text-2xl text-center py-6 '>{game.title.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}</h1>
+            <img loading="lazy" height={100} width={100} src={`/images/${game.img}.webp`} onError={(e)=>e.target.src=`/images/${game.img}.jpg`}  alt={game.img} className="w-60 h-80 lg:h-80 lg:w-60 text-white"/>
           </div>
               </div>
               </div></Link>

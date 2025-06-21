@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Index = () => {
   const [price, setPrice] = useState("");
+  const [page,setPage]=useState(1);
+  
   const [id, setId] = useState("");
   const loading = useCheckAdmin();
   const [games, setGames] = useState([]);
@@ -31,9 +33,22 @@ const Index = () => {
   
   useEffect(() => {
   fetchGames();
-}, []);
+}, [page]);
+
+const nextPage=()=>{
+  if(games.length==20){
+
+    setPage(page+1)
+  }else{
+    setPage(1)
+  }
+}
+const prevPage=()=>{
+  if(page!=1)
+  setPage(page-1)
+}
     const fetchGames = async () => {
-      const getgames = await fetch("http://localhost:3000/api/getgames", {
+      const getgames = await fetch(`http://localhost:3000/api/getgames?page=${page}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -406,9 +421,18 @@ await fetchGames()
 
 
 
-      <div className="my-4">
+      <div className="">
+         <div className="flex justify-between items-center">
+
+            <button className="  bg-red-400 w-32" onClick={()=>prevPage()}>PRev</button>
+<span>Page No:{page}</span>
+            <button className=" bg-red-400 w-32" onClick={()=>nextPage()}>NExt</button>
+            </div>
+
         <table className="w-full text-left table-auto border border-black ">
           <thead className="bg-rose-200">
+            
+           
             <tr>
               <th className="border py-2">S.No</th>
               <th className="border py-2">ID</th>
@@ -419,12 +443,13 @@ await fetchGames()
               <th className="border py-2"></th>
             </tr>
           </thead>
+
           <tbody className="bg-rose-50">
             {filtered_arr.map((item,i) => (
               <tr key={item._id}>
 
                 
-                <td className="py-2">{i}</td>
+                <td className="py-2">{i+1}</td>
                 <td className="py-2">{item._id}</td>
                 <td className="py-2">{item.title}</td>
                 <td className="py-2">{item.category}</td>

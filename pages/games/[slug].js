@@ -1,34 +1,90 @@
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import mongoose from "mongoose";
 import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
+import { Router, useRouter } from "next/router";
+import Link from "next/link";
+
 
 const Slug = ({ games }) => {
+  const router=useRouter()
+  const {slug}=router.query
   const [token, setToken] = useState(null);
-  console.log(token)
+  const [comment, setComment] = useState('')
+  const [All_com,setAll_com]=useState([])
+
+
+
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    const savedToken = localStorage.getItem("TOKEN");
-    setToken(savedToken);
-  }
-}, []);
-
-  const addtowishlist=async(slug,title,img,size)=>{
-    const data={token,slug,title,img,size}
-    const wishlist=await fetch('/api/addwishlist',{
-      method:"POST",
+    if (typeof window !== "undefined") {
+      const savedToken = localStorage.getItem("TOKEN");
+      setToken(savedToken);
+    }
+    getComment_api()
+  }, []);
+  
+     const getComment_api=async(req,res)=>{
+    const getComments=await fetch(`/api/getComments?slug=${slug}`,{
+      method:"GET",
       headers:{
-        "Content-Type":"Application/json",
+        "Content-Type":"Application/json"
+      }
 
+    })
+    const response=await getComments.json()
+    setAll_com(response)
+
+  }
+ 
+
+  const HandleCommentSubmit = async (req, res) => {
+    const data = { slug,content:comment }
+    const commentsData = await fetch('/api/addComments', {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${token}`,
       },
       body:JSON.stringify(data)
     })
-    let wishlistRes=await wishlist.json()
-    if(wishlistRes){
+    let response=await commentsData.json()
+    if(response){
+       toast.success('Comment Posted', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setComment('')
+    }
+    getComment_api()
+  }
+
+  const getMonthDifference=(item)=>{
+    const now=new Date()
+    const past=new Date(item)
+    return (now.getFullYear()-past.getFullYear())+"Years "+(now.getMonth()-past.getMonth())+"Months "+(now.getDate()-past.getDate())+"Days Ago"
+  }
+  const addtowishlist = async (slug, title, img, size) => {
+    const data = { token, slug, title, img, size }
+    const wishlist = await fetch('/api/addwishlist', {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+
+      },
+      body: JSON.stringify(data)
+    })
+    let wishlistRes = await wishlist.json()
+    if (wishlistRes) {
 
       toast.success('Successfully Added To Wishlist', {
         position: "top-right",
@@ -37,18 +93,77 @@ const Slug = ({ games }) => {
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
-        progress:undefined,
+        progress: undefined,
         theme: "dark",
       });
     }
   }
-  const new_title=games.title.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ")    
+  const new_title = games.title.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
   const chartRef = useRef(null); // canvas element
   const chartInstanceRef = useRef(null); // Chart instance
+  const secondchartRef = useRef(null); // canvas element
+  const secondchartInstanceRef = useRef(null); // Chart instance
 
+
+
+
+  // FIRST CHART REF
   useEffect(() => {
 
     const canvas = chartRef.current;
+    if (!canvas) return; // Prevent running if canvas not ready
+
+    // Destroy old chart instance if it exists
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+
+    }
+
+    const data = {
+  labels: [
+    'PROCESSOR',
+    'STORAGE',
+    'MEMORY',
+    'OS',
+    'GRAPHICS',
+
+  ],
+  datasets: [{
+    label: 'SYSTEM REQUIREMENTS',
+    data: [10, 9, 4, 7, 8],
+    
+    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderColor: 'rgb(255, 99, 132)',
+   
+  }]
+};
+
+    chartInstanceRef.current = new Chart(canvas, {
+   type: 'radar',
+  data: data,
+  options: {
+    elements: {
+      line: {
+        borderWidth: 3
+      }
+    }
+  },
+    });
+
+    // Cleanup on unmount
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
+    };
+  }, []);
+
+
+
+  // SECOND CHART REF
+  useEffect(() => {
+
+    const canvas =secondchartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
 
     let monthlyData = {};
@@ -77,11 +192,11 @@ const Slug = ({ games }) => {
     });
 
     // Destroy old chart instance if it exists
-    if (chartInstanceRef.current) {
-      chartInstanceRef.current.destroy();
+    if (secondchartInstanceRef.current) {
+      secondchartInstanceRef.current.destroy();
     }
 
-    chartInstanceRef.current = new Chart(canvas, {
+    secondchartInstanceRef.current = new Chart(canvas, {
       type: "bar",
       data: {
         labels: labels,
@@ -90,6 +205,8 @@ const Slug = ({ games }) => {
             label: `Game Price Variation For ${new_title}`,
             data: chart,
             backgroundColor: colors,
+            fill:false,
+            tension:0.3
           },
         ],
       },
@@ -129,11 +246,13 @@ const Slug = ({ games }) => {
 
     // Cleanup on unmount
     return () => {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
+      if (secondchartInstanceRef.current) {
+        secondchartInstanceRef.current.destroy();
       }
     };
   }, []);
+
+
 
   return (
     <>
@@ -154,7 +273,7 @@ const Slug = ({ games }) => {
         {games.length == 0 && <div>no games</div>}
         {games && (
           <div className="text-xs py-3 lg:py-2 ">
-            <strong className="text-slate-400">Home</strong>&rarr;{new_title}
+            <Link href={'/'}><strong className="text-slate-400">Home</strong>&rarr;</Link>{new_title}
           </div>
         )}
       </div>
@@ -183,9 +302,9 @@ const Slug = ({ games }) => {
                     }}
                     alt=""
                   />
-                  <button onClick={()=>{addtowishlist(games.slug,new_title,games.img,games.size)}}
+                  <button onClick={() => { addtowishlist(games.slug, new_title, games.img, games.size) }}
                     className="flex items-center justify-center rounded-lg min-w-72 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0"
-                    
+
                   >
                     Add to Wishlist
 
@@ -233,9 +352,9 @@ const Slug = ({ games }) => {
                 </p>
 
                 <div className="lg:flex items-center justify-center">
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col items-center justify-center ">
                     <a href={`/api/Downloads/${games.slug}`}>
-                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
+                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
                         {new_title}
                         <br />
                         <span>Size:{games.size}</span>
@@ -243,38 +362,39 @@ const Slug = ({ games }) => {
                     </a>
                   </div>
 
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col items-center justify-center ">
                     <a
                       href="https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/"
                       target="_blank"
                     >
-                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
+                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
                         {new_title}
                         <br></br>Steam
                         <span>Price:${games.price}</span>
                       </button>
                     </a>
+                    
                   </div>
+                  
 
-                  <div className="flex flex-col text-center w-full lg:flex items-center ">
-                    <div className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
+                   <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-20 py-[40px] lg:py-[51px] text-center my-4 font-semibold text-[#333] lg:mx-4">
                       Min Price:$
                       {games.priceHistory.length == 0
                         ? games.price
                         : Math.min(
-                            ...games.priceHistory.map((item) => item.value)
-                          )}
+                          ...games.priceHistory.map((item) => item.value)
+                        )}
                       <div className="font-bold cursor-none">
                         Max Price:$
                         {games.priceHistory.length == 0
                           ? games.price
                           : Math.max(
-                              ...games.priceHistory.map((item) => item.value)
-                            )}
+                            ...games.priceHistory.map((item) => item.value)
+                          )}
                       </div>
                     </div>
-                  </div>
-                </div>
+                    </div>
+
 
                 <div className="px-4 text-sm text-[#333] ">
                   <p>
@@ -357,10 +477,11 @@ const Slug = ({ games }) => {
                     alt="Game"
                     className="..."
                   />
-                  {/* <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss1}.webp`} width={650} height={0} alt="" />
-                  <Image className='py-1 px-3 h-40 lg:h-96 ' src={`/images/${games.ss2}.webp`} width={650} height={0} alt="" /> */}
+                  
                 </div>
+                
               </>
+              
             )}
           </div>
         </div>
@@ -377,7 +498,46 @@ const Slug = ({ games }) => {
             }}
           />
         </div>
+        <div className="">
+          <canvas
+            className="lg:relative lg:left-4 lg:top-4 py-2 px-4 bg-black "
+            ref={secondchartRef}
+            style={{
+              height: "300px",
+              width: "100%",
+              maxHeight: "400px",
+              maxWidth: "1080px",
+            }}
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center mx-4">
+          <div className="my-8 text-white font-mono text-2xl">Comments Section
+
+
+          </div>
+          <textarea name="" id="" value={comment} onChange={(e) => { setComment(e.target.value) }} rows={4} className="rounded-md w-full" placeholder="Write Your Comments"></textarea>
+          <button type="submit" onClick={HandleCommentSubmit} className="bg-green-500 px-7 py-2 my-4 rounded-md font-mono">Submit</button>
+        </div>
+
+       
+        
         <PopularGames />
+      </div>
+      <div className="text-center font-mono text-xl">Comments</div>
+      <div className="bg-slate-100">{All_com.length==0?<div className="text-center font-serif text-xl font-bold">No Comments to Show</div>: All_com.map((item)=>(
+
+<div className="bg-black text-white rounded-lg py-4 mb-2 px-4 mx-4">
+
+
+  <span>@{item.userId.name}</span>
+  <br />
+
+  {/* <span>{(new Date().getMonth()+1)-(new Date(item.createdAt).getMonth()+1)} Months</span> */}
+<span>{getMonthDifference(item.createdAt)}</span>
+  <br/>
+  <span>{item.content}</span>
+</div>       
+      ))}
       </div>
     </>
   );
