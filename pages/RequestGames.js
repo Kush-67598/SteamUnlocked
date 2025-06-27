@@ -35,10 +35,10 @@ const RequestGames = () => {
         }
       );
 
-      setLoading(false)
       let response = await RequestedGamesdata.json();
+      setLoading(false)
       if (response.success) {
-        toast.success("Your Request Has been Submitted", {
+        toast.success("Your Request Has been Submitted..Redirecting to HomePage", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: true,
@@ -50,7 +50,10 @@ const RequestGames = () => {
         });
         setEmail("");
         setText("");
-        router.push('/')
+
+        setTimeout(() => {
+          router.push('/')
+        }, 2000);
       }
     } catch (err) {
       toast.error("Internal Server Error", {
