@@ -670,7 +670,6 @@ const Slug = ({ games }) => {
                   <option value="chart1">Chart 1</option>
                   <option value="chart2">Chart 2</option>
                 </select>
-                <div className="w-full min-h-[16rem] max-h-[24rem]" >
                   {chart && (
                     <canvas
                       ref={chartRef}
@@ -683,7 +682,6 @@ const Slug = ({ games }) => {
                       className="bg-black max-h-[15rem] lg:max-h-96"
                     ></canvas>
                   )}
-                </div>
               </>
             )}
           </div>

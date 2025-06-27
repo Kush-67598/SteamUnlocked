@@ -13,6 +13,7 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
     Racing: [...Racing],
     Horror: [...Horror],
     Story: [...Story],
+    FPS:[...FPS],
   });
   const isMobile = useCheckView();
 
@@ -28,6 +29,7 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
     Horror: 2,
     Racing: 2,
     Story: 2,
+    FPS:2
   });
 
   const loadMore = async (category) => {
@@ -146,6 +148,16 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
         <div className="flex justify-center items-center">
           <button
             onClick={() => loadMore("Story")}
+            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
+          >
+            Load More
+          </button>
+        </div>
+        <h1 className="text-white text-3xl py-8 px-1">FPS</h1>
+        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.FPS)}</div>
+        <div className="flex justify-center items-center">
+          <button
+            onClick={() => loadMore("FPS")}
             className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
           >
             Load More
