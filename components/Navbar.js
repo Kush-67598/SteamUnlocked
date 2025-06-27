@@ -186,7 +186,7 @@
           {dropdown && <div onMouseLeave={() => { setDropdown(false) }} onClick={() => { setDropdown(false) }} className='absolute font-extralight rounded-md z-10  bg-[#1c1c1c] text-white border-black border-2 top-44 left-[27.5%] w-28 list-none'>
 
             {dropdownLinks.map((links, index) => (
-              <Link href={links.href} ><li className="  px-6 py-3 hover:text-red-500 hover:transition-all hover:duration-300  rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">{links.label}</li><div className="bg-black h-[0.03rem]"></div></Link>))}
+              <Link href={links.href} ><li key={index} className=" px-6 py-3 hover:text-red-500 hover:transition-all hover:duration-300  rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">{links.label}</li><div className="bg-black h-[0.03rem]"></div></Link>))}
 
           </div>}
 
