@@ -6,61 +6,63 @@ import mongoose from "mongoose";
 import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
-import {useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import Loader from '../../components/Loader'
-
+import Loader from "../../components/Loader";
 
 const Slug = ({ games }) => {
   const [loading, setLoading] = useState(false);
-  const [chart, setChart] = useState(false)
-  const [chart_1, setChart_1] = useState(false)
-  const router = useRouter()
+  const [chart, setChart] = useState(false);
+  const [chart_1, setChart_1] = useState(false);
+  const router = useRouter();
   const [category, setCategory] = useState("General");
-  const { slug } = router.query
+  const { slug } = router.query;
   const [token, setToken] = useState(null);
-  const [comment, setComment] = useState('')
-  const [All_com, setAll_com] = useState([])
+  const [comment, setComment] = useState("");
+  const [All_com, setAll_com] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedToken = localStorage.getItem("TOKEN");
       setToken(savedToken);
     }
-    getComment_api()
+    getComment_api();
   }, []);
 
   const getComment_api = async (req, res) => {
-    const getComments = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Get/getComments?slug=${slug}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "Application/json"
+    const getComments = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/api/Get/getComments?slug=${slug}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "Application/json",
+        },
       }
-
-    })
-    const response = await getComments.json()
-    setAll_com(response)
-
-  }
-
+    );
+    const response = await getComments.json();
+    setAll_com(response);
+  };
 
   const HandleCommentSubmit = async (req, res) => {
-    setLoading(true)
+    setLoading(true);
 
-    const data = { slug, content: comment, category }
-    const commentsData = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addComments`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "Application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data)
-    })
-    let response = await commentsData.json()
-    setLoading(false)
+    const data = { slug, content: comment, category };
+    const commentsData = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/api/Add/addComments`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    let response = await commentsData.json();
+    setLoading(false);
 
     if (response) {
-      toast.success('Comment Posted', {
+      toast.success("Comment Posted", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: true,
@@ -70,96 +72,87 @@ const Slug = ({ games }) => {
         progress: undefined,
         theme: "dark",
       });
-      setComment('')
+      setComment("");
     }
-    getComment_api()
-  }
+    getComment_api();
+  };
 
   const getMonthDifference = (item) => {
-    const now = new Date()  //this is current date means Todays Date 
-    const past = new Date(item) ///This is the Date from Database for comparison 
+    const now = new Date(); //this is current date means Todays Date
+    const past = new Date(item); ///This is the Date from Database for comparison
     let years = now.getFullYear() - past.getFullYear();
     let months = now.getMonth() - past.getMonth();
     let days = now.getDate() - past.getDate();
 
     if (months < 0) {
-      years--
+      years--;
       months = months + 12;
     }
 
-
     if (days < 0) {
-      months--
+      months--;
 
       const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
       days += prevMonth.getDate(); // ← dynamic & always accurate
-
     }
     if (months == 0 && years == 0) {
-      return ` ${days} Days Ago`
-    }
-    else if (months == 0) {
-      return `${years} Years ${days}Days Ago`
-    }
-    else if (years == 0) {
-      return `${months} Months ${days}Days Ago`
+      return ` ${days} Days Ago`;
+    } else if (months == 0) {
+      return `${years} Years ${days}Days Ago`;
+    } else if (years == 0) {
+      return `${months} Months ${days}Days Ago`;
     }
 
-    return `${years}Years ${months}Months ${days}Days Ago`
-  }
+    return `${years}Years ${months}Months ${days}Days Ago`;
+  };
   const addtowishlist = async (slug, title, img, size) => {
-
-    
-    try{
-
-    
-    const data = { slug, title, img, size }
-    setLoading(true)
-    const wishlist = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addwishlist`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "Application/json",
-        "Authorization":`Bearer ${token} `
-
-      },
-      body: JSON.stringify(data)
-    })
-    setLoading(false)
-    let wishlistRes = await wishlist.json()
-    if (wishlistRes) {
-
-      toast.success('Successfully Added To Wishlist', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    try {
+      const data = { slug, title, img, size };
+      setLoading(true);
+      const wishlist = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/api/Add/addwishlist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token} `,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      setLoading(false);
+      let wishlistRes = await wishlist.json();
+      if (wishlistRes) {
+        toast.success("Successfully Added To Wishlist", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch {
+      toast.error("Failed to Add it to Wishlist");
+    } finally {
+      setLoading(false);
     }
-  }catch{
-    toast.error("Failed to Add it to Wishlist")
-  }finally{
-    setLoading(false)
-  }
-  }
-  const new_title = games.title.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+  };
+  const new_title = games.title
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   const chartRef = useRef(null); // canvas element
   const chartInstanceRef = useRef(null); // Chart instance
   const secondchartRef = useRef(null); // canvas element
   const secondchartInstanceRef = useRef(null); // Chart instance
 
-
-
-
-
-
   // First Chart Data for processor ram etc
   const valueMap = [
     {
-      "Processor": {
+      Processor: {
         dualcore: 1,
         i3: 3,
         i5: 5,
@@ -168,7 +161,7 @@ const Slug = ({ games }) => {
         ryzen7: 10,
         i9: 10,
       },
-      "Ram": {
+      Ram: {
         "2gb": 3,
         "4gb": 5,
         "6gb": 7,
@@ -176,7 +169,7 @@ const Slug = ({ games }) => {
         "16gb": 10,
       },
 
-      "Storage": {
+      Storage: {
         "10gb": 1,
         "12.45gb": 2,
         "20gb": 3,
@@ -185,16 +178,16 @@ const Slug = ({ games }) => {
         "50gb": 9,
         "60gb": 10,
       },
-      "OS": {
+      OS: {
         "windows xp": 1,
         "windows vista": 2,
         "windows 7": 3,
         "windows 8": 4,
         "windows 8.1": 5,
         "windows 10": 6,
-        "windows 11": 7
+        "windows 11": 7,
       },
-      "Graphics": {
+      Graphics: {
         "intel hd graphics": 2,
         "intel uhd graphics": 3,
         "intel iris xe": 5,
@@ -205,48 +198,49 @@ const Slug = ({ games }) => {
         "nvidia rtx 3060": 10,
         "amd radeon vega 8": 5,
         "amd rx 580": 7,
-        "amd rx 6600": 9
-      }
-    }]
+        "amd rx 6600": 9,
+      },
+    },
+  ];
 
   // FIRST CHART REF
   useEffect(() => {
-      if (!chart) return; // Don't render chart unless chart is active
+    if (!chart) return; // Don't render chart unless chart is active
 
-    const size_Data = () => valueMap[0].Storage[games.size] || 7
+    const size_Data = () => valueMap[0].Storage[games.size] || 7;
 
     const RamData = () => {
-      const str = games.memory.toLowerCase()  //windowsxp:1gbram/windowsvista:2gbram
-      const ramkeys = Object.keys(valueMap[0]['Ram'])  //["2gb","4gb","8gb","16gb"]
-      const found = ramkeys.find(key => str.includes(key.toLowerCase()))
-      const Ram = found ? valueMap[0].Ram[found] : 5
-      return Ram
-    }
+      const str = games.memory.toLowerCase(); //windowsxp:1gbram/windowsvista:2gbram
+      const ramkeys = Object.keys(valueMap[0]["Ram"]); //["2gb","4gb","8gb","16gb"]
+      const found = ramkeys.find((key) => str.includes(key.toLowerCase()));
+      const Ram = found ? valueMap[0].Ram[found] : 5;
+      return Ram;
+    };
 
     const Processor_Data = () => {
-      const str = games.processor.toLowerCase()
-      const processorkeys = Object.keys(valueMap[0]['Processor'])
-      const found = processorkeys.find(key => str.includes(key.toLowerCase()))
-      const processor = found ? valueMap[0].Processor[found] : 4
-      return processor
-    }
+      const str = games.processor.toLowerCase();
+      const processorkeys = Object.keys(valueMap[0]["Processor"]);
+      const found = processorkeys.find((key) =>
+        str.includes(key.toLowerCase())
+      );
+      const processor = found ? valueMap[0].Processor[found] : 4;
+      return processor;
+    };
 
     const OS_Data = () => {
-      const str = games.os.toLowerCase()
-      const OSkeys = Object.keys(valueMap[0]['OS'])
-      const found = OSkeys.find(key => str.includes(key.toLowerCase()))
-      const OS = found ? valueMap[0].OS[found] : 4
-      return OS
-
-    }
+      const str = games.os.toLowerCase();
+      const OSkeys = Object.keys(valueMap[0]["OS"]);
+      const found = OSkeys.find((key) => str.includes(key.toLowerCase()));
+      const OS = found ? valueMap[0].OS[found] : 4;
+      return OS;
+    };
     const Graphics_Data = () => {
-      const str = games.graphics.toLowerCase()
-      const Graphicskeys = Object.keys(valueMap[0]['Graphics'])
-      const found = Graphicskeys.find(key => str.includes(key.toLowerCase()))
-      const Graphics = found ? valueMap[0].Graphics[found] : 4
-      return Graphics
-
-    }
+      const str = games.graphics.toLowerCase();
+      const Graphicskeys = Object.keys(valueMap[0]["Graphics"]);
+      const found = Graphicskeys.find((key) => str.includes(key.toLowerCase()));
+      const Graphics = found ? valueMap[0].Graphics[found] : 4;
+      return Graphics;
+    };
 
     const canvas = chartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
@@ -254,34 +248,33 @@ const Slug = ({ games }) => {
     // Destroy old chart instance if it exists
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
-
     }
 
     const data = {
-      labels: [
-        'PROCESSOR',
-        'SIZE',
-        'MEMORY',
-        'OS',
-        'GRAPHICS',
-
+      labels: ["PROCESSOR", "SIZE", "MEMORY", "OS", "GRAPHICS"],
+      datasets: [
+        {
+          label: "SCORE BASED ON SYSTEM REQUIREMENTS",
+          data: [
+            Processor_Data(),
+            size_Data(),
+            RamData(),
+            OS_Data(),
+            Graphics_Data(),
+          ],
+          backgroundColor: "transparent",
+          borderColor: "fuchsia",
+        },
       ],
-      datasets: [{
-        label: 'SCORE BASED ON SYSTEM REQUIREMENTS',
-        data: [Processor_Data(), size_Data(), RamData(), OS_Data(), Graphics_Data()],
-        backgroundColor: 'transparent',
-        borderColor: 'fuchsia',
-
-      }]
     };
 
     chartInstanceRef.current = new Chart(canvas, {
-      type: 'line',
+      type: "line",
       data,
       options: {
         responsive: true,
         interaction: {
-          mode: 'nearest',
+          mode: "nearest",
           intersect: false,
         },
         elements: {
@@ -322,9 +315,8 @@ const Slug = ({ games }) => {
             },
           },
         },
-      }
+      },
     });
-
 
     // Cleanup on unmount
     return () => {
@@ -334,11 +326,9 @@ const Slug = ({ games }) => {
     };
   }, [chart]);
 
-
-
   // SECOND CHART REF
   useEffect(() => {
-      if (!chart_1) return; // Don't render chart unless chart is active
+    if (!chart_1) return; // Don't render chart unless chart is active
 
     const canvas = secondchartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
@@ -350,7 +340,6 @@ const Slug = ({ games }) => {
       const monthKey = `${date.getUTCFullYear()}-${date.getUTCMonth()}`; // e.g., "2024-0" for Jan 2024
       monthlyData[monthKey] = item; // overwrites with the last entry of that month
     });
-
 
     const chart = Object.values(monthlyData).map((item) => item.value);
     const labels = Object.values(monthlyData).map((item) => {
@@ -368,7 +357,6 @@ const Slug = ({ games }) => {
       return `rgba(${r},${g},${b},0.8)`;
     });
 
-
     // Destroy old chart instance if it exists
     if (secondchartInstanceRef.current) {
       secondchartInstanceRef.current.destroy();
@@ -384,7 +372,7 @@ const Slug = ({ games }) => {
             data: chart,
             backgroundColor: colors,
             fill: false,
-            tension: 0.3
+            tension: 0.3,
           },
         ],
       },
@@ -430,8 +418,6 @@ const Slug = ({ games }) => {
     };
   }, [chart_1]);
 
-
-
   return (
     <>
       <ToastContainer
@@ -451,12 +437,14 @@ const Slug = ({ games }) => {
         {games.length == 0 && <div>no games</div>}
         {games && (
           <div className="text-xs py-5 lg:py-2 ">
-            <Link href={'/'}><strong className="text-slate-400">Home</strong>&rarr;</Link>{new_title}
+            <Link href={"/"}>
+              <strong className="text-slate-400">Home</strong>&rarr;
+            </Link>
+            {new_title}
           </div>
         )}
       </div>
       {loading && <Loader />}
-
 
       <div className="bg-[#222] lg:py-6 lg:pl-20  flex flex-col ">
         <div className=" bg-white mx-4 lg:w-2/3">
@@ -482,12 +470,22 @@ const Slug = ({ games }) => {
                     }}
                     alt=""
                   />
-                  <button onClick={() => { addtowishlist(games.slug, new_title, games.img, games.size) }}
+                  <button
+                    onClick={() => {
+                      if (!token) {
+                        toast.error("Token missing — please log in again");
+                        return;
+                      }
+                      addtowishlist(
+                        games.slug,
+                        new_title,
+                        games.img,
+                        games.size
+                      );
+                    }}
                     className="flex items-center justify-center rounded-md min-w-56 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-56 lg:ml-0"
-
                   >
                     Add to Wishlist
-
                     <FaHeart className="ml-2 text-lg" />{" "}
                   </button>
                 </div>
@@ -553,28 +551,25 @@ const Slug = ({ games }) => {
                         <span>Price:${games.price}</span>
                       </button>
                     </a>
-
                   </div>
-
 
                   <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-20 py-[6.19dvh] lg:py-[7.8dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
                     Min Price:$
                     {games.priceHistory.length == 0
                       ? games.price
                       : Math.min(
-                        ...games.priceHistory.map((item) => item.value)
-                      )}
+                          ...games.priceHistory.map((item) => item.value)
+                        )}
                     <div className="font-bold cursor-none">
                       Max Price:$
                       {games.priceHistory.length == 0
                         ? games.price
                         : Math.max(
-                          ...games.priceHistory.map((item) => item.value)
-                        )}
+                            ...games.priceHistory.map((item) => item.value)
+                          )}
                     </div>
                   </div>
                 </div>
-
 
                 <div className="px-4 text-sm text-[#333] ">
                   <p>
@@ -657,39 +652,49 @@ const Slug = ({ games }) => {
                     alt="Game"
                     className="..."
                   />
-
                 </div>
 
-
-
-                 <select name="" id="" className="bg-gray-800 text-white py-2 w-full px-12 ">
-
-                  <option onClick={() => { setChart(true), setChart_1(false) }}>Chart1</option>
-                  <option onClick={() => { setChart(false), setChart_1(true) }}>Chart 2</option>
+                <select
+                  name=""
+                  id=""
+                  className="bg-gray-800 text-white py-2 w-full px-12 "
+                >
+                  <option
+                    onClick={() => {
+                      setChart(true), setChart_1(false);
+                    }}
+                  >
+                    Chart1
+                  </option>
+                  <option
+                    onClick={() => {
+                      setChart(false), setChart_1(true);
+                    }}
+                  >
+                    Chart 2
+                  </option>
                 </select>
 
-
-                {
-                  chart && <canvas ref={chartRef} className="bg-black min-h-[15rem] lg:max-h-96 "></canvas>
-
-                }
-                {
-                  chart_1 && <canvas ref={secondchartRef}
-                    className="bg-black max-h-[15rem] lg:max-h-96"></canvas>
-
-                }
-               
+                {chart && (
+                  <canvas
+                    ref={chartRef}
+                    className="bg-black min-h-[15rem] lg:max-h-96 "
+                  ></canvas>
+                )}
+                {chart_1 && (
+                  <canvas
+                    ref={secondchartRef}
+                    className="bg-black max-h-[15rem] lg:max-h-96"
+                  ></canvas>
+                )}
               </>
-
             )}
           </div>
         </div>
 
-
-
-
         <div className="flex flex-col justify-center items-center mx-4">
-          <div className="my-8 text-white  text-center text-lg lg:w-[87vw] lg:mr-20">Comments Section
+          <div className="my-8 text-white  text-center text-lg lg:w-[87vw] lg:mr-20">
+            Comments Section
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -700,48 +705,77 @@ const Slug = ({ games }) => {
               <option value="Suggestion">💡 Suggestion</option>
               <option value="Fix Needed">🔧 Fix Needed</option>
             </select>
-
-            <textarea name="" id="" value={comment} onChange={(e) => { setComment(e.target.value) }} rows={6} className="min-h-16 rounded-md w-full text-black" placeholder="Write Your Comments"></textarea>
-            <button type="submit" onClick={HandleCommentSubmit} className="bg-green-500 px-7 py-2 my-4 rounded-md ">Submit</button>
+            <textarea
+              name=""
+              id=""
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
+              rows={6}
+              className="min-h-16 rounded-md w-full text-black"
+              placeholder="Write Your Comments"
+            ></textarea>
+            <button
+              type="submit"
+              onClick={HandleCommentSubmit}
+              className="bg-green-500 px-7 py-2 my-4 rounded-md "
+            >
+              Submit
+            </button>
           </div>
         </div>
-
       </div>
 
-      <div className="text-center bg-zinc-500  text-white font-bold  text-2xl py-3">Comments</div>
-      <div className=" bg-zinc-500 py-2">{All_com.length == 0 ? <div className="text-center text-xl font-bold">No Comments to Show</div> : All_com.map((item) => {
-        const categoryColors = {
-          "Bug": "text-red-500",
-          "General": "text-blue-500",
-          "Suggestion": "text-green-500",
-          "Fix Needed": "text-yellow-400",
-        };
-        const color = categoryColors[item.category]
-        return <div key={item._id} className=" flex flex-col bg-black text-white rounded-lg py-4 mb-4 px-4 mx-4">
-
-
-          <div className="flex">
-            <div className="h-16 w-16">
-              <div className={`h-16 w-16 rounded-xl bg-lime-300 flex items-center justify-center text-3xl font-bold `}>
-                {item.userId.name[0].toUpperCase()}
-              </div>
-            </div>
-
-
-            <div className="flex-col flex px-6">
-
-              <span className="text-fuchsia-500 font-semibold">@{item.userId.name}</span>
-              <span className={`${color} font-semibold`}>{item.category}</span>
-
-              <span>{item.content}</span>
-              <p className="text-gray-600">{getMonthDifference(item.createdAt)}</p>
-            </div>
-
+      <div className="text-center bg-zinc-500  text-white font-bold  text-2xl py-3">
+        Comments
+      </div>
+      <div className=" bg-zinc-500 py-2">
+        {All_com.length == 0 ? (
+          <div className="text-center text-xl font-bold">
+            No Comments to Show
           </div>
+        ) : (
+          All_com.map((item) => {
+            const categoryColors = {
+              Bug: "text-red-500",
+              General: "text-blue-500",
+              Suggestion: "text-green-500",
+              "Fix Needed": "text-yellow-400",
+            };
+            const color = categoryColors[item.category];
+            return (
+              <div
+                key={item._id}
+                className=" flex flex-col bg-black text-white rounded-lg py-4 mb-4 px-4 mx-4"
+              >
+                <div className="flex">
+                  <div className="h-16 w-16">
+                    <div
+                      className={`h-16 w-16 rounded-xl bg-lime-300 flex items-center justify-center text-3xl font-bold `}
+                    >
+                      {item.userId.name[0].toUpperCase()}
+                    </div>
+                  </div>
 
+                  <div className="flex-col flex px-6">
+                    <span className="text-fuchsia-500 font-semibold">
+                      @{item.userId.name}
+                    </span>
+                    <span className={`${color} font-semibold`}>
+                      {item.category}
+                    </span>
 
-        </div>
-      })}
+                    <span>{item.content}</span>
+                    <p className="text-gray-600">
+                      {getMonthDifference(item.createdAt)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
         <div className="lg:w-1/4">
           <PopularGames />
         </div>
@@ -757,7 +791,6 @@ export async function getServerSideProps({ params }) {
   }
   const { slug } = params;
   const games = await game.findOne({ slug });
-
 
   return {
     props: {

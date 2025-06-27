@@ -1,12 +1,12 @@
 import React from 'react'
-import { MutatingDots } from 'react-loader-spinner'
+import { DNA } from 'react-loader-spinner'
 
 
 const Loader = () => {
   return (
     <>
       <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-70">
-                    <MutatingDots
+                    <DNA
                       visible={true}
                       height="100"
                       width="100"
