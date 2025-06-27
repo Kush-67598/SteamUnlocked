@@ -13,8 +13,9 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
     Racing: [...Racing],
     Horror: [...Horror],
     Story: [...Story],
-    FPS:[...FPS],
+    FPS: [...FPS],
   });
+
   const isMobile = useCheckView();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
     Horror: 2,
     Racing: 2,
     Story: 2,
-    FPS:2
+    FPS: 2,
   });
 
   const loadMore = async (category) => {
@@ -52,22 +53,49 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
     setText(e.target.value);
   };
 
-  const renderGameCards = (categoryGames) =>
-    categoryGames.map((item, index) => (
-      <div key={index} className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in">
-        <Link href={`/games/${item.slug}`}>
-          <img
-            loading="lazy"
-            src={`/images/${item.img}.webp`}
-            onError={(e) => (e.target.src = `/images/${item.img}.jpg`)}
-            height={100}
-            width={100}
-            alt={item.title || "game image"}
-            className="w-44 h-60 cursor-pointer rounded-lg"
-          />
-        </Link>
-      </div>
-    ));
+  const renderCategorySection = (categoryName, categoryGames) => {
+    const filtered = categoryGames.filter((item) =>{
+
+      const title=item.title.toLowerCase()
+      const search=text.toLowerCase().trim()
+      return search.split(' ').every((word=>title.includes(word)))
+    });  
+
+    if (text && filtered.length === 0) return null;
+    return (
+      <>
+        <h1 className="text-white text-3xl py-8 px-1">{categoryName}</h1>
+        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">
+          {filtered.map((item, index) => (
+            <div key={index} className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in">
+              <Link href={`/games/${item.slug}`}>
+                <img
+                  loading="lazy"
+                  src={`/images/${item.img}.webp`}
+                  onError={(e) => (e.target.src = `/images/${item.img}.jpg`)}
+                  height={100}
+                  width={100}
+                  alt={item.title || "game image"}
+                  className="w-44 h-60 cursor-pointer rounded-lg"
+                />
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {text === "" && (
+          <div className="flex justify-center items-center">
+            <button
+              onClick={() => loadMore(categoryName)}
+              className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
+            >
+              Load More
+            </button>
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
@@ -106,63 +134,12 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
           className="focus:outline-none rounded-lg mt-12 mx-8 w-72 lg:w-[68vw] lg:mx-2 h-12 px-10 lg:-mt-1"
         />
 
-        {/* Action */}
-        <h1 className="text-white text-3xl py-8 px-1">Action</h1>
-        <div className="card grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.Action)}</div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => loadMore("Action")}
-            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
-          >
-            Load More
-          </button>
-        </div>
-
-        {/* Horror */}
-        <h1 className="text-white text-3xl py-8 px-1">Horror</h1>
-        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.Horror)}</div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => loadMore("Horror")}
-            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
-          >
-            Load More
-          </button>
-        </div>
-
-        {/* Racing */}
-        <h1 className="text-white text-3xl py-8 px-1">Racing</h1>
-        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.Racing)}</div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => loadMore("Racing")}
-            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
-          >
-            Load More
-          </button>
-        </div>
-
-        {/* Story */}
-        <h1 className="text-white text-3xl py-8 px-1">Story</h1>
-        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.Story)}</div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => loadMore("Story")}
-            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
-          >
-            Load More
-          </button>
-        </div>
-        <h1 className="text-white text-3xl py-8 px-1">FPS</h1>
-        <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">{renderGameCards(games.FPS)}</div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => loadMore("FPS")}
-            className="bg-red-600 px-14 py-4 text-white font-bold text-sm hover:text-gray-400 shadow-lg border-b-4 border-red-900 rounded-md my-4"
-          >
-            Load More
-          </button>
-        </div>
+        {/* Render categories */}
+        {renderCategorySection("Action", games.Action)}
+        {renderCategorySection("Horror", games.Horror)}
+        {renderCategorySection("Racing", games.Racing)}
+        {renderCategorySection("Story", games.Story)}
+        {renderCategorySection("FPS", games.FPS)}
       </div>
     </>
   );

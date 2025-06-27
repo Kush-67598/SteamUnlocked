@@ -9,8 +9,16 @@ const Wishlist = () => {
   const [text, setText] = useState("");
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  
 
   const [wishlist, setWishlist] = useState([]);
+
+  const filteredWishlist=wishlist.filter((item)=>{
+
+    return item.title.toLowerCase().includes(text.toLowerCase())
+  }
+  )
+  console.log(filteredWishlist)
   const HandleChange = (e) => {
     setText(e.target.value);
   };
@@ -116,7 +124,7 @@ const Wishlist = () => {
             </div>
           )}
 
-          {wishlist.map((item, index) => (
+          {filteredWishlist.map((item, index) => (
             <div key={index} className="flex items-center pt-4 px-1 lg:mx-36">
               <img
                 loading="lazy"
