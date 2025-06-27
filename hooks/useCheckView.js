@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import react from "react";
 const useCheckView = (breakpoint = 768) => {
   const [isMobile, setIsMobile] = useState(false);
 

@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Loader from '../components/Loader';
-import Link from 'next/link'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 
-const resetPassword = () => {
+const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [starttimer, setStarttimer] = useState(false)
@@ -297,4 +296,4 @@ const resetPassword = () => {
   )
 }
 
-export default resetPassword
+export default ResetPassword
