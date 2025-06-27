@@ -42,7 +42,7 @@ const Horror = ({Horror}) => {
     </>
   )
 }
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   let Horror = await game.find({ category: "Horror" })
   return {
     props: { Horror: JSON.parse(JSON.stringify(Horror)) }, // will be passed to the page component as props
