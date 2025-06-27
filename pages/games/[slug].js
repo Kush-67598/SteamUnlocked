@@ -113,12 +113,13 @@ const Slug = ({ games }) => {
     try{
 
     
-    const data = { token, slug, title, img, size }
+    const data = { slug, title, img, size }
     setLoading(true)
     const wishlist = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addwishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
+        "Authorization":`Bearer ${token} `
 
       },
       body: JSON.stringify(data)

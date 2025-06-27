@@ -5,7 +5,8 @@ const handler = async (req, res) => {
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
 
-  const { token, slug, title, img, size } = req.body;
+  const token=req.headers.authorization?.split(' ')[1]
+  const { slug, title, img, size } = req.body;
 
   const decoded = jwt.verify(token, "jwtsecret");
   const userEmail = decoded.email;
