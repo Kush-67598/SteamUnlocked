@@ -1,421 +1,226 @@
-import Image from "next/image";
-import Link from "next/link";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { FaHeart } from "react-icons/fa";
-import { TbLogout } from "react-icons/tb";
+  import Image from "next/image";
+  import Link from "next/link";
+  import { FaHeart } from "react-icons/fa";
+  import { TbLogout } from "react-icons/tb";
+  import useCheckView from "../hooks/useCheckView";
+  import { useEffect, useState } from "react";
+  import { Router, useRouter } from "next/router";
+  import 'react-toastify/dist/ReactToastify.css';
+  import { toast, ToastContainer } from "react-toastify";
 
-const Navbar = () => {
-  const [dropdown, setDropdown] = useState(false);
-  const [dropdownmobile, setDropdownmobile] = useState(false);
 
-  const removeToken = () => {
-    toast.success("Successfully Logged Out", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-    localStorage.clear();
-    setTimeout(() => {
-      router.push("/login");
-    }, 1500);
-  };
-  const router = useRouter();
 
-  const HomePage = router.pathname == "/";
-  const loginPage = router.pathname == "/login";
-  const signupPage = router.pathname == "/Signup";
-  const reqgamesPage = router.pathname == "/RequestGames";
-  if (loginPage || signupPage)
+
+  const Navbar = () => {
+
+    const logout = () => {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("TOKEN")
+        toast.success('Successfully Logged Out', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setTimeout(() => {
+          router.push('/login')
+        }, 1000)
+
+      }
+
+
+    }
+
+
+    const router = useRouter()
+    const categoryPaths = ["/Action", "/RPG", "/FPS", "/Horror", "/Racing", "/Story"];
+    const isCategoryPage = categoryPaths.includes(router.pathname);
+
+    const loginPage = router.pathname == '/login'
+    const HomePage = router.pathname == '/'
+    const SlugPage = router.pathname == '/games/[slug]'
+    const AllGamesPage = router.pathname == '/AllGames'
+    const WishlistPage = router.pathname == '/Wishlist'
+    const RequestGames = router.pathname == '/RequestGames'
+
+    const signUpPage = router.pathname == '/Signup'
+
+
+    const navLinks = [
+      { label: "Home", href: "/" },
+      { label: "All Games(A-Z)", href: "/AllGames" },
+      { label: "Categories", href: "#", isDropdown: true },
+      { label: "Contact Us", href: "/Contact" },
+      { label: "FAQ", href: "/" },
+      { label: "Help", href: "/Help" },
+      { label: "Invalid Games List", href: "/" },
+      { label: "Latest News", href: "/" },
+      { label: "Request Games", href: "/RequestGames" },
+      { label: "Request Updates", href: "/" },
+    ];
+    const dropdownLinks = [
+      { label: "Action", href: "/Action" },
+      { label: "RPG", href: "/RPG", },
+      { label: "FPS", href: "/FPS" },
+      { label: "HORROR", href: "/Horror" },
+      { label: "RACING", href: "/Racing" },
+      { label: "STORY", href: "/Story" },
+
+    ];
+
+
+
+    const [dropdownmobile, setDropdownmobile] = useState(false)
+
+    const [dropdown, setDropdown] = useState(false)
+
+    const isMobile = useCheckView();
     return (
-      <Image
-        width={250}
-        height={100}
-        className="absolute left-2 top-6 lg:left-20 cursor-pointer"
-        src="/images/steam-unlocked-logo.webp"
-        onClick={() => {
-          router.push("/");
-        }}
-        alt=""
-      />
-    );
 
-  return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <>
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {isMobile && (HomePage || SlugPage || AllGamesPage || WishlistPage || isCategoryPage || RequestGames) && !(loginPage || signUpPage) ? (
+          <div className={`relative  ${isCategoryPage ? 'py-[0.1rem]' : "h-[10vh]"}  bg-black w-full`}>
 
-      <div className="relative font-custom">
-        {HomePage && (
-          <div>
+            <div className="h-full w-full flex items-center justify-between px-6  text-white">
+              {/* Logo */}
+              <Image
+                src="/images/steam-unlocked-logo.webp"
+                alt="Logo"
+                width={200}
+                height={80}
+                className="h-auto -ml-3 -mt-1"
+                priority
+                onClick={() => router.push('/')}
+
+              />
+
+              {/* Nav Actions */}
+              <div className="flex gap-6 items-center text-lg">
+                <Link href="/Wishlist">
+                  <div className="cursor-pointer hover:text-red-400 transition">Wishlist</div>
+                </Link>
+                <FaHeart className="text-red-500 text-xl" />
+                <button className="hover:text-gray-300 transition">
+                  <TbLogout size={24} onClick={() => { logout() }} />
+                </button>
+              </div>
+
+
+            </div>
+            {(HomePage || SlugPage || AllGamesPage || WishlistPage || isCategoryPage) && !(loginPage || signUpPage) && (
+
+              <div className="text-white bg-red-600 py-2  flex  items-center justify-center " >
+                <div className="flex flex-col justify-center items-center min-w-16  bg-gray-800 py-3 rounded-md mx-36" onClick={() => { setDropdownmobile(!dropdownmobile) }}>
+                  <div className="bg-white h-1 w-6 my-[0.10rem] "></div>
+                  <div className="bg-white h-1 w-6 my-[0.10rem] "></div>
+                  <div className="bg-white h-1 w-6 my-[0.10rem] "></div>
+                </div>
+
+              </div>
+            )}
+            {dropdownmobile && <div className=' border-black border-[1px] rounded-md bg-gray-900 text-white top-16 w-[100vw] list-none z-[9999]'>
+              {navLinks.map((links, index) => (
+                <Link href={links.href} ><li key={index} onClick={() => setDropdownmobile(false)} className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">{links.label}</li></Link>
+              ))}
+
+
+
+            </div>
+            }
+          </div>
+
+        ) : ((HomePage || SlugPage || AllGamesPage || WishlistPage || isCategoryPage) && <div className={`relative ${HomePage ? "h-[85vh]" : SlugPage ? 'h-[27vh]' : AllGamesPage || WishlistPage ? 'h-[40vh]' : isCategoryPage ? 'h-[44vh]' : ""} w-full`}>
+          {/* Background image */}
+          <Image
+            src="/steamunlocked-bg.jpg"
+            alt="Background"
+            fill
+            className="object-cover object-center -z-10"
+            priority
+          />
+          {/* Content over image */}
+
+
+          <div className="h-full w-full flex items-baseline justify-between text-white">
             <Image
-              width={250}
-              height={100}
-              className="absolute left-2 top-6 lg:left-20 cursor-pointer"
               src="/images/steam-unlocked-logo.webp"
-              onClick={() => {
-                router.push("/");
-              }}
-              alt=""
+              alt="Logo"
+              width={230}
+              height={120}
+              className="ml-20 "
+              priority
             />
 
-            <div className="absolute flex items-center gap-1 top-[51px] left-[65vw] lg:left-[85vw] cursor-pointer">
-              <span
-                className="text-white font-bold text-lg mx-2"
-                onClick={() => {
-                  router.push("/Wishlist");
-                }}
-              >
-                Wishlist
-              </span>
+            {/* Nav Actions */}
+            <div className="flex gap-6 items-center text-lg mx-4">
+              <Link href="/Wishlist">
+                <div className="cursor-pointer hover:text-red-400 transition">Wishlist</div>
+              </Link>
               <FaHeart className="text-red-500 text-xl" />
-              <button
-                className="text-white text-2xl mx-2 rounded-md lg:px-3 lg:mx-1 "
-                onClick={removeToken}
-              >
-                <TbLogout />
-                </button>
-            </div>
-
-            <Image
-              width={1000}
-              height={1}
-              src="/images/steamunlocked-bg.webp"
-              alt=""
-              className="h-[65svh] w-full lg:h-[85vh] "
-              priority={true}
-            />
-          </div>
-        )}
-        {!HomePage && (
-          <div className="">
-            <Image
-              width={250}
-              height={1}
-              className="absolute lg:left-20 top-6 cursor-pointer"
-              src="/images/steam-unlocked-logo.webp"
-              alt=""
-              onClick={() => {
-                router.push("/");
-              }}
-            />
-            <Image
-              width={1000}
-              height={1}
-              src="/images/steamunlocked-bg.webp"
-              alt=""
-              className="h-[19svh] w-full lg:h-[37vh] object-cover object-top "
-            />
-            <div
-              className="absolute flex items-center gap-1 top-[51px] left-[65vw] lg:left-[85vw] cursor-pointer"
-              onClick={() => {
-                router.push("/Wishlist");
-              }}
-            >
-              <span
-                className="text-white font-bold text-lg mx-2"
-                onClick={() => {
-                  router.push("/Wishlist");
-                }}
-              >
-                Wishlist
-              </span>
-              <FaHeart className="text-red-500 text-xl"  />
-              <button
-                className="text-white text-2xl mx-2 rounded-md lg:px-3 lg:mx-1 "
-                onClick={removeToken}
-              >
-                <TbLogout />
-                </button>
+              <button className="hover:text-gray-300 transition">
+                <TbLogout size={24} onClick={() => { logout() }} />
+              </button>
             </div>
           </div>
-        )}
 
-        {signupPage && loginPage && (
-          <div className="font-custom">
-            <Image
-              width={100}
-              height={100}
-              className="absolute left-20 top-6 cursor-pointer"
-              src="/images/steam-unlocked-logo.webp"
-              alt=""
-              onClick={() => {
-                router.push("/");
-              }}
-            />
-            <Image
-              width={100}
-              height={100}
-              src="/images/steamunlocked-bg.webp"
-              alt=""
-              className=" w-full lg:h-[37vh] "
-            />
-          </div>
-        )}
 
-        {reqgamesPage && HomePage && signupPage && loginPage && (
-          <div className="font-custom">
-            <Image
-              width={100}
-              height={100}
-              className="absolute left-20 top-6 cursor-pointer"
-              src="/images/steam-unlocked-logo.webp"
-              alt=""
-              onClick={() => {
-                router.push("/");
-              }}
-            />
-            <Image
-              width={100}
-              height={100}
-              src="/images/steamunlocked-bg.webp"
-              alt=""
-              className=" w-full lg:h-[37vh] "
-            />
-            
-            
-          </div>
-          
-        )}
 
-        <nav className=" font-custom w-[100vw] absolute top-28 lg:absolute lg:top-28 lg:left-20 bg-[#eb2d1c] rounded-sm h-16 lg:flex justify-center items-center text-white z-50 lg:w-[90%]">
-          <ul className=" hidden lg:flex gap-3">
-            <Link href={"/"}>
-              <li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Home
-              </li>
-            </Link>
-            <Link href={"/AllGames"}>
-              <li className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                All Games(A-Z)
-              </li>
-            </Link>
-            <li
-              onMouseEnter={() => setDropdown(!dropdown)}
-              className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-            >
-              Categories
-            </li>
-            <Link href={"/Help"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Help
-              </li>
-            </Link>
-            <Link href={"/"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                FAQ
-              </li>
-            </Link>
-
-            <Link href={"/"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Invalid Games List
-              </li>
-            </Link>
-            <Link href={"/"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Latest News
-              </li>
-            </Link>
-            <Link href={"/RequestGames"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Request Games
-              </li>
-            </Link>
-            <Link href={"/"}>
-              <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
-                Request Updates
-              </li>
-            </Link>
-          </ul>
 
           {/* DROPDOWN MENU FOR CATEGORIES */}
-          {dropdown && (
-            <div
-              onMouseLeave={() => {
-                setDropdown(false);
-              }}
-              onClick={() => {
-                setDropdown(false);
-              }}
-              className="absolute rounded-md bg-slate-700 top-16 right-[56.5vw] w-32 list-none"
-            >
-              <Link href={"/Action"}>
-                <li className="  px-6 py-3 hover:text-red-500 rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Action
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/Adventure"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Adventure
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/RPG"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  RPG
-                </li>
-              </Link>
-              <hr />
+          {dropdown && <div onMouseLeave={() => { setDropdown(false) }} onClick={() => { setDropdown(false) }} className='absolute font-extralight rounded-md z-10  bg-[#1c1c1c] text-white border-black border-2 top-44 left-[27.5%] w-28 list-none'>
 
-              <Link href={"/FPS"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  FPS
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/Horror"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Horror
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/OpenWorld"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Open World
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/Racing"}>
-                <li className=" px-6 py-3 hover:text-red-500 uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Racing
-                </li>
-              </Link>
-              <hr />
-              <Link href={"/Story"}>
-                <li className=" px-6 py-3 hover:text-red-500 rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">
-                  Story
-                </li>
-              </Link>
-            </div>
-          )}
+            {dropdownLinks.map((links, index) => (
+              <Link href={links.href} ><li className="  px-6 py-3 hover:text-red-500 hover:transition-all hover:duration-300  rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800">{links.label}</li><div className="bg-black h-[0.03rem]"></div></Link>))}
 
-          {dropdownmobile && (
-            <div className="absolute bg-slate-700 top-16 w-[100vw] list-none">
-              <Link href={"/"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Home
-                </li>
-              </Link>
-              <Link href={"/AllGames"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  All Games(A-Z)
-                </li>
-              </Link>
-              <Link href={"/Help"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Help
-                </li>
-              </Link>
-              <Link href={"/Story"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Story
-                </li>
-              </Link>
-              <Link href={"/Action"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Action
-                </li>
-              </Link>
-              <Link href={"/Racing"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Racing
-                </li>
-              </Link>
-              <Link href={"/OpenWorld"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  OpenWorld
-                </li>
-              </Link>
-              <Link href={"/Horror"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Horror
-                </li>
-              </Link>
-              <Link href={"/Adventure"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  Adventure
-                </li>
-              </Link>
-              <Link href={"/FPS"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
-                  className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
-                >
-                  FPS
-                </li>
-              </Link>
+          </div>}
 
-              <Link href={"/RequestGames"}>
-                <li
-                  onClick={() => setDropdownmobile(false)}
+          {/* Actual Navbar */}
+
+
+          <nav className=" shadow-xl  absolute top-28 left-20 bg-[#eb2d1c] rounded-sm h-16 flex justify-center items-center text-white z-50 opacity-85 w-[88%] mx-4">
+
+            <ul className=" hidden lg:flex gap-3">
+              {navLinks.map((link, index) => (
+                link.isDropdown ? (<li
+                  key={index}
+                  onMouseEnter={() => setDropdown(!dropdown)}
                   className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
                 >
-                  Request Games
-                </li>
-              </Link>
-            </div>
-          )}
+                  {link.label}
+                </li>) : (
+                  <Link key={index} href={link.href}>
+                    <li className="text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer">
+                      {link.label}
+                    </li>
+                  </Link>
+                )
+              ))}
+            </ul>
 
-          <div
-            className="flex flex-col justify-center items-center lg:hidden py-5"
-            onClick={() => {
-              setDropdownmobile(!dropdownmobile);
-            }}
-          >
-            <span className="bg-white w-6 h-1 my-[1px]"></span>
-            <span className="bg-white w-6 h-1 my-[1px]"></span>
-            <span className="bg-white w-6 h-1 my-[1px]"></span>
-          </div>
-        </nav>
-      </div>
-    </>
-  );
-};
+          </nav>
+        </div>)}
 
-export default Navbar;
+
+
+
+      </>
+    );
+  };
+
+  export default Navbar;

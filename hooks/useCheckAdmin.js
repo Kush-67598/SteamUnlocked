@@ -16,9 +16,9 @@ const useCheckAdmin = () => {
           return;
         }
   
-        const res = await fetch('/api/getusers', {
+        const res = await fetch('/api/Get/getusers', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'Application/json' },
           body: JSON.stringify({ token }),
         });
         const data = await res.json();
@@ -27,7 +27,7 @@ const useCheckAdmin = () => {
           toast.error("UNAUTHORIZED ACCESS", {
                     position: "top-right",
                     autoClose: 2000,
-                    hideProgressBar: false,
+                    hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,

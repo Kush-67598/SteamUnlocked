@@ -11,14 +11,18 @@ const Action = ({Action}) => {
     <>
           <div>
             {Action.length==0 && <div>No Games To Show</div>}
+            {Action.length > 0 && (
+              <div className='flex flex-col justify-center items-start'>
+                
+          <div className="text-xs bg-black w-full text-white  px-6 py-4 font-bold font-sans  lg:-mt-44 lg:bg-transparent lg:pl-28">
+            <strong className="text-slate-400 ">Home</strong> &rarr; <span>{Action[0].category}</span>  
+          </div>
+              </div>
+        )}
             {Action && Action.map((game,index)=>(
               <div key={index} className='bg-[#222] pb-6 lg:-mt-16'>
                 <div className='topinfo h-10 text-white text-center lg:py-2'>
-{game && (
-  <div className='text-xs py-3 absolute left-0 top-44 px-4 lg:absolute lg:top-48 lg:left-20 font-bold font-sans '>
-          <strong className='text-slate-400' >Home</strong>&rarr;{game.category}
-       </div>
-)}
+
       </div>
 
             <Link href={`/games/${game.slug}`}>

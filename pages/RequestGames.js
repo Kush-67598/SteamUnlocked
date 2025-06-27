@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../components/Loader";
+import Navbar from "../components/Navbar";
+import {  useRouter } from "next/router";
 
 const RequestGames = () => {
   const [text, setText] = useState("");
+  const router=useRouter()
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -20,9 +23,9 @@ const RequestGames = () => {
     e.preventDefault();
     try {
       setLoading(true)
-      const data = [{ text, email }];
+      const data = { text, email };
       const RequestedGamesdata = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/api/reqgames`,
+        `${process.env.NEXT_PUBLIC_API}/api/Get/reqgames`,
         {
           method: "POST",
           headers: {
@@ -38,7 +41,7 @@ const RequestGames = () => {
         toast.success("Your Request Has been Submitted", {
           position: "top-right",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -47,12 +50,13 @@ const RequestGames = () => {
         });
         setEmail("");
         setText("");
+        router.push('/')
       }
     } catch (err) {
       toast.error("Internal Server Error", {
         position: "top-right",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -78,31 +82,33 @@ const RequestGames = () => {
         pauseOnHover
         theme="light"
       />
+
       {loading && (text !== "" || email !== "") && (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-70">
           <Loader/>
         </div>
       )}
+      <div className="relative w-full h-full">
       <picture className=" z-10">
         <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
         <img
           src="/images/qwer.webp"
           alt="Signup Background"
-          className="w-full h-[42.4vh] lg:h-[70vh] object-fit"
+          className="w-full h-[35.19rem] lg:h-[40rem] object-fit"
         />
       </picture>
 
-      <div className="absolute top-[25svh] w-full bg-transparent lg:top-[45vh]  bg-gray-400 pt-12 h-[44vh] lg:h-[60vh]">
+<div className="absolute inset-0 flex flex-col justify-center items-center bg-black/30 w-full overflow-hidden">
         <h1 className="font-bold text-white text-3xl py-4 text-center">
           Request Games
         </h1>
         <form action="submit " onSubmit={handleSubmit} method="POST">
-          <div className="flex flex-col pt-8 lg:mx-96 items-center justify-center">
+          <div className="flex flex-col pt-8 lg:mx-96 items-center justify-center ">
             <input
               type="text"
               name="text"
               value={text}
-              className="bg-rose-100 py-2 my-2 rounded-md mx-12 min-w-[90vw]  lg:min-w-[50vw] placeholder:text-gray-600 px-3 "
+              className="bg-rose-100 py-2 my-2 rounded-md w-[80vw]  lg:w-[40vw] placeholder:text-gray-600 px-3 "
               onChange={HandleChange}
               placeholder="Enter Game Name"
             />
@@ -110,7 +116,7 @@ const RequestGames = () => {
               type="email"
               name="email"
               value={email}
-              className="bg-rose-100 py-2 my-2 rounded-md mx-12 min-w-[90vw] lg:min-w-[50vw]  placeholder:text-gray-600 px-3 "
+              className="bg-rose-100 py-2 my-2 rounded-md  w-[80vw] lg:w-[40vw]  placeholder:text-gray-600 px-3 "
               onChange={HandleChange}
               placeholder="Enter Email ID"
             />
@@ -122,6 +128,7 @@ const RequestGames = () => {
             </button>
           </div>
         </form>
+      </div>
       </div>
     </>
   );

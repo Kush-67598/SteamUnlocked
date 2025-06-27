@@ -48,10 +48,10 @@ const prevPage=()=>{
   setPage(page-1)
 }
     const fetchGames = async () => {
-      const getgames = await fetch(`http://localhost:3000/api/getgames?page=${page}`, {
+      const getgames = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Get/getgames?page=${page}`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "Application/json",
         },
       });
       const res_get = await getgames.json();
@@ -93,7 +93,7 @@ const prevPage=()=>{
     toast.success('Price Successfuy Updated', {
       position: "top-right",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -108,7 +108,7 @@ const filtered_arr=games.filter((item)=>(
 
   const handledelete=async(gameId)=>{
     const data={id:gameId}
-    const deleteGames=await fetch("http://localhost:3000/api/deletegames",{
+    const deleteGames=await fetch("http://localhost:3000/api/Delete/deletegames",{
       method:"DELETE",
       headers:{
         "Content-Type":"Application/json"
@@ -151,7 +151,7 @@ const filtered_arr=games.filter((item)=>(
     ]);
     
 try {
-  const addgames = await fetch("http://localhost:3000/api/addgames", {
+  const addgames = await fetch("http://localhost:3000/api/Add/addgames", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -187,7 +187,7 @@ await fetchGames()
     toast.success('Game Succesfully Added', {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -424,9 +424,9 @@ await fetchGames()
       <div className="">
          <div className="flex justify-between items-center">
 
-            <button className="  bg-red-400 w-32" onClick={()=>prevPage()}>PRev</button>
+            <button className="  bg-red-400 w-32" onClick={()=>prevPage()}>Prev</button>
 <span>Page No:{page}</span>
-            <button className=" bg-red-400 w-32" onClick={()=>nextPage()}>NExt</button>
+            <button className=" bg-red-400 w-32" onClick={()=>nextPage()}>Next</button>
             </div>
 
         <table className="w-full text-left table-auto border border-black ">

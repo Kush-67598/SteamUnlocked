@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'custom': ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                custom: ['var(--font-custom)', 'sans-serif'],
       },
     },
   },

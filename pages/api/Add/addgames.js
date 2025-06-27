@@ -1,5 +1,5 @@
-import connectDb from "../../middleware/mongoose";
-import game from "../../models/game";
+import connectDb from "../../../middleware/mongoose";
+import game from "../../../models/game";
 import fs from "fs";
 import path from "path";
 

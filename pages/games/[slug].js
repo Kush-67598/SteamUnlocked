@@ -6,54 +6,62 @@ import mongoose from "mongoose";
 import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
-import { Router, useRouter } from "next/router";
+import {useRouter } from "next/router";
 import Link from "next/link";
+import Loader from "../../components/Loader";
 
 
 const Slug = ({ games }) => {
-  const router=useRouter()
-  const {slug}=router.query
+  const [loading, setLoading] = useState(false);
+  const [chart, setChart] = useState(false)
+  const [chart_1, setChart_1] = useState(false)
+  const router = useRouter()
+  const [category, setCategory] = useState("General");
+  const { slug } = router.query
   const [token, setToken] = useState(null);
   const [comment, setComment] = useState('')
-  const [All_com,setAll_com]=useState([])
-
-
+  const [All_com, setAll_com] = useState([])
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedToken = localStorage.getItem("TOKEN");
       setToken(savedToken);
+      console.log(savedToken)
     }
     getComment_api()
   }, []);
-  
-     const getComment_api=async(req,res)=>{
-    const getComments=await fetch(`/api/getComments?slug=${slug}`,{
-      method:"GET",
-      headers:{
-        "Content-Type":"Application/json"
+
+  const getComment_api = async (req, res) => {
+    const getComments = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Get/getComments?slug=${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/json"
       }
 
     })
-    const response=await getComments.json()
+    const response = await getComments.json()
     setAll_com(response)
 
   }
- 
+
 
   const HandleCommentSubmit = async (req, res) => {
-    const data = { slug,content:comment }
-    const commentsData = await fetch('/api/addComments', {
+    setLoading(true)
+
+    const data = { slug, content: comment, category }
+    const commentsData = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addComments`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
         Authorization: `Bearer ${token}`,
       },
-      body:JSON.stringify(data)
+      body: JSON.stringify(data)
     })
-    let response=await commentsData.json()
-    if(response){
-       toast.success('Comment Posted', {
+    let response = await commentsData.json()
+    setLoading(false)
+
+    if (response) {
+      toast.success('Comment Posted', {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: true,
@@ -68,14 +76,41 @@ const Slug = ({ games }) => {
     getComment_api()
   }
 
-  const getMonthDifference=(item)=>{
-    const now=new Date()
-    const past=new Date(item)
-    return (now.getFullYear()-past.getFullYear())+"Years "+(now.getMonth()-past.getMonth())+"Months "+(now.getDate()-past.getDate())+"Days Ago"
+  const getMonthDifference = (item) => {
+    const now = new Date()  //this is current date means Todays Date 
+    const past = new Date(item) ///This is the Date from Database for comparison 
+    let years = now.getFullYear() - past.getFullYear();
+    let months = now.getMonth() - past.getMonth();
+    let days = now.getDate() - past.getDate();
+
+    if (months < 0) {
+      years--
+      months = months + 12;
+    }
+
+
+    if (days < 0) {
+      months--
+
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate(); // ← dynamic & always accurate
+
+    }
+    if (months == 0 && years == 0) {
+      return ` ${days} Days Ago`
+    }
+    else if (months == 0) {
+      return `${years} Years ${days}Days Ago`
+    }
+    else if (years == 0) {
+      return `${months} Months ${days}Days Ago`
+    }
+
+    return `${years}Years ${months}Months ${days}Days Ago`
   }
   const addtowishlist = async (slug, title, img, size) => {
     const data = { token, slug, title, img, size }
-    const wishlist = await fetch('/api/addwishlist', {
+    const wishlist = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addwishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
@@ -107,8 +142,98 @@ const Slug = ({ games }) => {
 
 
 
+
+
+  // First Chart Data for processor ram etc
+  const valueMap = [
+    {
+      "Processor": {
+        dualcore: 1,
+        i3: 3,
+        i5: 5,
+        ryzen5: 4,
+        i7: 7,
+        ryzen7: 10,
+        i9: 10,
+      },
+      "Ram": {
+        "2gb": 3,
+        "4gb": 5,
+        "6gb": 7,
+        "8gb": 9,
+        "16gb": 10,
+      },
+
+      "Storage": {
+        "10gb": 1,
+        "12.45gb": 2,
+        "20gb": 3,
+        "30gb": 5,
+        "40gb": 7,
+        "50gb": 9,
+        "60gb": 10,
+      },
+      "OS": {
+        "windows xp": 1,
+        "windows vista": 2,
+        "windows 7": 3,
+        "windows 8": 4,
+        "windows 8.1": 5,
+        "windows 10": 6,
+        "windows 11": 7
+      },
+      "Graphics": {
+        "intel hd graphics": 2,
+        "intel uhd graphics": 3,
+        "intel iris xe": 5,
+        "nvidia gt 710": 4,
+        "nvidia gt 1030": 6,
+        "nvidia gtx 1050": 7,
+        "nvidia gtx 1650": 8,
+        "nvidia rtx 3060": 10,
+        "amd radeon vega 8": 5,
+        "amd rx 580": 7,
+        "amd rx 6600": 9
+      }
+    }]
+
   // FIRST CHART REF
   useEffect(() => {
+
+    const size_Data = () => valueMap[0].Storage[games.size] || 7
+
+    const RamData = () => {
+      const str = games.memory.toLowerCase()  //windowsxp:1gbram/windowsvista:2gbram
+      const ramkeys = Object.keys(valueMap[0]['Ram'])  //["2gb","4gb","8gb","16gb"]
+      const found = ramkeys.find(key => str.includes(key.toLowerCase()))
+      const Ram = found ? valueMap[0].Ram[found] : 5
+      return Ram
+    }
+
+    const Processor_Data = () => {
+      const str = games.processor.toLowerCase()
+      const processorkeys = Object.keys(valueMap[0]['Processor'])
+      const found = processorkeys.find(key => str.includes(key.toLowerCase()))
+      const processor = found ? valueMap[0].Processor[found] : 4
+      return processor
+    }
+
+    const OS_Data = () => {
+      const str = games.os.toLowerCase()
+      const OSkeys = Object.keys(valueMap[0]['OS'])
+      const found = OSkeys.find(key => str.includes(key.toLowerCase()))
+      const OS = found ? valueMap[0].OS[found] : 4
+      return OS
+
+    }
+    const Graphics_Data = () => {
+      const str = games.graphics.toLowerCase()
+      const Graphicskeys = Object.keys(valueMap[0]['Graphics'])
+      const found = Graphicskeys.find(key => str.includes(key.toLowerCase()))
+      const Graphics = found ? valueMap[0].Graphics[found] : 4
+      return Graphics
+
+    }
 
     const canvas = chartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
@@ -120,35 +245,73 @@ const Slug = ({ games }) => {
     }
 
     const data = {
-  labels: [
-    'PROCESSOR',
-    'STORAGE',
-    'MEMORY',
-    'OS',
-    'GRAPHICS',
+      labels: [
+        'PROCESSOR',
+        'SIZE',
+        'MEMORY',
+        'OS',
+        'GRAPHICS',
 
-  ],
-  datasets: [{
-    label: 'SYSTEM REQUIREMENTS',
-    data: [10, 9, 4, 7, 8],
-    
-    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    borderColor: 'rgb(255, 99, 132)',
-   
-  }]
-};
+      ],
+      datasets: [{
+        label: 'SCORE BASED ON SYSTEM REQUIREMENTS',
+        data: [Processor_Data(), size_Data(), RamData(), OS_Data(), Graphics_Data()],
+        backgroundColor: 'transparent',
+        borderColor: 'fuchsia',
+
+      }]
+    };
 
     chartInstanceRef.current = new Chart(canvas, {
-   type: 'radar',
-  data: data,
-  options: {
-    elements: {
-      line: {
-        borderWidth: 3
+      type: 'line',
+      data,
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'nearest',
+          intersect: false,
+        },
+        elements: {
+          line: {
+            borderWidth: 3,
+          },
+          point: {
+            radius: 5,
+            hoverRadius: 7,
+          },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: "white",
+            },
+          },
+          title: {
+            display: true,
+            color: "white",
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: "white",
+            },
+            grid: {
+              color: "rgba(255, 255, 255, 0.2)",
+            },
+          },
+          y: {
+            ticks: {
+              color: "white",
+            },
+            grid: {
+              color: "rgba(255, 255, 255, 0.2)",
+            },
+          },
+        },
       }
-    }
-  },
     });
+
 
     // Cleanup on unmount
     return () => {
@@ -156,14 +319,14 @@ const Slug = ({ games }) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, []);
+  }, [chart]);
 
 
 
   // SECOND CHART REF
   useEffect(() => {
 
-    const canvas =secondchartRef.current;
+    const canvas = secondchartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
 
     let monthlyData = {};
@@ -191,6 +354,7 @@ const Slug = ({ games }) => {
       return `rgba(${r},${g},${b},0.8)`;
     });
 
+
     // Destroy old chart instance if it exists
     if (secondchartInstanceRef.current) {
       secondchartInstanceRef.current.destroy();
@@ -205,8 +369,8 @@ const Slug = ({ games }) => {
             label: `Game Price Variation For ${new_title}`,
             data: chart,
             backgroundColor: colors,
-            fill:false,
-            tension:0.3
+            fill: false,
+            tension: 0.3
           },
         ],
       },
@@ -250,7 +414,7 @@ const Slug = ({ games }) => {
         secondchartInstanceRef.current.destroy();
       }
     };
-  }, []);
+  }, [chart_1]);
 
 
 
@@ -269,16 +433,18 @@ const Slug = ({ games }) => {
         theme="light"
       />
 
-      <div className="topinfo bg-black h-16 text-white text-center py-4 lg:py-4 font-custom">
+      <div className="topinfo bg-black h-16 text-white text-center py-16 lg:py-4 ">
         {games.length == 0 && <div>no games</div>}
         {games && (
-          <div className="text-xs py-3 lg:py-2 ">
+          <div className="text-xs py-5 lg:py-2 ">
             <Link href={'/'}><strong className="text-slate-400">Home</strong>&rarr;</Link>{new_title}
           </div>
         )}
       </div>
+      {loading && <Loader />}
 
-      <div className="bg-[#222] lg:py-6 lg:pl-20 font-custom ">
+
+      <div className="bg-[#222] lg:py-6 lg:pl-20  flex flex-col ">
         <div className=" bg-white mx-4 lg:w-2/3">
           <div className=" flex flex-col justify-center lg:items-center lg:flex">
             {games.length == 0 && <div>No Games to Show</div>}
@@ -290,12 +456,12 @@ const Slug = ({ games }) => {
                 <h2 className="font-bold text-2xl pt-3 text-center font-sans">
                   Game Overview
                 </h2>
-                <p className="text-sm text-[#333] py-8 px-4">{games.desc}</p>
+                <p className="text-sm text-[#333] py-6 px-4">{games.desc}</p>
                 <div className="flex flex-col justify-center items-center">
                   <img
-                    width={100}
-                    height={100}
-                    className="px-2 max-w-96 min-w-[302px]  "
+                    width={220}
+                    height={200}
+                    className="rounded-md"
                     src={`/images/${games.img}.webp`}
                     onError={(e) => {
                       e.target.src = `/images/${games.img}.jpg`;
@@ -303,7 +469,7 @@ const Slug = ({ games }) => {
                     alt=""
                   />
                   <button onClick={() => { addtowishlist(games.slug, new_title, games.img, games.size) }}
-                    className="flex items-center justify-center rounded-lg min-w-72 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-72 lg:ml-0"
+                    className="flex items-center justify-center rounded-md min-w-56 bg-red-600 mt-4 p-4 hover:bg-black text-white lg:rounded lg:w-56 lg:ml-0"
 
                   >
                     Add to Wishlist
@@ -373,27 +539,27 @@ const Slug = ({ games }) => {
                         <span>Price:${games.price}</span>
                       </button>
                     </a>
-                    
-                  </div>
-                  
 
-                   <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-20 py-[40px] lg:py-[51px] text-center my-4 font-semibold text-[#333] lg:mx-4">
-                      Min Price:$
+                  </div>
+
+
+                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-20 py-[6.19dvh] lg:py-[7.8dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
+                    Min Price:$
+                    {games.priceHistory.length == 0
+                      ? games.price
+                      : Math.min(
+                        ...games.priceHistory.map((item) => item.value)
+                      )}
+                    <div className="font-bold cursor-none">
+                      Max Price:$
                       {games.priceHistory.length == 0
                         ? games.price
-                        : Math.min(
+                        : Math.max(
                           ...games.priceHistory.map((item) => item.value)
                         )}
-                      <div className="font-bold cursor-none">
-                        Max Price:$
-                        {games.priceHistory.length == 0
-                          ? games.price
-                          : Math.max(
-                            ...games.priceHistory.map((item) => item.value)
-                          )}
-                      </div>
                     </div>
-                    </div>
+                  </div>
+                </div>
 
 
                 <div className="px-4 text-sm text-[#333] ">
@@ -477,67 +643,93 @@ const Slug = ({ games }) => {
                     alt="Game"
                     className="..."
                   />
-                  
+
                 </div>
-                
+
+
+
+                <select name="" id="" className="bg-gray-800 text-white py-2 w-full px-12 ">
+
+                  <option onClick={() => { setChart(true), setChart_1(false) }}>Chart1</option>
+                  <option onClick={() => { setChart(false), setChart_1(true) }}>Chart 2</option>
+                </select>
+
+
+                {
+                  chart && <canvas ref={chartRef} className="bg-black min-h-[15rem] lg:max-h-96 "></canvas>
+
+                }
+                {
+                  chart_1 && <canvas ref={secondchartRef}
+                    className="bg-black max-h-[15rem] lg:max-h-96"></canvas>
+
+                }
               </>
-              
+
             )}
           </div>
         </div>
 
-        <div className="">
-          <canvas
-            className="lg:relative lg:left-4 lg:top-4 py-2 px-4 bg-black "
-            ref={chartRef}
-            style={{
-              height: "300px",
-              width: "100%",
-              maxHeight: "400px",
-              maxWidth: "1080px",
-            }}
-          />
-        </div>
-        <div className="">
-          <canvas
-            className="lg:relative lg:left-4 lg:top-4 py-2 px-4 bg-black "
-            ref={secondchartRef}
-            style={{
-              height: "300px",
-              width: "100%",
-              maxHeight: "400px",
-              maxWidth: "1080px",
-            }}
-          />
-        </div>
-        <div className="flex flex-col justify-center items-center mx-4">
-          <div className="my-8 text-white font-mono text-2xl">Comments Section
 
+
+
+        <div className="flex flex-col justify-center items-center mx-4">
+          <div className="my-8 text-white  text-center text-lg lg:w-[87vw] lg:mr-20">Comments Section
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full  mb-4 px-3 py-2 rounded-md bg-gray-800 text-white"
+            >
+              <option value="General">💬 General</option>
+              <option value="Bug">🐞 Bug</option>
+              <option value="Suggestion">💡 Suggestion</option>
+              <option value="Fix Needed">🔧 Fix Needed</option>
+            </select>
+
+            <textarea name="" id="" value={comment} onChange={(e) => { setComment(e.target.value) }} rows={6} className="min-h-16 rounded-md w-full text-black" placeholder="Write Your Comments"></textarea>
+            <button type="submit" onClick={HandleCommentSubmit} className="bg-green-500 px-7 py-2 my-4 rounded-md ">Submit</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div className="text-center bg-zinc-500  text-white font-bold  text-2xl py-3">Comments</div>
+      <div className=" bg-zinc-500 py-2">{All_com.length == 0 ? <div className="text-center text-xl font-bold">No Comments to Show</div> : All_com.map((item) => {
+        const categoryColors = {
+          "Bug": "text-red-500",
+          "General": "text-blue-500",
+          "Suggestion": "text-green-500",
+          "Fix Needed": "text-yellow-400",
+        };
+        const color = categoryColors[item.category]
+        return <div key={item._id} className=" flex flex-col bg-black text-white rounded-lg py-4 mb-4 px-4 mx-4">
+
+
+          <div className="flex">
+            <div className="h-16 w-16">
+              <div className={`h-16 w-16 rounded-xl bg-lime-300 flex items-center justify-center text-3xl font-bold `}>
+                {item.userId.name[0].toUpperCase()}
+              </div>
+            </div>
+
+
+            <div className="flex-col flex px-6">
+
+              <span className="text-fuchsia-500 font-semibold">@{item.userId.name}</span>
+              <span className={`${color} font-semibold`}>{item.category}</span>
+
+              <span>{item.content}</span>
+              <p className="text-gray-600">{getMonthDifference(item.createdAt)}</p>
+            </div>
 
           </div>
-          <textarea name="" id="" value={comment} onChange={(e) => { setComment(e.target.value) }} rows={4} className="rounded-md w-full" placeholder="Write Your Comments"></textarea>
-          <button type="submit" onClick={HandleCommentSubmit} className="bg-green-500 px-7 py-2 my-4 rounded-md font-mono">Submit</button>
+
+
         </div>
-
-       
-        
-        <PopularGames />
-      </div>
-      <div className="text-center font-mono text-xl">Comments</div>
-      <div className="bg-slate-100">{All_com.length==0?<div className="text-center font-serif text-xl font-bold">No Comments to Show</div>: All_com.map((item)=>(
-
-<div className="bg-black text-white rounded-lg py-4 mb-2 px-4 mx-4">
-
-
-  <span>@{item.userId.name}</span>
-  <br />
-
-  {/* <span>{(new Date().getMonth()+1)-(new Date(item.createdAt).getMonth()+1)} Months</span> */}
-<span>{getMonthDifference(item.createdAt)}</span>
-  <br/>
-  <span>{item.content}</span>
-</div>       
-      ))}
+      })}
+        <div className="lg:w-1/4">
+          <PopularGames />
+        </div>
       </div>
     </>
   );
@@ -550,7 +742,7 @@ export async function getServerSideProps({ params }) {
   }
   const { slug } = params;
   const games = await game.findOne({ slug });
-  console.log(games);
+
 
   return {
     props: {

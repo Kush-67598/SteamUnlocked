@@ -27,7 +27,7 @@ const Help = () => {
         toast.success("Your Response has been Submitted.", {
         position: "top-right",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -43,7 +43,7 @@ const Help = () => {
         toast.error("Please fill in the required field.", {
           position: "top-right",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -58,7 +58,7 @@ const Help = () => {
        toast.error("Internal Server Error", {
           position: "top-right",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -76,7 +76,7 @@ const Help = () => {
       <ToastContainer
         position="top-right"
         autoClose={1000}
-        hideProgressBar={false}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}
@@ -89,23 +89,25 @@ const Help = () => {
               <Loader/>
                   )}
 
-      <picture className=" z-10">
+<div className="  relative  w-full h-full ">
+
+      <picture className=" z-10 ">
         <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
         <img
           src="/images/qwer.webp"
           alt="Signup Background"
-          className="w-full h-[65.999vh] lg:h-full object-fit"
-        />
+          className="w-full h-[35.19rem] lg:h-[40.5rem] object-fit"
+          />
       </picture>
-      <div className="absolute font-mono top-[28svh] lg:top-[38vh]  w-full h-full">
-        <h1 className="py-6 text-center text-white text-xl font-bold font-custom lg:text-4xl">
+      <div className="  absolute inset-0 flex flex-col items-center justify-center lg:flex lg:inset-0 lg:absolute">
+        <h1 className="py-6 text-center text-white text-3xl font-bold font-custom lg:text-4xl">
           Help
         </h1>
-        <div className=" h-[35vh] lg:h-[42vh] lg:pt-8  flex flex-col">
+        <div className=" max-h-[40vh] min-w-80 flex flex-col">
           <textarea
             rows={20}
             type="text"
-            className="min-h-20 my-4 mx-4 rounded-md text-white font-mono lg:mx-40 lg:min-h-[70vh] bg-transparent border border-red-500 focus:outline-red-500"
+            className="min-h-20  my-4 rounded-md text-white  lg:mx-40  bg-transparent border border-red-500 focus:outline-red-500"
             onChange={(e) => {
               setText(e.target.value);
             }}
@@ -115,13 +117,15 @@ const Help = () => {
 
           <button
             type="submit"
-            className="bg-red-600 py-4 mx-20 rounded lg:mx-[42vw]"
+            className="bg-red-600 py-4 mx-20 lg:px-12 rounded lg:mx-[42vw]"
             onClick={onSubmit}
           >
             Submit
           </button>
         </div>
       </div>
+          </div>
+      
     </>
   );
 };

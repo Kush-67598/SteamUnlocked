@@ -1,5 +1,5 @@
-import reqgames from "../../models/reqgames";
-import connectDb from "../../middleware/mongoose";
+import reqgames from "../../../models/reqgames";
+import connectDb from "../../../middleware/mongoose";
 
 const handler=async(req,res)=>{
 if(req.method=='GET'){

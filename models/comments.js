@@ -4,6 +4,8 @@ const CommentSchema=new mongoose.Schema({
     content: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     slug:{type:String,required:true},
+    category:{type:String,required:true},
+    // parentID:{type:mongoose.Schema.Types.ObjectId,ref:"Comment",default:null},
     createdAt:{type:Date,default:Date.now}
 
 })

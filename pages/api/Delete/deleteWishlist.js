@@ -1,5 +1,5 @@
-import connectDb from "../../middleware/mongoose";
-import user from "../../models/user";
+import connectDb from "../../../middleware/mongoose";
+import user from "../../../models/user";
 import jwt from "jsonwebtoken";
 
 const handler = async (req, res) => {

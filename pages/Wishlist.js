@@ -33,7 +33,7 @@ const Wishlist = () => {
 
   const deleteWishlist = async (id) => {
     const data=id;
-    const fetchlist = await fetch("/api/deleteWishlist", {
+    const fetchlist = await fetch("/api/Delete/deleteWishlist", {
       method: "DELETE",
       headers: {
         Authorization:`Bearer ${token}`,
@@ -60,7 +60,7 @@ const Wishlist = () => {
   };
 
   const fetchWishlist = async () => {
-    const fetchlist = await fetch("/api/getWishlist", {
+    const fetchlist = await fetch("/api/Get/getWishlist", {
       method: "GET",
       headers: {
         Authorization:`Bearer ${token}`,
@@ -89,7 +89,7 @@ const Wishlist = () => {
         pauseOnHover
         theme="light"
       />
-      <div className="bg-slate-300 min-h-[42.3vh] py-2 font-custom">
+      <div className="bg-slate-300 min-h-[42.3vh] py-16 lg:py-4 font-custom">
         <h1 className="text-center py-2 text-2xl font-bold">Wishlist</h1>
 
         <section className="flex flex-col ">
