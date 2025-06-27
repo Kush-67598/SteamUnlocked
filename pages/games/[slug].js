@@ -655,35 +655,35 @@ const Slug = ({ games }) => {
                 </div>
 
                 <select
-  className="bg-gray-800 text-white py-2 w-full px-12"
-  onChange={(e) => {
-    const value = e.target.value;
-    if (value === "chart1") {
-      setChart(true);
-      setChart_1(false);
-    } else {
-      setChart(false);
-      setChart_1(true);
-    }
-  }}
->
-  <option value="chart1">Chart 1</option>
-  <option value="chart2">Chart 2</option>
-</select>
-
-
-                {chart && (
-                  <canvas
-                    ref={chartRef}
-                    className="bg-black min-h-[15rem] lg:max-h-96 "
-                  ></canvas>
-                )}
-                {chart_1 && (
-                  <canvas
-                    ref={secondchartRef}
-                    className="bg-black max-h-[15rem] lg:max-h-96"
-                  ></canvas>
-                )}
+                  className="bg-gray-800 text-white py-2 w-full px-12"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "chart1") {
+                      setChart(true);
+                      setChart_1(false);
+                    } else {
+                      setChart(false);
+                      setChart_1(true);
+                    }
+                  }}
+                >
+                  <option value="chart1">Chart 1</option>
+                  <option value="chart2">Chart 2</option>
+                </select>
+                <div className="w-full min-h-[16rem] max-h-[24rem]" >
+                  {chart && (
+                    <canvas
+                      ref={chartRef}
+                      className="bg-black min-h-[15rem] lg:max-h-96 "
+                    ></canvas>
+                  )}
+                  {chart_1 && (
+                    <canvas
+                      ref={secondchartRef}
+                      className="bg-black max-h-[15rem] lg:max-h-96"
+                    ></canvas>
+                  )}
+                </div>
               </>
             )}
           </div>
