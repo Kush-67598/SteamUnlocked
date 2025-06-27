@@ -48,7 +48,7 @@ const ResetPassword = () => {
     }
     else {
       setLoading(true)
-      const handleReset = await fetch('/api/reset-password', {
+      const handleReset = await fetch(`${process.env.NEXT_PUBLIC_API}/api/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "Application/json"
@@ -84,7 +84,7 @@ const ResetPassword = () => {
     }
     else {
       setLoading(true)
-      const verify = await fetch('/api/verifyotp', {
+      const verify = await fetch(`${process.env.NEXT_PUBLIC_API}/api/verifyotp`, {
         method: "POST",
         headers: {
           "Content-Type": "Application/json"
@@ -138,7 +138,7 @@ const ResetPassword = () => {
     }
     else {
       setLoading(true)
-      const pass_change = await fetch('/api/changePassotp', {
+      const pass_change = await fetch(`${process.env.NEXT_PUBLIC_API}/api/changePassotp`, {
         method: "POST",
         headers: {
           "Content-Type": "Application/json"
