@@ -4,10 +4,21 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useCheckView from "../hooks/useCheckView";
+import Loader from '../components/Loader'
 
-export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RPG, OpenWorld }) {
+export default function Home({
+  Action,
+  FPS,
+  Adventure,
+  Horror,
+  Story,
+  Racing,
+  RPG,
+  OpenWorld,
+}) {
   const router = useRouter();
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const [games, setGames] = useState({
     Action: [...Action],
     Racing: [...Racing],
@@ -35,18 +46,29 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
 
   const loadMore = async (category) => {
     const currentPage = pages[category];
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Get/mainfetchgames?page=${currentPage}&category=${category}`);
-    const data = await res.json();
+    try {
+      setLoading(true);
 
-    setGames((prev) => ({
-      ...prev,
-      [category]: [...(prev[category] || []), ...data],
-    }));
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/api/Get/mainfetchgames?page=${currentPage}&category=${category}`
+      );
+      const data = await res.json();
+      setLoading(false);
 
-    setPages((prev) => ({
-      ...prev,
-      [category]: prev[category] + 1,
-    }));
+      setGames((prev) => ({
+        ...prev,
+        [category]: [...(prev[category] || []), ...data],
+      }));
+
+      setPages((prev) => ({
+        ...prev,
+        [category]: prev[category] + 1,
+      }));
+    } catch {
+      toast.error("Error While Fetching Games!!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -54,12 +76,11 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
   };
 
   const renderCategorySection = (categoryName, categoryGames) => {
-    const filtered = categoryGames.filter((item) =>{
-
-      const title=item.title.toLowerCase()
-      const search=text.toLowerCase().trim()
-      return search.split(' ').every((word=>title.includes(word)))
-    });  
+    const filtered = categoryGames.filter((item) => {
+      const title = item.title.toLowerCase();
+      const search = text.toLowerCase().trim();
+      return search.split(" ").every((word) => title.includes(word));
+    });
 
     if (text && filtered.length === 0) return null;
     return (
@@ -67,7 +88,10 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
         <h1 className="text-white text-3xl py-8 px-1">{categoryName}</h1>
         <div className="cardcontainer grid grid-cols-2 place-items-center lg:flex lg:flex-wrap">
           {filtered.map((item, index) => (
-            <div key={index} className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in">
+            <div
+              key={index}
+              className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in"
+            >
               <Link href={`/games/${item.slug}`}>
                 <img
                   loading="lazy"
@@ -99,28 +123,43 @@ export default function Home({ Action, FPS, Adventure, Horror, Story, Racing, RP
 
   return (
     <>
+   {loading &&<Loader/>}
       {isMobile ? (
         <div className="flex flex-col bg-black w-full items-start justify-center font-custom py-20 top-8">
           <div className="mx-4">
-            <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">GET FREE STEAM GAMES</h1>
-            <h2 className="text-[#ccc] text-xl lg:text-[52px] py-2">PRE-INSTALLED FOR PC</h2>
+            <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">
+              GET FREE STEAM GAMES
+            </h1>
+            <h2 className="text-[#ccc] text-xl lg:text-[52px] py-2">
+              PRE-INSTALLED FOR PC
+            </h2>
             <p className="text-sm leading-5 text-white font-semibold lg:text-[16px] py-3">
-              Steam Unlocked allows you to download your favorite games pre-installed on steam without the cost.
+              Steam Unlocked allows you to download your favorite games
+              pre-installed on steam without the cost.
             </p>
             <Link href="/AllGames">
-              <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">Browse</button>
+              <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">
+                Browse
+              </button>
             </Link>
           </div>
         </div>
       ) : (
         <div className="mx-4 flex flex-col absolute top-72 px-16">
-          <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">GET FREE STEAM GAMES</h1>
-          <h2 className="text-[#ccc] text-xl lg:text-[52px] py-2">PRE-INSTALLED FOR PC</h2>
+          <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">
+            GET FREE STEAM GAMES
+          </h1>
+          <h2 className="text-[#ccc] text-xl lg:text-[52px] py-2">
+            PRE-INSTALLED FOR PC
+          </h2>
           <p className="text-sm leading-5 text-white font-semibold lg:text-[16px] py-3">
-            Steam Unlocked allows you to download your favorite games pre-installed on steam without the cost.
+            Steam Unlocked allows you to download your favorite games
+            pre-installed on steam without the cost.
           </p>
           <Link href="/AllGames">
-            <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">Browse</button>
+            <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">
+              Browse
+            </button>
           </Link>
         </div>
       )}
