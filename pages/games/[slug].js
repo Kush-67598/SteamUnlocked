@@ -655,25 +655,22 @@ const Slug = ({ games }) => {
                 </div>
 
                 <select
-                  name=""
-                  id=""
-                  className="bg-gray-800 text-white py-2 w-full px-12 "
-                >
-                  <option
-                    onClick={() => {
-                      setChart(true), setChart_1(false);
-                    }}
-                  >
-                    Chart1
-                  </option>
-                  <option
-                    onClick={() => {
-                      setChart(false), setChart_1(true);
-                    }}
-                  >
-                    Chart 2
-                  </option>
-                </select>
+  className="bg-gray-800 text-white py-2 w-full px-12"
+  onChange={(e) => {
+    const value = e.target.value;
+    if (value === "chart1") {
+      setChart(true);
+      setChart_1(false);
+    } else {
+      setChart(false);
+      setChart_1(true);
+    }
+  }}
+>
+  <option value="chart1">Chart 1</option>
+  <option value="chart2">Chart 2</option>
+</select>
+
 
                 {chart && (
                   <canvas
