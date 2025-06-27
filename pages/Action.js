@@ -1,8 +1,6 @@
-import React from 'react'
 import game from '../models/game'
 import Link from 'next/link'
 import PopularGames from '../components/PopularGames'
-import Image from 'next/image'
 
 
 

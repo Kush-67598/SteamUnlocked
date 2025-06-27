@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";
 import {useRouter } from "next/router";
 import Link from "next/link";
-import Loader from "../../components/Loader";
+import Loader from '../../components/Loader'
 
 
 const Slug = ({ games }) => {
@@ -26,7 +26,6 @@ const Slug = ({ games }) => {
     if (typeof window !== "undefined") {
       const savedToken = localStorage.getItem("TOKEN");
       setToken(savedToken);
-      console.log(savedToken)
     }
     getComment_api()
   }, []);
@@ -109,7 +108,13 @@ const Slug = ({ games }) => {
     return `${years}Years ${months}Months ${days}Days Ago`
   }
   const addtowishlist = async (slug, title, img, size) => {
+
+    
+    try{
+
+    
     const data = { token, slug, title, img, size }
+    setLoading(true)
     const wishlist = await fetch(`${process.env.NEXT_PUBLIC_API}/api/Add/addwishlist`, {
       method: "POST",
       headers: {
@@ -118,6 +123,7 @@ const Slug = ({ games }) => {
       },
       body: JSON.stringify(data)
     })
+    setLoading(false)
     let wishlistRes = await wishlist.json()
     if (wishlistRes) {
 
@@ -132,6 +138,11 @@ const Slug = ({ games }) => {
         theme: "dark",
       });
     }
+  }catch{
+    toast.error("Failed to Add it to Wishlist")
+  }finally{
+    setLoading(false)
+  }
   }
   const new_title = games.title.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
   const chartRef = useRef(null); // canvas element
@@ -199,6 +210,7 @@ const Slug = ({ games }) => {
 
   // FIRST CHART REF
   useEffect(() => {
+      if (!chart) return; // Don't render chart unless chart is active
 
     const size_Data = () => valueMap[0].Storage[games.size] || 7
 
@@ -325,6 +337,7 @@ const Slug = ({ games }) => {
 
   // SECOND CHART REF
   useEffect(() => {
+      if (!chart_1) return; // Don't render chart unless chart is active
 
     const canvas = secondchartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
@@ -648,7 +661,7 @@ const Slug = ({ games }) => {
 
 
 
-                <select name="" id="" className="bg-gray-800 text-white py-2 w-full px-12 ">
+                 <select name="" id="" className="bg-gray-800 text-white py-2 w-full px-12 ">
 
                   <option onClick={() => { setChart(true), setChart_1(false) }}>Chart1</option>
                   <option onClick={() => { setChart(false), setChart_1(true) }}>Chart 2</option>
@@ -664,6 +677,7 @@ const Slug = ({ games }) => {
                     className="bg-black max-h-[15rem] lg:max-h-96"></canvas>
 
                 }
+               
               </>
 
             )}
