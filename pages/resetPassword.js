@@ -63,7 +63,7 @@ const ResetPassword = () => {
         setStarttimer(true)
         setActive(false)
       } else if (response.found == false) {
-        toast.error("Email Address Not found in the Database")
+        toast.error("Email Address Not found")
 
       }
     }

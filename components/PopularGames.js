@@ -23,7 +23,7 @@ const PopularGames = () => {
     </div></Link>
     <div className='bg-black h-[2px]'></div>
     <Link href={`/games/red-dead-redemption-2-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/red-dead-redemption-2-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/red-dead-redemption-2-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Red Dead Redmption 2</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
@@ -34,19 +34,19 @@ const PopularGames = () => {
     <div className='bg-black h-[2px]'></div>
    
     <Link href={`/games/the-evil-within-2-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/the-evil-within-2-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/the-evil-within-2-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>The Evil Within 2</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
    
-    <Link href={`/games/forza-horizon-5`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/forza-horizon-5.jpg`} alt="" width={100} height={100} />
+    <Link href={`/games/forza-horizon-5-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
+      <Image src={`/images/forza-horizon-5-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Forza Horizon 5</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
    
     <Link href={`/games/doom-eternal-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/doom-eternal-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/doom-eternal-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Doom Eternal</h3>
     </div></Link>
    
@@ -70,7 +70,7 @@ const PopularGames = () => {
     </div></Link>
     <div className='bg-black h-[2px]'></div>
     <Link href={`/games/red-dead-redemption-2-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/red-dead-redemption-2-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/red-dead-redemption-2-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Red Dead Redmption 2</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
@@ -81,20 +81,20 @@ const PopularGames = () => {
     <div className='bg-black h-[2px]'></div>
    
     <Link href={`/games/the-evil-within-2-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/the-evil-within-2-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/the-evil-within-2-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>The Evil Within 2</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
    
    
-    <Link href={`/games/forza-horizon-5`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/forza-horizon-5.jpg`} alt="" width={100} height={100} />
+    <Link href={`/games/forza-horizon-5-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
+      <Image src={`/images/forza-horizon-5-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Forza Horizon 5</h3>
     </div></Link>
     <div className='bg-black h-[2px]'></div>
    
     <Link href={`/games/doom-eternal-free-download`}><div className='flex items-center cursor-pointer hover:bg-black '>
-      <Image src={`/images/doom-eternal-free-download.jpg`} alt="" width={100} height={100} />
+      <Image src={`/images/doom-eternal-free-download.webp`} alt="" width={100} height={100} />
       <h3 className='py-6 font-bold px-5 hover:text-white text-gray-800'>Doom Eternal</h3>
     </div></Link>
    

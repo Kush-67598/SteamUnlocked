@@ -324,7 +324,7 @@ const Slug = ({ games }) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, [chart]);
+  }, [chart,games]);
 
   // SECOND CHART REF
   useEffect(() => {
@@ -333,22 +333,29 @@ const Slug = ({ games }) => {
     const canvas = secondchartRef.current;
     if (!canvas) return; // Prevent running if canvas not ready
 
-    let monthlyData = {};
+    let monthlyDataMap = {};
 
-    games.priceHistory.forEach((item) => {
-      const date = new Date(item.date);
-      const monthKey = `${date.getUTCFullYear()}-${date.getUTCMonth()}`; // e.g., "2024-0" for Jan 2024
-      monthlyData[monthKey] = item; // overwrites with the last entry of that month
-    });
+games.priceHistory.forEach((item) => {
+  const date = new Date(item.date);
+  const monthKey = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
+  monthlyDataMap[monthKey] = item; // Store latest value per month
+});
 
-    const chart = Object.values(monthlyData).map((item) => item.value);
-    const labels = Object.values(monthlyData).map((item) => {
-      const date = new Date(item.date);
-      return date.toLocaleString("default", {
-        month: "short",
-        year: "numeric",
-      }); // "Jan 2024"
-    });
+// Sort by date (key: "YYYY-M")
+const sortedMonthlyData = Object.entries(monthlyDataMap)
+  .sort(([a], [b]) => new Date(a + '-01') - new Date(b + '-01')) // Sort by YYYY-MM-01
+  .map(([_, value]) => value);
+
+// Then build chart data
+const chart = sortedMonthlyData.map((item) => item.value);
+const labels = sortedMonthlyData.map((item) => {
+  const date = new Date(item.date);
+  return date.toLocaleString("default", {
+    month: "short",
+    year: "numeric",
+  });
+});
+
 
     const colors = labels.map(() => {
       const r = Math.floor(Math.random() * 155 + 100);
@@ -416,7 +423,7 @@ const Slug = ({ games }) => {
         secondchartInstanceRef.current.destroy();
       }
     };
-  }, [chart_1]);
+  }, [chart_1,games]);
 
   return (
     <>
@@ -553,7 +560,7 @@ const Slug = ({ games }) => {
                     </a>
                   </div>
 
-                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-20 py-[6.19dvh] lg:py-[7.8dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
+                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-[6.19dvh] lg:py-[7.8dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
                     Min Price:$
                     {games.priceHistory.length == 0
                       ? games.price

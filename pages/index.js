@@ -25,6 +25,7 @@ export default function Home({
     Horror: [...Horror],
     Story: [...Story],
     FPS: [...FPS],
+    RPG: [...RPG],
   });
 
   const isMobile = useCheckView();
@@ -42,6 +43,7 @@ export default function Home({
     Racing: 2,
     Story: 2,
     FPS: 2,
+    RPG: 2,
   });
 
   const loadMore = async (category) => {
@@ -179,6 +181,7 @@ export default function Home({
         {renderCategorySection("Racing", games.Racing)}
         {renderCategorySection("Story", games.Story)}
         {renderCategorySection("FPS", games.FPS)}
+        {renderCategorySection("RPG", games.RPG)}
       </div>
     </>
   );
