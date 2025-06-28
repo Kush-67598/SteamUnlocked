@@ -4,10 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Loader from '../components/Loader';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
-
-
-const ResetPassword = () => {
+const Passwordreset = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [starttimer, setStarttimer] = useState(false)
@@ -303,4 +300,4 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export default Passwordreset
