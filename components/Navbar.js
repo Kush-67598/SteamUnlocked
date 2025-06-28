@@ -63,7 +63,7 @@ const Navbar = () => {
     { label: "Request Games", href: "/RequestGames" },
   ];
   const dropdownLinks = [
-    { label: "Action", href: "/Action" },
+    { label: "ACTION", href: "/Action" },
     { label: "RPG", href: "/RPG" },
     { label: "FPS", href: "/FPS" },
     { label: "HORROR", href: "/Horror" },
