@@ -102,7 +102,7 @@ const Help = () => {
         <img
           src="/images/ghost.jpeg"
           alt="Signup Background"
-          className="w-full h-[35.19rem] lg:h-[40.5rem] object-fit"
+          className="w-full h-[39.19rem] lg:h-[40.5rem] object-fit"
           />
       </picture>
       <div className="  absolute inset-0 flex flex-col items-center justify-center lg:flex lg:inset-0 lg:absolute">
