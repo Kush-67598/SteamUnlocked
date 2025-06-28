@@ -562,10 +562,10 @@ const Slug = ({ games }) => {
                   recommended for optimal performance and to avoid save issues.
                 </p>
 
-                <div className="lg:flex items-center justify-center">
-                  <div className="flex flex-col items-center justify-center ">
+                <div className="lg:flex mx-20 items-center justify-center ">
+                  <div className="flex flex-col items-center justify-center mx-4 lg:w-full  ">
                     <a href={`/api/Downloads/${games.slug}`}>
-                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
+                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:py-7 lg:my-7">
                         {new_title}
                         <br />
                         <span>Size:{games.size}</span>
@@ -573,17 +573,18 @@ const Slug = ({ games }) => {
                     </a>
                   </div>
 
-                  <div className="flex flex-col items-center justify-center ">
+                  <div className="flex flex-col items-center justify-center mx-4 lg:w-full ">
                    
-                      <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
+                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] ">
                         {new_title}
                         <br></br>Steam
                         <span>Price:${games.price}</span>
                       </button>
                   </div>
-                  <div className="flex flex-col items-center justify-center ">
-                    <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 w-64 my-4 font-semibold text-[#333] lg:mx-4  lg:py-[3.2rem]">
-                      Min Price:$
+                  <div className=" flex flex-col items-center justify-center mx-4 lg:w-full">
+                   
+                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4">
+                        Min Price:$
                       {games.priceHistory.length == 0
                         ? games.price
                         : Math.min(
@@ -596,8 +597,9 @@ const Slug = ({ games }) => {
                         : Math.max(
                             ...games.priceHistory.map((item) => item.value)
                           )}
-                    </button>
+                      </button>
                   </div>
+                  
                 </div>
 
                 <div className="px-4 text-sm text-[#333] ">
