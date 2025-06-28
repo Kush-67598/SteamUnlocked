@@ -586,7 +586,7 @@ const Slug = ({ games }) => {
                     </a>
                   </div>
 
-                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-[6.19dvh] lg:py-[7.8dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
+                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-[6.4rem] py-[4.5dvh] lg:py-[6.1dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
                     Min Price:$
                     {games.priceHistory.length == 0
                       ? games.price
@@ -701,8 +701,8 @@ const Slug = ({ games }) => {
                   }}
                 >
                   <option value="">Show Charts</option>
-                  <option value="chart1">Chart 1</option>
-                  <option value="chart2">Chart 2</option>
+                  <option value="chart1">1.{' '}System Requirements</option>
+                  <option value="chart2">2.{' '}Price Variation</option>
                 </select>
                 {chart && (
                   <canvas

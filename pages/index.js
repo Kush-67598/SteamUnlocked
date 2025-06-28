@@ -93,10 +93,13 @@ export default function Home({
           {filtered.map((item, index) => (
             <div
               key={index}
+            
               className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in"
             >
               <Link href={`/games/${item.slug}`}>
+             
                 <img
+                onClick={()=>setLoading(true)}
                   loading="lazy"
                   src={`/images/${item.img}.webp`}
                   onError={(e) => (e.target.src = `/images/${item.img}.jpg`)}
@@ -105,6 +108,7 @@ export default function Home({
                   alt={item.title || "game image"}
                   className="w-44 h-60 cursor-pointer rounded-lg"
                 />
+                
               </Link>
             </div>
           ))}
