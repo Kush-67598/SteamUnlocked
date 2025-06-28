@@ -287,12 +287,9 @@ const Passwordreset = () => {
             }
 
 
-
-
-
           </div>
         </div>
-      </main>66
+      </main>
 
 
     </>

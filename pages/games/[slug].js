@@ -585,22 +585,22 @@ const Slug = ({ games }) => {
                       </button>
                     </a>
                   </div>
-
-                  <div className="lg:w-48 hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-[6.4rem] py-[4.5dvh] lg:py-[6.1dvh] text-center my-4 font-semibold text-[#333] lg:mx-4">
-                    Min Price:$
-                    {games.priceHistory.length == 0
-                      ? games.price
-                      : Math.min(
-                          ...games.priceHistory.map((item) => item.value)
-                        )}
-                    <div className="font-bold cursor-none">
+                  <div className="flex flex-col items-center justify-center ">
+                    <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 w-64 my-4 font-semibold text-[#333] lg:mx-4  lg:py-[3.2rem]">
+                      Min Price:$
+                      {games.priceHistory.length == 0
+                        ? games.price
+                        : Math.min(
+                            ...games.priceHistory.map((item) => item.value)
+                          )}{" "}
+                      <br />
                       Max Price:$
                       {games.priceHistory.length == 0
                         ? games.price
                         : Math.max(
                             ...games.priceHistory.map((item) => item.value)
                           )}
-                    </div>
+                    </button>
                   </div>
                 </div>
 
@@ -701,8 +701,8 @@ const Slug = ({ games }) => {
                   }}
                 >
                   <option value="">Show Charts</option>
-                  <option value="chart1">1.{' '}System Requirements</option>
-                  <option value="chart2">2.{' '}Price Variation</option>
+                  <option value="chart1">1. System Requirements</option>
+                  <option value="chart2">2. Price Variation</option>
                 </select>
                 {chart && (
                   <canvas

@@ -145,7 +145,7 @@ export default function Home({
               pre-installed on steam without the cost.
             </p>
             <Link href="/AllGames">
-              <button className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">
+              <button onClick={()=>setLoading(true)} className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">
                 Browse
               </button>
             </Link>
