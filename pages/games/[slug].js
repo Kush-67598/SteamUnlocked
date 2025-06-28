@@ -56,9 +56,8 @@ const Slug = ({ games }) => {
         progress: undefined,
         theme: "dark",
       });
-
-
     }
+    
 try{
 
     const data = { slug, content: comment, category };
