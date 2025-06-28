@@ -98,9 +98,9 @@ const Help = () => {
 <div className="  relative  w-full h-full ">
 
       <picture className=" z-10 ">
-        <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
+        <source media="(min-width: 1024px)" srcSet="/images/lifeisstrange.jpg" />
         <img
-          src="/images/qwer.webp"
+          src="/images/ghost.jpeg"
           alt="Signup Background"
           className="w-full h-[35.19rem] lg:h-[40.5rem] object-fit"
           />
@@ -113,7 +113,7 @@ const Help = () => {
           <textarea
             rows={20}
             type="text"
-            className="min-h-20  my-4 rounded-md text-white  lg:mx-40  bg-transparent border border-red-500 focus:outline-red-500"
+            className="min-h-20 placeholder:text-black  my-4 rounded-md text-  lg:mx-40  bg-transparent border border-red-500 focus:outline-red-500"
             onChange={(e) => {
               setText(e.target.value);
             }}
