@@ -44,9 +44,8 @@ const Slug = ({ games }) => {
   };
 
   const HandleCommentSubmit = async (req, res) => {
-    setLoading(true);
-    if(!comment){
-      toast.success("Plz Fill The Required Field", {
+    if (!comment) {
+      toast.info("Plz Fill The Required Fields", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: true,
@@ -56,53 +55,54 @@ const Slug = ({ games }) => {
         progress: undefined,
         theme: "dark",
       });
-    }
-    
-try{
+    } else {
+      try {
+        const data = { slug, content: comment, category };
+        setLoading(true);
+        const commentsData = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/Add/addComments`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "Application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        let response = await commentsData.json();
+        setLoading(false);
 
-    const data = { slug, content: comment, category };
-    const commentsData = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/api/Add/addComments`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
+        if (response) {
+          toast.success("Comment Posted", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          setComment("");
+        }
+        getComment_api();
+      } catch (err) {
+        toast.error("Comment not posted", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } finally {
+        setLoading(false);
       }
-    );
-    let response = await commentsData.json();
-    setLoading(false);
-
-    if (response) {
-      toast.success("Comment Posted", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      setComment("");
     }
-    getComment_api();
-}catch(err){
-  toast.error("Comment not posted", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-}finally{
-  setLoading(false)
-}}
+  };
 
   const getMonthDifference = (item) => {
     const now = new Date(); //this is current date means Todays Date
@@ -351,7 +351,7 @@ try{
         chartInstanceRef.current.destroy();
       }
     };
-  }, [chart,games]);
+  }, [chart, games]);
 
   // SECOND CHART REF
   useEffect(() => {
@@ -362,27 +362,26 @@ try{
 
     let monthlyDataMap = {};
 
-games.priceHistory.forEach((item) => {
-  const date = new Date(item.date);
-  const monthKey = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
-  monthlyDataMap[monthKey] = item; // Store latest value per month
-});
+    games.priceHistory.forEach((item) => {
+      const date = new Date(item.date);
+      const monthKey = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
+      monthlyDataMap[monthKey] = item; // Store latest value per month
+    });
 
-// Sort by date (key: "YYYY-M")
-const sortedMonthlyData = Object.entries(monthlyDataMap)
-  .sort(([a], [b]) => new Date(a + '-01') - new Date(b + '-01')) // Sort by YYYY-MM-01
-  .map(([_, value]) => value);
+    // Sort by date (key: "YYYY-M")
+    const sortedMonthlyData = Object.entries(monthlyDataMap)
+      .sort(([a], [b]) => new Date(a + "-01") - new Date(b + "-01")) // Sort by YYYY-MM-01
+      .map(([_, value]) => value);
 
-// Then build chart data
-const chart = sortedMonthlyData.map((item) => item.value);
-const labels = sortedMonthlyData.map((item) => {
-  const date = new Date(item.date);
-  return date.toLocaleString("default", {
-    month: "short",
-    year: "numeric",
-  });
-});
-
+    // Then build chart data
+    const chart = sortedMonthlyData.map((item) => item.value);
+    const labels = sortedMonthlyData.map((item) => {
+      const date = new Date(item.date);
+      return date.toLocaleString("default", {
+        month: "short",
+        year: "numeric",
+      });
+    });
 
     const colors = labels.map(() => {
       const r = Math.floor(Math.random() * 155 + 100);
@@ -450,7 +449,7 @@ const labels = sortedMonthlyData.map((item) => {
         secondchartInstanceRef.current.destroy();
       }
     };
-  }, [chart_1,games]);
+  }, [chart_1, games]);
 
   return (
     <>
@@ -705,18 +704,18 @@ const labels = sortedMonthlyData.map((item) => {
                   <option value="chart1">Chart 1</option>
                   <option value="chart2">Chart 2</option>
                 </select>
-                  {chart && (
-                    <canvas
-                      ref={chartRef}
-                      className="bg-black min-h-[15rem] lg:max-h-96 "
-                    ></canvas>
-                  )}
-                  {chart_1 && (
-                    <canvas
-                      ref={secondchartRef}
-                      className="bg-black max-h-[15rem] lg:max-h-96"
-                    ></canvas>
-                  )}
+                {chart && (
+                  <canvas
+                    ref={chartRef}
+                    className="bg-black min-h-[15rem] lg:max-h-96 "
+                  ></canvas>
+                )}
+                {chart_1 && (
+                  <canvas
+                    ref={secondchartRef}
+                    className="bg-black max-h-[15rem] lg:max-h-96"
+                  ></canvas>
+                )}
               </>
             )}
           </div>
