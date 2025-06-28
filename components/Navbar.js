@@ -10,9 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Loader from "./Loader";
 
 const Navbar = () => {
-  
-  const [loading,setLoading]=useState(false)
-  const logout = () => {
+    const logout = () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("TOKEN");
       toast.success("Successfully Logged Out", {
@@ -81,7 +79,6 @@ const Navbar = () => {
   return (
     
     <>
-    {loading && <Loader/>}
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -163,7 +160,7 @@ const Navbar = () => {
                   <li
 
                     key={index}
-                    onClick={() => {setDropdownmobile(false),setLoading(true)}}
+                    onClick={() => {setDropdownmobile(false)}}
                     className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
                   >
                     {links.label}
