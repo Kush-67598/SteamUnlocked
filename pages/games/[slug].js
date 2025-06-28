@@ -662,7 +662,7 @@ const labels = sortedMonthlyData.map((item) => {
                 </div>
 
                 <select
-                  className="bg-gray-800 text-white py-2 w-full px-12"
+                  className="bg-gray-800 text-white py-3 -my-1 w-full px-12 "
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === "chart1") {
@@ -674,6 +674,7 @@ const labels = sortedMonthlyData.map((item) => {
                     }
                   }}
                 >
+                  <option value="">Show Charts</option>
                   <option value="chart1">Chart 1</option>
                   <option value="chart2">Chart 2</option>
                 </select>

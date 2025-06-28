@@ -12,7 +12,7 @@ const ResetPassword = () => {
 
   const [starttimer, setStarttimer] = useState(false)
   const [email, setEmail] = useState('')
-  const [seconds, setSeconds] = useState(20)
+  const [seconds, setSeconds] = useState(120)
   const [loading, setLoading] = useState(false)
   const [Otp, setOtp] = useState('')
   const [last, setLast] = useState(false)
@@ -43,8 +43,16 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
 
     e.preventDefault()
-    if (email == '') {
-      toast.error("Email field is required")
+    if (!email) {
+      toast.error("Email field is required", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseonHover: false,
+        draggable: true,
+        theme: "dark",
+      })
     }
     else {
       setLoading(true)
@@ -57,7 +65,6 @@ const ResetPassword = () => {
       })
 
       let response = await handleReset.json()
-      console.log(response)
       setLoading(false)
       if (response.success) {
         setStarttimer(true)
@@ -77,7 +84,7 @@ const ResetPassword = () => {
         autoClose: 1000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseonHover: false,
         draggable: true,
         theme: "dark",
       })
@@ -102,7 +109,7 @@ const ResetPassword = () => {
           autoClose: 1000,
           hideProgressBar: true,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseonHover: false,
           draggable: true,
           theme: "dark",
         })

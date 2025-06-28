@@ -14,14 +14,7 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
   const isadmin = router.pathname.startsWith("/admin");
-  useEffect(() => {
-    const token = localStorage.getItem("TOKEN")
-    const public_routes = ['/login', '/Signup', '/resetPassword']
-    if (!token && !public_routes.includes(router.pathname)) {
-      router.push('/login')
-    }
 
-  }, [router.pathname])
 
 
   return (

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../components/Loader";
+import { useRouter } from "next/router";
 
 const Help = () => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const router=useRouter()
 
   const onSubmit = async (e) => {
     const data = { text };
@@ -24,28 +26,32 @@ const Help = () => {
       let response=await contactData.json()
 
       if(response.success){
-        toast.success("Your Response has been Submitted.", {
+        toast.success("Your Response has been Submitted...Redirecting To HomePage", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
         theme: "dark",
         
       });
-            setText("");
+
+      setText("");
+      setTimeout(() => {
+        router.push('/')
+      }, 1500);
 
 
       }
       if (text.trim() === "") {
-        toast.error("Please fill in the required field.", {
+        toast.error("Please Fill The Required Fields.", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: true,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "dark",
@@ -60,7 +66,7 @@ const Help = () => {
           autoClose: 1000,
           hideProgressBar: true,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "dark",

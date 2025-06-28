@@ -39,6 +39,7 @@ export default function Home({
 
   const [pages, setPages] = useState({
     Action: 2,
+    
     Horror: 2,
     Racing: 2,
     Story: 2,
@@ -126,7 +127,7 @@ export default function Home({
   return (
     <>
    {loading &&<Loader/>}
-      {isMobile ? (
+      {isMobile  ? (
         <div className="flex flex-col bg-black w-full items-start justify-center font-custom py-20 top-8">
           <div className="mx-4">
             <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">
@@ -195,7 +196,6 @@ export async function getStaticProps(context) {
     );
   }
 
-  console.time("DB fetch");
   const [Action, FPS, Story, Horror, Racing, RPG] = await Promise.all([
     game.find({ category: "Action" }).limit(6),
     game.find({ category: "FPS" }).limit(6),
@@ -204,7 +204,6 @@ export async function getStaticProps(context) {
     game.find({ category: "Racing" }).limit(6),
     game.find({ category: "RPG" }).limit(6),
   ]);
-  console.timeEnd("DB fetch");
 
   return {
     props: {

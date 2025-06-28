@@ -1,9 +1,10 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../components/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,16 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+    const [token,setToken]=useState('')
+    const router=useRouter()
+  
+  useEffect(()=>{
+     const token= localStorage.getItem("TOKEN")
+     setToken(token)
+    })
+    if(token){
+      router.push('/')
+    }
 
   const handleChange = (e) => {
     const { name, value } = e.target;

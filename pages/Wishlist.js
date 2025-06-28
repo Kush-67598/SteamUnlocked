@@ -18,7 +18,6 @@ const Wishlist = () => {
     return item.title.toLowerCase().includes(text.toLowerCase())
   }
   )
-  console.log(filteredWishlist)
   const HandleChange = (e) => {
     setText(e.target.value);
   };

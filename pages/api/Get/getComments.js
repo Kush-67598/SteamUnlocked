@@ -17,7 +17,6 @@ const handler=async(req,res)=>{
         return res.status(400).json({error:"wrong method is used"})
     }
     const All_comments=await comments.find({ slug:slug }).populate("userId" ,"email name")
-    console.log(All_comments)
 
 
     return res.status(200).json(All_comments)

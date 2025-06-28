@@ -4,7 +4,7 @@ var CryptoJS = require("crypto-js");
 var jwt = require('jsonwebtoken');
 
 const handler = async (req, res) => {
-    if (req.method === "POST") {  // Ensure POST method for login
+    if (req.method === "POST") {  
         try {
             let u = await user.findOne({ "email": req.body.email });
 
@@ -13,11 +13,11 @@ const handler = async (req, res) => {
                 return res.status(400).json({ error: "User not found" });
             }
 
-            const decryptedPass = CryptoJS.AES.decrypt(u.password, "secretkey").toString(CryptoJS.enc.Utf8);
+            const decryptedPass = CryptoJS.AES.decrypt(u.password, process.env.DECRYPTION_KEY).toString(CryptoJS.enc.Utf8);
 
             if (req.body.email === u.email && req.body.password === decryptedPass) {
                 
-                var token = jwt.sign({ email: u.email, name: u.name,admin:u.admin}, 'jwtsecret');
+                var token = jwt.sign({ email: u.email, name: u.name,admin:u.admin},process.env.JWT_KEY);
                 
                 
                 return res.status(200).json({ success: true, token, email: u.email, name: u.name,admin:u.admin});

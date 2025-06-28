@@ -4,7 +4,7 @@ import game from "../../../models/game";
 const handler=async(req,res)=>{
 
     if(req.method!="GET"){
-        res.status(303).json({error:"WRONG METHOD USED"})
+        res.status(400).json({error:"WRONG METHOD USED"})
     }
     const {page=2,category}=req.query
 

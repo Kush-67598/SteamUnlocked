@@ -10,7 +10,7 @@ const handler=async(req,res)=>{
       return res.status(400).json({ success: false, message: "User already exists" });
     }
     
-            let u=new user({name,email,password:CryptoJS.AES.encrypt(req.body.password,'secretkey').toString()})
+            let u=new user({name,email,password:CryptoJS.AES.encrypt(req.body.password,process.env.DECRYPTION_KEY).toString()})
             await u.save()
             res.status(200).json({u,success:true})
     }

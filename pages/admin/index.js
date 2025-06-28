@@ -86,7 +86,6 @@ const prevPage=()=>{
     });
 
     let res = await update.json();
-    console.log(res);
     setId('')
     setPrice('')
     fetchGames()
@@ -117,7 +116,6 @@ const filtered_arr=games.filter((item)=>(
       
     })
     const delres=await deleteGames.json()
-      console.log(delres)
       setId('')
       await fetchGames()
      
@@ -162,7 +160,17 @@ try {
 await fetchGames()  
 }
      catch (err) {
-       console.log("error man error");
+      toast.warning('Couldnt Add Games', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
+
     }
 
     

@@ -21,9 +21,21 @@ const RequestGames = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+     if(!text || !email){
+toast.info("Plz Fill the Required Fields", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });      }else{
     try {
       setLoading(true)
       const data = { text, email };
+     
       const RequestedGamesdata = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/Get/reqgames`,
         {
@@ -37,13 +49,14 @@ const RequestGames = () => {
 
       let response = await RequestedGamesdata.json();
       setLoading(false)
+      
       if (response.success) {
         toast.success("Your Request Has been Submitted..Redirecting to HomePage", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: true,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "dark",
@@ -61,14 +74,14 @@ const RequestGames = () => {
         autoClose: 1000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
         theme: "dark",
       });
     }finally{
       setLoading(false)
-    }
+    }}
   };
 
   return (
@@ -93,9 +106,9 @@ const RequestGames = () => {
       )}
       <div className="relative w-full h-full">
       <picture className=" z-10">
-        <source media="(min-width: 1024px)" srcSet="/images/re_door.webp" />
+        <source media="(min-width: 1024px)" srcSet="/images/lifeisstrange.jpg" />
         <img
-          src="/images/qwer.webp"
+          src="/images/ghost.jpeg"
           alt="Signup Background"
           className="w-full h-[35.19rem] lg:h-[40rem] object-fit"
         />

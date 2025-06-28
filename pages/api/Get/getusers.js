@@ -14,11 +14,11 @@ const handler=async(req,res)=>{
                 return res.status(200).json({success:true,admin:u.admin})
         }catch(err){
               console.error('JWT verification failed:', err.message) // <-- Add this
-            return res.status(401).json({error:"TOKEN NOT VERIFED OR WRONG TOKEN"})
+            return res.status(400).json({error:"TOKEN NOT VERIFED OR WRONG TOKEN"})
         
     }
     }else{
-        return res.status(405).json({error:"CANT USE THIS METHOD"})
+        return res.status(400).json({error:"CANT USE THIS METHOD"})
     }
 }
 
