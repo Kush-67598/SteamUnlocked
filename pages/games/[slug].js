@@ -574,16 +574,12 @@ const Slug = ({ games }) => {
                   </div>
 
                   <div className="flex flex-col items-center justify-center ">
-                    <a
-                      href="https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/"
-                      target="_blank"
-                    >
+                   
                       <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:my-7">
                         {new_title}
                         <br></br>Steam
                         <span>Price:${games.price}</span>
                       </button>
-                    </a>
                   </div>
                   <div className="flex flex-col items-center justify-center ">
                     <button className="lg:w-48  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-12 w-64 my-4 font-semibold text-[#333] lg:mx-4  lg:py-[3.2rem]">
