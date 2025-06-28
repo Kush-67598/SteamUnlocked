@@ -180,7 +180,7 @@ const Login = () => {
                   </span>
                 </div>
                 <div className="lg:text-black  text-white font-semibold px-1 mt-2 ">
-                  <Link href={"/ResetPassword"}>
+                  <Link href={"/ResetPasswrd"}>
                     <span className="hover:underline hover:text-gray-100">
                       Forget Password ?{" "}
                     </span>
