@@ -45,6 +45,21 @@ const Slug = ({ games }) => {
 
   const HandleCommentSubmit = async (req, res) => {
     setLoading(true);
+    if(!comment){
+      toast.success("Plz Fill The Required Field", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+
+    }
+try{
 
     const data = { slug, content: comment, category };
     const commentsData = await fetch(
@@ -75,7 +90,20 @@ const Slug = ({ games }) => {
       setComment("");
     }
     getComment_api();
-  };
+}catch(err){
+  toast.error("Comment not posted", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+}finally{
+  setLoading(false)
+}}
 
   const getMonthDifference = (item) => {
     const now = new Date(); //this is current date means Todays Date
