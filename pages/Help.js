@@ -113,7 +113,7 @@ const Help = () => {
           <textarea
             rows={20}
             type="text"
-            className="min-h-20 placeholder:text-black  my-4 rounded-md  lg:mx-40  bg-transparent border border-red-500 focus:outline-red-500"
+            className="min-h-20 lg:placeholder:text-black text-white placeholder:text-white  my-4 rounded-md  lg:mx-40  bg-transparent border border-red-500 focus:outline-red-500"
             onChange={(e) => {
               setText(e.target.value);
             }}
