@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import mongoose from "mongoose";
 import game from "../../models/game";
 import { FaHeart } from "react-icons/fa";
 import PopularGames from "../../components/PopularGames";

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useCheckView from "../hooks/useCheckView";
-import Loader from '../components/Loader'
+import Loader from "../components/Loader";
 
 export default function Home({
   Action,
@@ -39,7 +39,7 @@ export default function Home({
 
   const [pages, setPages] = useState({
     Action: 2,
-    
+
     Horror: 2,
     Racing: 2,
     Story: 2,
@@ -93,13 +93,11 @@ export default function Home({
           {filtered.map((item, index) => (
             <div
               key={index}
-            
               className="cards px-2 py-2 hover:-translate-y-2 transition-all ease-in"
             >
               <Link href={`/games/${item.slug}`}>
-             
                 <img
-                onClick={()=>setLoading(true)}
+                  onClick={() => setLoading(true)}
                   loading="lazy"
                   src={`/images/${item.img}.webp`}
                   onError={(e) => (e.target.src = `/images/${item.img}.jpg`)}
@@ -108,7 +106,6 @@ export default function Home({
                   alt={item.title || "game image"}
                   className="w-44 h-60 cursor-pointer rounded-lg"
                 />
-                
               </Link>
             </div>
           ))}
@@ -130,8 +127,8 @@ export default function Home({
 
   return (
     <>
-   {loading &&<Loader/>}
-      {isMobile  ? (
+      {loading && <Loader />}
+      {isMobile ? (
         <div className="flex flex-col bg-black w-full items-start justify-center font-custom py-20 top-8">
           <div className="mx-4">
             <h1 className="text-2xl text-[#eb2d1c] lg:text-[40px] py-2 font-bold">
@@ -145,7 +142,10 @@ export default function Home({
               pre-installed on steam without the cost.
             </p>
             <Link href="/AllGames">
-              <button onClick={()=>setLoading(true)} className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md">
+              <button
+                onClick={() => setLoading(true)}
+                className="bg-[#eb2d1c] text-sm mt-5 font-bold text-white p-4 w-36 rounded-md"
+              >
                 Browse
               </button>
             </Link>

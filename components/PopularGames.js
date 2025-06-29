@@ -6,8 +6,7 @@ import React from 'react'
 
 const PopularGames = () => {
   const router=useRouter()
-    const categoryPaths = ["/Action","/FPS","/RPG", "/Horror", "/OpenWorld", "/Racing", "/Story"];
-  const isCategoryPage = categoryPaths.includes(router.pathname);
+  const GenrePage=router.pathname=='/category/[genre]'
 
     const SlugPage=router.pathname=='/games/[slug]'
   return (
@@ -57,7 +56,7 @@ const PopularGames = () => {
 </div>
     </div> }
 
-    {isCategoryPage && <div className='pt-10 lg:absolute lg:top-[48.2dvh] lg:left-[65dvw] lg:pt-0'>
+    {GenrePage && <div className='pt-10 lg:absolute lg:top-[48.2dvh] lg:left-[65dvw] lg:pt-0'>
       <div className='bg-[#222] px-2 py-10 lg:pt-0 '>
 <div className=' m-2 -mt-12 lg:w-96 lg:m-0'>
   <h1 className='bg-[#eb2d1c] h-16 px-2 py-5 text-white font-bold lg:text-xl '>Popular Games </h1>

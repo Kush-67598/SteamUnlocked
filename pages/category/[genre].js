@@ -1,26 +1,28 @@
 import React from 'react'
-import game from '../models/game'
-import Link from 'next/link'
-import PopularGames from '../components/PopularGames'
-import Image from 'next/image'
-import useConnectDb from '../hooks/useConnectDb'
+import game from '../../models/game';
+import useConnectDb from '../../hooks/useConnectDb';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import PopularGames from '../../components/PopularGames';
 
 
-
-const Racing = ({Racing}) => {
+const Genre = ({games}) => {
+   
+    
+    
   return (
     <>
-          <div>
-            {Racing.length==0 && <div>No Games To Show</div>}
-            {Racing.length > 0 && (
+     <div className='lg:mb-0 -mb-12'>
+            {games.length==0 && <div>No Games To Show</div>}
+            {games.length > 0 && (
               <div className='flex flex-col justify-center items-start'>
                 
           <div className="text-xs bg-black w-full text-white  px-6 py-4 font-bold font-sans  lg:-mt-44 lg:bg-transparent lg:pl-28">
-            <strong className="text-slate-400 ">Home</strong> &rarr; <span>{Racing[0].category}</span>  
+            <strong className="text-slate-400 ">Home</strong> &rarr; <span>{games[0].category}</span>  
           </div>
               </div>
         )}
-            {Racing && Racing.map((game,index)=>(
+            {games && games.map((game,index)=>(
               <div key={index} className='bg-[#222] pb-6 lg:-mt-16'>
                 <div className='topinfo h-10 text-white text-center lg:py-2'>
 
@@ -41,16 +43,32 @@ const Racing = ({Racing}) => {
           </div>
           <PopularGames/>
     </>
+   
   )
 }
-export async function getServerSideProps(context) {
-     await useConnectDb()
+export async function getStaticPaths(){
+  await useConnectDb()
+  const categories=await game.distinct('category')
+  const paths=categories.map((cat)=>(
+   {params:{genre:cat}}
+  ))
+  return{
+    paths,fallback:'blocking'  //lets Next.js generate new genre pages on first request if they weren’t built
+  }
 
-  let Racing = await game.find({ category: "Racing" })
-  return {
-    props: { Racing: JSON.parse(JSON.stringify(Racing)) }, // will be passed to the page component as props
+  
+}
+export async function getStaticProps({params}){
+  const {genre}=params
+  await useConnectDb()
+  const games=await game.find({category:genre})
+  return{
+    props:{
+      games:JSON.parse(JSON.stringify(games)),
+      genre
+
+    }
   }
 }
 
-
-export default Racing
+export default Genre

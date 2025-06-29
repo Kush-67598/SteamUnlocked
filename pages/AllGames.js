@@ -52,7 +52,7 @@ const AllGames = ({ AllGames }) => {
     </>
   );
 };
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   let AllGames = await game.find();
   return {
     props: { AllGames: JSON.parse(JSON.stringify(AllGames)) }, // will be passed to the page component as props

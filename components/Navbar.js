@@ -3,14 +3,13 @@ import Link from "next/link";
 import { FaHeart } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import useCheckView from "../hooks/useCheckView";
-import { useEffect, useState } from "react";
-import { Router, useRouter } from "next/router";
+import { useState } from "react";
+import {  useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
-import Loader from "./Loader";
 
 const Navbar = () => {
-    const logout = () => {
+  const logout = () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("TOKEN");
       toast.success("Successfully Logged Out", {
@@ -30,45 +29,28 @@ const Navbar = () => {
   };
 
   const router = useRouter();
-  const categoryPaths = [
-    "/Action",
-    "/RPG",
-    "/FPS",
-    "/Horror",
-    "/Racing",
-    "/Story",
-  ];
-  const isCategoryPage = categoryPaths.includes(router.pathname);
-
   const loginPage = router.pathname == "/login";
   const HomePage = router.pathname == "/";
   const SlugPage = router.pathname == "/games/[slug]";
   const AllGamesPage = router.pathname == "/AllGames";
   const WishlistPage = router.pathname == "/Wishlist";
   const RequestGames = router.pathname == "/RequestGames";
-
+  const GenrePage = router.pathname == "/category/[genre]";
   const signUpPage = router.pathname == "/Signup";
 
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "All Games(A-Z)", href: "/AllGames" },
-    // { label: "Categories", href: "#", isDropdown: true },
-    { label: "Action", href: "/Action" },
-    { label: "RPG", href: "/RPG" },
-    { label: "FPS", href: "/FPS" },
-    { label: "Story", href: "/Story" },
-    { label: "Horror", href: "/Horror" },
-    { label: "Racing", href: "/Racing" },
+    // { label: "Categories", href: "", isDropdown: true },
+    { label: "Action", href: "/category/Action" },
+    { label: "RPG", href: "/category/RPG" },
+    // { label: "RPG", href: "/" },
+    { label: "FPS", href: "/category/FPS" },
+    { label: "Story", href: "/category/Story" },
+    { label: "Horror", href: "/category/Horror" },
+    { label: "Racing", href: "/category/Racing" },
     { label: "Help", href: "/Help" },
     { label: "Request Games", href: "/RequestGames" },
-  ];
-  const dropdownLinks = [
-    { label: "ACTION", href: "/Action" },
-    { label: "RPG", href: "/RPG" },
-    { label: "FPS", href: "/FPS" },
-    { label: "HORROR", href: "/Horror" },
-    { label: "RACING", href: "/Racing" },
-    { label: "STORY", href: "/Story" },
   ];
 
   const [dropdownmobile, setDropdownmobile] = useState(false);
@@ -77,7 +59,6 @@ const Navbar = () => {
 
   const isMobile = useCheckView();
   return (
-    
     <>
       <ToastContainer
         position="top-right"
@@ -96,12 +77,12 @@ const Navbar = () => {
         SlugPage ||
         AllGamesPage ||
         WishlistPage ||
-        isCategoryPage ||
+        GenrePage ||
         RequestGames) &&
       !(loginPage || signUpPage) ? (
         <div
           className={`relative  ${
-            isCategoryPage ? "py-[0.1rem]" : "h-[10vh]"
+            GenrePage ? "py-[0.1rem]" : "h-[10vh]"
           }  bg-black w-full`}
         >
           <div className="h-full w-full flex items-center justify-between px-6  text-white">
@@ -138,7 +119,7 @@ const Navbar = () => {
             SlugPage ||
             AllGamesPage ||
             WishlistPage ||
-            isCategoryPage) &&
+            GenrePage) &&
             !(loginPage || signUpPage) && (
               <div className="text-white bg-red-600 py-2  flex  items-center justify-center ">
                 <div
@@ -158,9 +139,10 @@ const Navbar = () => {
               {navLinks.map((links, index) => (
                 <Link href={links.href}>
                   <li
-
                     key={index}
-                    onClick={() => {setDropdownmobile(false)}}
+                    onClick={() => {
+                      setDropdownmobile(false);
+                    }}
                     className=" text-md px-3 py-3 hover:bg-[#eb2d1c] rounded-xl cursor-pointer"
                   >
                     {links.label}
@@ -171,11 +153,7 @@ const Navbar = () => {
           )}
         </div>
       ) : (
-        (HomePage ||
-          SlugPage ||
-          AllGamesPage ||
-          WishlistPage ||
-          isCategoryPage) && (
+        (HomePage || SlugPage || AllGamesPage || WishlistPage || GenrePage) && (
           <div
             className={`relative ${
               HomePage
@@ -184,7 +162,7 @@ const Navbar = () => {
                 ? "h-[27vh]"
                 : AllGamesPage || WishlistPage
                 ? "h-[40vh]"
-                : isCategoryPage
+                : GenrePage
                 ? "h-[44vh]"
                 : ""
             } w-full`}
@@ -239,17 +217,7 @@ const Navbar = () => {
                 }}
                 className="absolute font-extralight rounded-md z-10  bg-[#1c1c1c] text-white border-black border-2 top-44 left-[47.4%] w-28 list-none"
               >
-                {dropdownLinks.map((links, index) => (
-                  <Link href={links.href}>
-                    <li
-                      key={index}
-                      className=" px-6 py-3 hover:text-red-500 hover:transition-all hover:duration-300  rounded-md uppercase text-sm cursor-pointer hover:bg-slate-800"
-                    >
-                      {links.label}
-                    </li>
-                    <div className="bg-black h-[0.03rem]"></div>
-                  </Link>
-                ))}
+                
               </div>
             )}
 
