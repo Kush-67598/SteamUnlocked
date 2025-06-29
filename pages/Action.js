@@ -1,6 +1,7 @@
 import game from '../models/game'
 import Link from 'next/link'
 import PopularGames from '../components/PopularGames'
+import useConnectDb from '../hooks/useConnectDb'
 
 
 
@@ -41,6 +42,8 @@ const Action = ({Action}) => {
   )
 }
 export async function getServerSideProps(context) {
+     await useConnectDb()
+
   let Action = await game.find({ category: "Action" })
   return {
     props: { Action: JSON.parse(JSON.stringify(Action)) }, // will be passed to the page component as props

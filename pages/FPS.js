@@ -1,8 +1,7 @@
-import React from 'react'
 import game from '../models/game'
 import Link from 'next/link'
 import PopularGames from '../components/PopularGames'
-import Image from 'next/image'
+import useConnectDb from '../hooks/useConnectDb'
 
 
 
@@ -43,6 +42,7 @@ const FPS = ({FPS}) => {
   )
 }
 export async function getServerSideProps(context) {
+  await useConnectDb()
   let FPS = await game.find({ category: "FPS" })
   return {
     props: { FPS: JSON.parse(JSON.stringify(FPS)) }, // will be passed to the page component as props

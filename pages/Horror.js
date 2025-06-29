@@ -3,6 +3,7 @@ import game from '../models/game'
 import Link from 'next/link'
 import PopularGames from '../components/PopularGames'
 import Image from 'next/image'
+import useConnectDb from '../hooks/useConnectDb'
 
 
 
@@ -43,6 +44,7 @@ const Horror = ({Horror}) => {
   )
 }
 export async function getServerSideProps(context) {
+  await useConnectDb()
   let Horror = await game.find({ category: "Horror" })
   return {
     props: { Horror: JSON.parse(JSON.stringify(Horror)) }, // will be passed to the page component as props

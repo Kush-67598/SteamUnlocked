@@ -9,6 +9,7 @@ import PopularGames from "../../components/PopularGames";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Loader from "../../components/Loader";
+import useConnectDb from "../../hooks/useConnectDb";
 
 const Slug = ({ games }) => {
   const [loading, setLoading] = useState(false);
@@ -811,11 +812,8 @@ const Slug = ({ games }) => {
   );
 };
 export async function getServerSideProps({ params }) {
-  if (!mongoose.connections[0].readyState) {
-    await mongoose.connect(
-      "mongodb+srv://Steam:s_unlocked1234@cluster0.ovfam.mongodb.net/"
-    );
-  }
+    await useConnectDb()
+  
   const { slug } = params;
   const games = await game.findOne({ slug });
 
