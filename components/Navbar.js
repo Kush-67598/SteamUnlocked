@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import useCheckView from "../hooks/useCheckView";
 import { useState } from "react";
-import {  useRouter } from "next/router";
+import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -100,11 +100,11 @@ const Navbar = () => {
             {/* Nav Actions */}
             <div className="flex gap-6 items-center text-lg">
               <Link href="/Wishlist">
-                <div className="cursor-pointer hover:text-red-400 transition">
+                <div className="flex items-center justify-center">
                   Wishlist
+                  <FaHeart className="text-red-500 text-xl mx-1" />
                 </div>
               </Link>
-              <FaHeart className="text-red-500 text-xl" />
               <button className="hover:text-gray-300 transition">
                 <TbLogout
                   size={24}
@@ -190,11 +190,11 @@ const Navbar = () => {
               {/* Nav Actions */}
               <div className="flex gap-6 items-center text-lg mx-4">
                 <Link href="/Wishlist">
-                  <div className="cursor-pointer hover:text-red-400 transition">
-                    Wishlist
-                  </div>
+                  <div className="flex items-center justify-center">
+                  Wishlist
+                  <FaHeart className="text-red-500 text-xl mx-1" />
+                </div>
                 </Link>
-                <FaHeart className="text-red-500 text-xl" />
                 <button className="hover:text-gray-300 transition">
                   <TbLogout
                     size={24}
@@ -216,9 +216,7 @@ const Navbar = () => {
                   setDropdown(false);
                 }}
                 className="absolute font-extralight rounded-md z-10  bg-[#1c1c1c] text-white border-black border-2 top-44 left-[47.4%] w-28 list-none"
-              >
-                
-              </div>
+              ></div>
             )}
 
             {/* Actual Navbar */}
