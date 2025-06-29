@@ -565,7 +565,7 @@ const Slug = ({ games }) => {
                 <div className="lg:flex mx-20 items-center justify-center ">
                   <div className="flex flex-col items-center justify-center mx-4 lg:w-full  ">
                     <a href={`/api/Downloads/${games.slug}`}>
-                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4 lg:py-7 lg:my-7">
+                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2 lg:py-7 lg:my-7">
                         {new_title}
                         <br />
                         <span>Size:{games.size}</span>
@@ -575,7 +575,7 @@ const Slug = ({ games }) => {
 
                   <div className="flex flex-col items-center justify-center mx-4 lg:w-full ">
                    
-                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] ">
+                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 lg:mx-12 py-10 px-4 my-4 font-semibold text-[#333] ">
                         {new_title}
                         <br></br>Steam
                         <span>Price:${games.price}</span>
@@ -583,7 +583,7 @@ const Slug = ({ games }) => {
                   </div>
                   <div className=" flex flex-col items-center justify-center mx-4 lg:w-full">
                    
-                      <button className=" w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-4">
+                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2">
                         Min Price:$
                       {games.priceHistory.length == 0
                         ? games.price
