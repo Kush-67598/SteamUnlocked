@@ -37,6 +37,7 @@ const Navbar = () => {
   const RequestGames = router.pathname == "/RequestGames";
   const GenrePage = router.pathname == "/category/[genre]";
   const signUpPage = router.pathname == "/Signup";
+  const HelpPage=router.pathname=='/Help'
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -78,7 +79,7 @@ const Navbar = () => {
         AllGamesPage ||
         WishlistPage ||
         GenrePage ||
-        RequestGames) &&
+        RequestGames || HelpPage)  &&
       !(loginPage || signUpPage) ? (
         <div
           className={`relative  ${
@@ -119,7 +120,7 @@ const Navbar = () => {
             SlugPage ||
             AllGamesPage ||
             WishlistPage ||
-            GenrePage) &&
+            GenrePage ) &&
             !(loginPage || signUpPage) && (
               <div className="text-white bg-red-600 py-2  flex  items-center justify-center ">
                 <div
