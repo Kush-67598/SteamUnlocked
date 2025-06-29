@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useCheckView from "../hooks/useCheckView";
 import Loader from "../components/Loader";
+import useConnectDb from "../hooks/useConnectDb";
 
 export default function Home({
   Action,
@@ -193,12 +194,7 @@ export default function Home({
 }
 
 export async function getStaticProps(context) {
-  if (!mongoose.connections[0].readyState) {
-    await mongoose.connect(
-      "mongodb+srv://Steam:s_unlocked1234@cluster0.ovfam.mongodb.net/",
-      { family: 4 }
-    );
-  }
+  await useConnectDb()
 
   const [Action, FPS, Story, Horror, Racing, RPG] = await Promise.all([
     game.find({ category: "Action" }).limit(6),

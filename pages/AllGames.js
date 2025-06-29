@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import game from "../models/game";
 import Link from "next/link";
 import Loader from "../components/Loader";
+import useConnectDb from "../hooks/useConnectDb";
 
 
 const AllGames = ({ AllGames }) => {
@@ -53,6 +54,7 @@ const AllGames = ({ AllGames }) => {
   );
 };
 export async function getStaticProps(context) {
+  await useConnectDb()
   let AllGames = await game.find();
   return {
     props: { AllGames: JSON.parse(JSON.stringify(AllGames)) }, // will be passed to the page component as props
