@@ -12,6 +12,7 @@ import useConnectDb from "../../hooks/useConnectDb";
 
 const Slug = ({ games }) => {
   const [loading, setLoading] = useState(false);
+  const [reco, setReco] = useState([]);
   const [chart, setChart] = useState(false);
   const [chart_1, setChart_1] = useState(false);
   const router = useRouter();
@@ -29,7 +30,23 @@ const Slug = ({ games }) => {
     getComment_api();
   }, []);
 
-  const getComment_api = async (req, res) => {
+  useEffect(() => {
+    groq_api();
+  }, [slug]);
+
+  const groq_api = async () => {
+    const chatApi = await fetch(`${process.env.NEXT_PUBLIC_API}/api/chat`, {
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ slug }),
+    });
+    let response = await chatApi.json();
+    setReco(response.reply);
+  };
+
+  const getComment_api = async () => {
     const getComments = await fetch(
       `${process.env.NEXT_PUBLIC_API}/api/Get/getComments?slug=${slug}`,
       {
@@ -491,6 +508,7 @@ const Slug = ({ games }) => {
                 <h2 className="font-bold text-2xl pt-3 text-center font-sans">
                   Game Overview
                 </h2>
+
                 <p className="text-sm text-[#333] py-6 px-4">{games.desc}</p>
                 <div className="flex flex-col justify-center items-center">
                   <img
@@ -574,17 +592,15 @@ const Slug = ({ games }) => {
                   </div>
 
                   <div className="flex flex-col items-center justify-center mx-4 lg:w-full ">
-                   
-                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 lg:mx-12 py-10 px-4 my-4 font-semibold text-[#333] ">
-                        {new_title}
-                        <br></br>Steam
-                        <span>Price:${games.price}</span>
-                      </button>
+                    <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 lg:mx-12 py-10 px-4 my-4 font-semibold text-[#333] ">
+                      {new_title}
+                      <br></br>Steam
+                      <span>Price:${games.price}</span>
+                    </button>
                   </div>
                   <div className=" flex flex-col items-center justify-center mx-4 lg:w-full">
-                   
-                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2">
-                        Min Price:$
+                    <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md mx-16 py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2">
+                      Min Price:$
                       {games.priceHistory.length == 0
                         ? games.price
                         : Math.min(
@@ -597,9 +613,8 @@ const Slug = ({ games }) => {
                         : Math.max(
                             ...games.priceHistory.map((item) => item.value)
                           )}
-                      </button>
+                    </button>
                   </div>
-                  
                 </div>
 
                 <div className="px-4 text-sm text-[#333] ">
@@ -610,6 +625,18 @@ const Slug = ({ games }) => {
                     DirectX, Vcredist, and all other necessary programs from
                     that folder to ensure the game runs smoothly.
                   </p>
+                  <div>
+                    <h1 className="text-red-500 font-bold mb-3 text-2xl underline">
+                      Recommend Games
+                    </h1>
+                    {reco.length > 0
+                      ? reco.split("\n").map((item, index) => (
+                          <div className="px-2 py-1">
+                            <span  className="font-semibold font-mono">{index + 1 + ". " + item}</span>
+                          </div>
+                        ))
+                      : "Loading..."}
+                  </div>
 
                   <ol className="text-sm py-4 text-[#333]">
                     <li>
@@ -811,8 +838,8 @@ const Slug = ({ games }) => {
   );
 };
 export async function getServerSideProps({ params }) {
-    await useConnectDb()
-  
+  await useConnectDb();
+
   const { slug } = params;
   const games = await game.findOne({ slug });
 
