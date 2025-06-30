@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       messages: [
         {
           role: "user",
-          content: `Give me 5 PC game titles related to "${slug}" .
+          content: `Give only 5 PC game titles related to "${slug}" .
 Only output the names,Dont include ${slug} and give only one sequel or prequel of this games,one per line, with no introduction, no bullet points, and no numbering.
 `,
         },
