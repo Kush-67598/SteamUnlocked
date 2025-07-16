@@ -12,6 +12,7 @@
     "@cubejs-client/core": "^0.31.0",
     "@netlify/plugin-nextjs": "^5.9.0",
     "@next/font": "^14.2.15",
+    "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.9",
     "crypto-js": "^4.2.0",
