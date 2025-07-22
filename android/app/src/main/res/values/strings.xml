@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SteamUnlockedApp</string>
+    <string name="title_activity_main">SteamUnlockedApp</string>
+    <string name="package_name">com.steamunlocked.app</string>
+    <string name="custom_url_scheme">com.steamunlocked.app</string>
+</resources>

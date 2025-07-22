@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Capacitor } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
+
 import Chart from "chart.js/auto";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +36,18 @@ const Slug = ({ games }) => {
   useEffect(() => {
     groq_api();
   }, [slug]);
+
+  const handleDownload = async () => {
+  if (Capacitor.isNativePlatform()) {
+    // Running inside the app: open system browser to download
+    await Browser.open({
+      url: `https://steamunlocked-mocha.vercel.app/api/Downloads/${games.slug}`
+    });
+  } else {
+    // Running in normal browser: do direct download
+    window.location.href = `/api/Downloads/${games.slug}`;
+  }
+};
 
   const groq_api = async () => {
     const chatApi = await fetch(`${process.env.NEXT_PUBLIC_API}/api/chat`, {
@@ -582,13 +597,11 @@ const Slug = ({ games }) => {
 
                 <div className="lg:flex mx-20 items-center justify-center ">
                   <div className="flex flex-col items-center justify-center mx-4 lg:w-full  ">
-                    <a href={`/api/Downloads/${games.slug}`}>
-                      <button className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2 lg:py-7 lg:my-7">
+                      <button onClick={handleDownload} className=" w-[60dvw] lg:h-[20dvh] lg:w-full  hover:bg-green-600 hover:text-white hover:border-black  border-green-600 border rounded-md py-10 px-4 my-4 font-semibold text-[#333] lg:mx-2 lg:py-7 lg:my-7">
                         {new_title}
                         <br />
                         <span>Size:{games.size}</span>
                       </button>
-                    </a>
                   </div>
 
                   <div className="flex flex-col items-center justify-center mx-4 lg:w-full ">

@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/browser": "^7.0.1",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
     "@cubejs-client/core": "^0.31.0",
     "@netlify/plugin-nextjs": "^5.9.0",
     "@next/font": "^14.2.15",

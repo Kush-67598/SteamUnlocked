@@ -86,6 +86,7 @@ const Signup = () => {
     <>
       <ToastContainer position="top-right" autoClose={2000} theme="light" />
       {loading && <Loader />}
+<div className="max-h-screen">
 
       <div className="h-[65.8svh] relative  lg:h-[100vh]">
         <picture className="z-10">
@@ -156,6 +157,8 @@ const Signup = () => {
           </form>
         </div>
       </div>
+      </div>
+
     </>
   );
 };

@@ -134,6 +134,8 @@ const Login = () => {
         <Loader />
       )}
       { (
+        <div className='max-h-screen'>
+
         <div className="h-[65.8svh] relative lg:h-[100vh]  ">
           <picture className="z-10">
             <source
@@ -204,6 +206,8 @@ const Login = () => {
             </form>
           </div>
         </div>
+                </div>
+
       )}
     </>
   );
